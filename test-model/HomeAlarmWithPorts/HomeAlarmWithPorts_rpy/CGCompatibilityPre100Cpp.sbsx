@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RhapsodyArchive>
+	<MagicNumber></MagicNumber>
+	<CODE-PAGE>1252</CODE-PAGE>
+	<version>110.0.3</version>
+	<lang>C++</lang>
+	<BuildNo>202603181123</BuildNo>
+	<RMMMinimumClientVersion>100.0</RMMMinimumClientVersion>
+	
+	<RHAPSODY-MODEL>
+	<IProfile type="e">
+			<_id type="a">GUID 32013db5-c81b-4dbc-b5f6-6cf800a9009c</_id>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CPP_CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Attribute</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">GenerateAsConstValue</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+									<IPropertyMetaclass type="e">
+										<_Name type="a">WriterTemplates</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">AttributeImp</_Name>
+													<_Value type="a">$prolog[[$friend ]][[template &lt;$parameters&gt; ]][[$extern ]][[$static ]][[$const ]][[$predecl_kw ]]$type[[ $indecl_kw]][[ $name]][[ : $bitfield]][[ $postdecl_kw]]$init;$epilog%0D
+</_Value>
+													<_Type type="a">MultiLine</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">AttributeSpec</_Name>
+													<_Value type="a">[[$description%0D
+]]$prolog[[$friend ]][[template &lt;$parameters&gt; ]][[$extern ]][[$static ]][[$const ]][[$predecl_kw ]]$type[[ $indecl_kw]][[ $name]][[ : $bitfield]][[ $postdecl_kw]]$init;$epilog[[		$annotation]]%0D
+</_Value>
+													<_Type type="a">MultiLine</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">GlobalAttributeImp</_Name>
+													<_Value type="a">[[$annotation%0D
+]]$prolog[[$friend ]][[template &lt;$parameters&gt; ]][[$extern ]][[$static ]][[$const ]][[$predecl_kw ]]$type[[ $indecl_kw]][[ $name]][[ : $bitfield]][[ $postdecl_kw]]$init;$epilog%0D
+</_Value>
+													<_Type type="a">MultiLine</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">GlobalAttributeSpec</_Name>
+													<_Value type="a">[[$description%0D
+]][[$annotation%0D
+]]$prolog[[$friend ]][[template &lt;$parameters&gt; ]][[$extern ]][[$static ]][[$const ]][[$predecl_kw ]]$type[[ $indecl_kw]][[ $name]][[ : $bitfield]][[ $postdecl_kw]];$epilog%0D
+</_Value>
+													<_Type type="a">MultiLine</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">CGCompatibilityPre100Cpp</_name>
+			<Stereotypes type="c">
+				<IRPYRawContainer type="e">
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IStereotype</_hm2Class>
+							<_hsubsystem type="a">PredefinedTypes</_hsubsystem>
+							<_hname type="a">Settings</_hname>
+							<_hid type="a">GUID c4916b7f-5ca2-41a3-b8a9-6ac22b145b51</_hid>
+						</IHandle>
+					
+				</IRPYRawContainer>
+			</Stereotypes>
+			<_modifiedTimeWeak type="a">3.20.2024::11:26:55</_modifiedTimeWeak>
+			<_modifiedTime type="a">3.20.2024::11:26:55</_modifiedTime>
+			<weakCGTime type="a">3.20.2024::11:26:55</weakCGTime>
+			<strongCGTime type="a">3.20.2024::11:26:55</strongCGTime>
+			<_defaultComposite type="s">GUID f664600b-bee1-4139-9543-d90d0748d920</_defaultComposite>
+			<_eventsBaseID type="a">-1</_eventsBaseID>
+			<_configurationRelatedTime type="a">1.2.1990::0:0:0</_configurationRelatedTime>
+			<AggregatesList type="e">
+				<value>GUID f664600b-bee1-4139-9543-d90d0748d920</value>
+			</AggregatesList>
+		</IProfile>
+		<IClass type="e">
+			<_id type="a">GUID f664600b-bee1-4139-9543-d90d0748d920</_id>
+			<_myState type="a">40960</_myState>
+			<_name type="a">TopLevel</_name>
+			<_modifiedTimeWeak type="a">1.2.1990::0:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">1.2.1990::0:0:0</_modifiedTime>
+			<weakCGTime type="a">1.2.1990::0:0:0</weakCGTime>
+			<strongCGTime type="a">1.2.1990::0:0:0</strongCGTime>
+			<_itsStateChart type="r">
+				<IHandle type="e">
+				</IHandle>
+			</_itsStateChart>
+			<_classModifier type="a">Unspecified</_classModifier>
+		</IClass>
+		
+	</RHAPSODY-MODEL>
+	<OslcLinks type="c">
+		<IRPYRawContainer type="e">
+		</IRPYRawContainer>
+	</OslcLinks>
+
+<INCLUDES-RHAPSODY-INDEX>false</INCLUDES-RHAPSODY-INDEX>
+</RhapsodyArchive>
+

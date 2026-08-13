@@ -1,0 +1,381 @@
+I-Logix-RPY-Archive version 8.1.4 C++ 998726
+{ ISubsystem 
+	- _id = GUID 9297b2a8-28b1-11d3-ac09-0010a4f1d0f6;
+	- _myState = 8192;
+	- _name = "TestPkg";
+	- _lastID = 4;
+	- Declaratives = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ IDiagram 
+			- fileName = "TestConfig";
+			- _id = GUID b6ee0b74-57cc-4754-9eb2-50c7268bb715;
+		}
+	}
+	- weakCGTime = 1.12.2004::10:1:28;
+	- strongCGTime = 11.23.2003::13:52:3;
+	- _defaultComposite = GUID 9297b2a9-28b1-11d3-ac09-0010a4f1d0f6;
+	- _eventsBaseID = -1;
+	- Classes = { IRPYRawContainer 
+		- size = 2;
+		- value = 
+		{ IClass 
+			- _id = GUID 9f29a99a-2350-11d3-abfa-0010a4f1d0f6;
+			- _myState = 8192;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "CG";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Package";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "GenerateWithAggregates";
+										- _Value = "True";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- _name = "Hw";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 a test class that just writes to standard out\\f1\\rtlch\\par
+}
+";
+			}
+			- _lastID = 1;
+			- weakCGTime = 1.12.2004::10:3:31;
+			- strongCGTime = 7.14.2003::9:18:39;
+			- Operations = { IRPYRawContainer 
+				- size = 3;
+				- value = 
+				{ IPrimitiveOperation 
+					- _id = GUID 9f29b45a-2350-11d3-abfa-0010a4f1d0f6;
+					- _name = "setSiren";
+					- _virtual = 1;
+					- Args = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IArgument 
+							- _id = GUID b5dce437-2874-11d3-ac08-0010a4f1d0f6;
+							- _name = "state";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IType";
+								- _filename = "HardwarePkg.sbs";
+								- _subsystem = "HardwarePkg";
+								- _class = "";
+								- _name = "tOnOff";
+								- _id = GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+					}
+					- _returnType = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesC++.sbs";
+						- _subsystem = "PredefinedTypesCpp";
+						- _class = "";
+						- _name = "void";
+						- _id = GUID c6b70728-b655-45a0-abb7-8ea5d3da94be;
+					}
+					- _abstract = 0;
+					- _final = 0;
+					- _concurrency = Sequential;
+					- _protection = iPublic;
+					- _static = 0;
+					- _constant = 0;
+					- _itsBody = { IBody 
+						- _bodyData = "if ( state == ON ) 
+	printf(\"siren on\\n\");
+else
+	printf(\"siren off\\n\");
+";
+					}
+				}
+				{ IPrimitiveOperation 
+					- _id = GUID 9f29b508-2350-11d3-abfa-0010a4f1d0f6;
+					- _name = "setLight";
+					- _virtual = 1;
+					- Args = { IRPYRawContainer 
+						- size = 2;
+						- value = 
+						{ IArgument 
+							- _id = GUID 9f29b509-2350-11d3-abfa-0010a4f1d0f6;
+							- _name = "aLight";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IType";
+								- _filename = "HardwarePkg.sbs";
+								- _subsystem = "HardwarePkg";
+								- _class = "";
+								- _name = "tLights";
+								- _id = OLDID 1424988 326;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+						{ IArgument 
+							- _id = GUID b5dce335-2874-11d3-ac08-0010a4f1d0f6;
+							- _name = "state";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IType";
+								- _filename = "HardwarePkg.sbs";
+								- _subsystem = "HardwarePkg";
+								- _class = "";
+								- _name = "tOnOff";
+								- _id = GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+					}
+					- _returnType = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesC++.sbs";
+						- _subsystem = "PredefinedTypesCpp";
+						- _class = "";
+						- _name = "void";
+						- _id = GUID c6b70728-b655-45a0-abb7-8ea5d3da94be;
+					}
+					- _abstract = 0;
+					- _final = 0;
+					- _concurrency = Sequential;
+					- _protection = iPublic;
+					- _static = 0;
+					- _constant = 0;
+					- _itsBody = { IBody 
+						- _bodyData = "printf(\"light %d\", aLight);
+if ( state == ON )
+	printf(\"on\\n\");
+else
+	printf(\"off\\n\");
+";
+					}
+				}
+				{ IPrimitiveOperation 
+					- _id = GUID 9f29b5e4-2350-11d3-abfa-0010a4f1d0f6;
+					- _name = "setLed";
+					- _virtual = 1;
+					- Args = { IRPYRawContainer 
+						- size = 2;
+						- value = 
+						{ IArgument 
+							- _id = GUID 64309f28-288f-11d3-ac08-0010a4f1d0f6;
+							- _name = "ident";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IType";
+								- _filename = "HardwarePkg.sbs";
+								- _subsystem = "HardwarePkg";
+								- _class = "";
+								- _name = "tLed";
+								- _id = GUID 3c06b99b-2887-11d3-ac08-0010a4f1d0f6;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+						{ IArgument 
+							- _id = GUID b5dce2e9-2874-11d3-ac08-0010a4f1d0f6;
+							- _name = "state";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IType";
+								- _filename = "HardwarePkg.sbs";
+								- _subsystem = "HardwarePkg";
+								- _class = "";
+								- _name = "tOnOff";
+								- _id = GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+					}
+					- _returnType = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesC++.sbs";
+						- _subsystem = "PredefinedTypesCpp";
+						- _class = "";
+						- _name = "void";
+						- _id = GUID c6b70728-b655-45a0-abb7-8ea5d3da94be;
+					}
+					- _abstract = 0;
+					- _final = 0;
+					- _concurrency = Sequential;
+					- _protection = iPublic;
+					- _static = 0;
+					- _constant = 0;
+					- _itsBody = { IBody 
+						- _bodyData = "if ( ident == RED )
+	printf(\"red \");
+else
+	printf(\"green \");
+
+if ( state == ON )
+	printf(\"on\\n\");
+else
+	printf(\"off\\n\");
+";
+					}
+				}
+			}
+			- Inheritances = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IGeneralization 
+					- _id = GUID fcff4d72-6afe-11d5-b73b-006008a97b14;
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _filename = "IHardware.cls";
+						- _subsystem = "HardwarePkg::AbstractHW";
+						- _class = "";
+						- _name = "AbsHardware";
+						- _id = OLDID 1424988 432;
+					}
+					- _inheritanceType = iPublic;
+					- _isVirtual = 0;
+				}
+			}
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID 9297b2a9-28b1-11d3-ac09-0010a4f1d0f6;
+			- _myState = 40960;
+			- _name = "TopLevel";
+			- weakCGTime = 1.12.2004::10:1:28;
+			- strongCGTime = 11.23.2003::13:52:3;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- Associations = { IRPYRawContainer 
+				- size = 2;
+				- value = 
+				{ IPart 
+					- _id = GUID 1af92f13-3b33-451e-a217-8e5e72804cc9;
+					- _name = "theAlarmCtrl";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IClass";
+						- _filename = "AlarmController.cls";
+						- _subsystem = "AlarmPkg";
+						- _class = "";
+						- _name = "AlarmController";
+						- _id = OLDID 1424988 441;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "";
+					}
+				}
+				{ IPart 
+					- _id = GUID 050628f1-8696-4f67-bca4-f7ef7b564505;
+					- _name = "theHW";
+					- _multiplicity = "1";
+					- _otherClass = { IClassifierHandle 
+						- _m2Class = "IClass";
+						- _filename = "HwTestPkg.sbs";
+						- _subsystem = "HardwarePkg::HwTestPkg";
+						- _class = "";
+						- _name = "Hw";
+						- _id = GUID c62c3f31-cd8c-4803-9595-33b703f9296f;
+					}
+					- _inverse = { IHandle 
+						- _m2Class = "";
+					}
+				}
+			}
+			- ObjectLinks = { IRPYRawContainer 
+				- size = 2;
+				- value = 
+				{ IObjectLink 
+					- _id = GUID 90b5aadb-f774-4959-850e-7bf0bb44b244;
+					- _myState = 2048;
+					- _name = "theAlarmCtrl_theHW";
+					- _toLink = { IHandle 
+						- _m2Class = "IPart";
+						- _id = GUID 050628f1-8696-4f67-bca4-f7ef7b564505;
+					}
+					- _fromLink = { IHandle 
+						- _m2Class = "IPart";
+						- _id = GUID 1af92f13-3b33-451e-a217-8e5e72804cc9;
+					}
+					- _instantiates = { IMetaLinkHandle 
+						- _m2Class = "";
+					}
+					- _end1Multiplicity = "1";
+					- _end2Multiplicity = "1";
+					- _toPort = { IHandle 
+						- _m2Class = "IPort";
+						- _filename = "IHardware.cls";
+						- _subsystem = "HardwarePkg::AbstractHW";
+						- _class = "AbsHardware";
+						- _name = "ctrl";
+						- _id = GUID 33b9ede6-a95f-4767-8557-d05c131c2814;
+					}
+					- _fromPort = { IHandle 
+						- _m2Class = "IPort";
+						- _filename = "AlarmController.cls";
+						- _subsystem = "AlarmPkg";
+						- _class = "AlarmController";
+						- _name = "hwCtrl";
+						- _id = GUID ba9369fa-023b-4cfb-adc9-e922af45a638;
+					}
+				}
+				{ IObjectLink 
+					- _id = GUID 2bcff3af-e491-4e4d-b423-810474d1ce36;
+					- _myState = 2048;
+					- _name = "theAlarmCtrl_theHW_0";
+					- _toLink = { IHandle 
+						- _m2Class = "IPart";
+						- _id = GUID 050628f1-8696-4f67-bca4-f7ef7b564505;
+					}
+					- _fromLink = { IHandle 
+						- _m2Class = "IPart";
+						- _id = GUID 1af92f13-3b33-451e-a217-8e5e72804cc9;
+					}
+					- _instantiates = { IMetaLinkHandle 
+						- _m2Class = "";
+					}
+					- _end1Multiplicity = "1";
+					- _end2Multiplicity = "1";
+					- _toPort = { IHandle 
+						- _m2Class = "IPort";
+						- _filename = "IHardware.cls";
+						- _subsystem = "HardwarePkg::AbstractHW";
+						- _class = "AbsHardware";
+						- _name = "ctrl";
+						- _id = GUID 33b9ede6-a95f-4767-8557-d05c131c2814;
+					}
+					- _fromPort = { IHandle 
+						- _m2Class = "IPort";
+						- _filename = "AlarmController.cls";
+						- _subsystem = "AlarmPkg";
+						- _class = "AlarmController";
+						- _name = "hwObserver";
+						- _id = GUID 0079851e-40a8-42e7-837d-a959abfa8ebc;
+					}
+				}
+			}
+			- _classModifier = Unspecified;
+		}
+	}
+	- _configurationRelatedTime = 7.10.2003::12:22:32;
+}
+

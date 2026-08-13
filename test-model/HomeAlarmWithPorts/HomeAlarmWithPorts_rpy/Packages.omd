@@ -1,0 +1,1193 @@
+I-Logix-RPY-Archive version 8.6.0 C++ 4012249
+{ IDiagram 
+	- _id = GUID 1864284c-49a3-4b98-b28f-0b41cb98e99e;
+	- _myState = 8192;
+	- _properties = { IPropertyContainer 
+		- Subjects = { IRPYRawContainer 
+			- size = 1;
+			- value = 
+			{ IPropertySubject 
+				- _Name = "Format";
+				- Metaclasses = { IRPYRawContainer 
+					- size = 6;
+					- value = 
+					{ IPropertyMetaclass 
+						- _Name = "Class";
+						- Properties = { IRPYRawContainer 
+							- size = 6;
+							- value = 
+							{ IProperty 
+								- _Name = "Fill.FillColor";
+								- _Value = "255,255,255";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Tahoma";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "8";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "109,163,217";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineStyle";
+								- _Value = "0";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "Depends";
+						- Properties = { IRPYRawContainer 
+							- size = 5;
+							- value = 
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Tahoma";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "8";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "128,128,128";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineStyle";
+								- _Value = "2";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "0";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "Inheritance";
+						- Properties = { IRPYRawContainer 
+							- size = 4;
+							- value = 
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Tahoma";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "8";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "128,128,128";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "Interface";
+						- Properties = { IRPYRawContainer 
+							- size = 6;
+							- value = 
+							{ IProperty 
+								- _Name = "Fill.FillColor";
+								- _Value = "255,255,255";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Tahoma";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "8";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "109,163,217";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineStyle";
+								- _Value = "0";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "Package";
+						- Properties = { IRPYRawContainer 
+							- size = 5;
+							- value = 
+							{ IProperty 
+								- _Name = "Fill.FillColor";
+								- _Value = "255,255,255";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Tahoma";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "8";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "109,163,217";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+					{ IPropertyMetaclass 
+						- _Name = "Port";
+						- Properties = { IRPYRawContainer 
+							- size = 5;
+							- value = 
+							{ IProperty 
+								- _Name = "Fill.FillColor";
+								- _Value = "255,255,255";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Font.Font";
+								- _Value = "Tahoma";
+								- _Type = String;
+							}
+							{ IProperty 
+								- _Name = "Font.Size";
+								- _Value = "8";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.LineColor";
+								- _Value = "109,163,217";
+								- _Type = Color;
+							}
+							{ IProperty 
+								- _Name = "Line.LineWidth";
+								- _Value = "1";
+								- _Type = Int;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	- _name = "Packages";
+	- _lastModifiedTime = "1.12.2012::13:22:55";
+	- _graphicChart = { CGIClassChart 
+		- _id = GUID b60acebc-2679-4544-aa11-6aa53e03a8d1;
+		- m_type = 0;
+		- m_pModelObject = { IHandle 
+			- _m2Class = "IDiagram";
+			- _id = GUID 1864284c-49a3-4b98-b28f-0b41cb98e99e;
+		}
+		- m_pParent = ;
+		- m_name = { CGIText 
+			- m_str = "";
+			- m_style = "Arial" 10 0 0 0 1 ;
+			- m_color = { IColor 
+				- m_fgColor = 0;
+				- m_bgColor = 0;
+				- m_bgFlag = 0;
+			}
+			- m_position = 1 0 0  ;
+			- m_nIdent = 0;
+			- m_bImplicitSetRectPoints = 0;
+			- m_nOrientationCtrlPt = 8;
+		}
+		- m_drawBehavior = 0;
+		- m_bIsPreferencesInitialized = 1;
+		- elementList = 18;
+		{ CGICompositeClass 
+			- _id = GUID 07718422-7956-478a-979f-3864d6c1a370;
+			- m_type = 78;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IClass";
+				- _filename = "AlarmPkg.sbs";
+				- _subsystem = "AlarmPkg";
+				- _class = "";
+				- _name = "TopLevel";
+				- _id = OLDID 1424988 2;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "TopLevel";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 50 50  679 50  679 671  50 671  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- Compartments = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		{ CGIClass 
+			- _id = GUID 1722ff8c-2d48-4832-8ec0-d995a57f68d7;
+			- m_type = 105;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IClass";
+				- _filename = "IHardware.cls";
+				- _subsystem = "HardwarePkg::AbstractHW";
+				- _class = "";
+				- _name = "AbsHardware";
+				- _id = OLDID 1424988 432;
+			}
+			- m_pParent = GUID f3af6f33-0832-4dc5-9664-fe0183f070c1;
+			- m_name = { CGIText 
+				- m_str = "AbsHardware";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 44;
+					- m_bgColor = 44;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 10.940716410372 2.16842155789474  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 26632;
+			- m_transform = 0.332086 0 0 0.5098 187.872 201.981 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 3 265  1195 265  1195 1410  3 1410  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- Compartments = { IRPYRawContainer 
+				- size = 0;
+			}
+			- Attrs = { IRPYRawContainer 
+				- size = 0;
+			}
+			- Operations = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		{ CGIPackage 
+			- _id = GUID 18dce002-6d6b-4894-b8f1-d48eaeccbecd;
+			- m_type = 127;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "ISubsystem";
+				- _filename = "SimulatedHwPkg.sbs";
+				- _subsystem = "HardwarePkg";
+				- _class = "";
+				- _name = "SimulatedHwPkg";
+				- _id = OLDID 950396 1;
+			}
+			- m_pParent = GUID fbfb681d-d014-493b-ab6d-94e6337b8cfd;
+			- m_name = { CGIText 
+				- m_str = "SimulatedHwPkg";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 1.76479100493545 -6.03157874125762  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4104;
+			- m_transform = 0.377207 0 0 0.326531 62.4591 725.247 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_polygon = 9 0 170.8515625  0 0  610.587234042553 0  610.587234042553 170.8515625  0 170.8515625  0 1151  1216 1151  1216 170.8515625  0 170.8515625  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- Compartments = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		{ CGIInheritance 
+			- _id = GUID 1977bb5b-13ac-459b-9733-902f4613f6f8;
+			- m_type = 103;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IGeneralization";
+				- _filename = "HwTestPkg.sbs";
+				- _subsystem = "HardwarePkg::HwTestPkg";
+				- _class = "Hw";
+				- _name = "AbsHardware";
+				- _id = GUID 8f40c484-21d5-4aba-991c-ff665de3ced6;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 21;
+					- m_bgColor = 21;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 364 535  378 535  378 552  364 552  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 7;
+				- m_nVerticalSpacing = -9;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 62e8f5a2-be1b-45ee-a182-7364f7153a90;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 1722ff8c-2d48-4832-8ec0-d995a57f68d7;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 2;
+					- m_bgColor = 2;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 334 547  348 547  348 564  334 564  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 7;
+				- m_nVerticalSpacing = -9;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_arrow = 1 349 599  ;
+			- m_anglePoint1 = 0 1 ;
+			- m_anglePoint2 = -1 0 ;
+			- m_line_style = 2;
+			- m_SourcePort = 2 995 ;
+			- m_TargetPort = 829 1410 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIPortConnector 
+			- _id = GUID 2016b49e-9f76-4eb8-99b2-7947c3f8cc10;
+			- m_type = 57;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IPort";
+				- _filename = "AlarmController.cls";
+				- _subsystem = "AlarmPkg";
+				- _class = "AlarmController";
+				- _name = "hwCtrl";
+				- _id = GUID ba9369fa-023b-4cfb-adc9-e922af45a638;
+			}
+			- m_pParent = GUID 47ccf3e3-a166-45fa-9760-ae8d10b296ed;
+			- m_name = { CGIText 
+				- m_str = "hwCtrl";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 44;
+					- m_bgColor = 44;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 501 163  554 163  554 182  501 182  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nVerticalSpacing = -19;
+				- m_nOrientationCtrlPt = 0;
+			}
+			- m_drawBehavior = 4104;
+			- m_transform = 0 9.9292 -5.24257 0 1264.17 572.106 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_position = 4 0 0  0 73  68 73  68 0  ;
+			- m_pInheritsFrom = { IHandle 
+				- _m2Class = "";
+			}
+			- m_nInheritanceMask = 0;
+			- m_SubType = 0;
+			- m_providedInterfaceLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 67;
+				- m_nVerticalSpacing = -25;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_requiredInterfaceLabel = { CGIText 
+				- m_str = "ILedCtrl, ILightCtrl, ISirenCtrl";
+				- m_style = "Arial" 8 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 44;
+					- m_bgColor = 44;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 515 133  654 133  654 147  515 147  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nVerticalSpacing = 14;
+				- m_nOrientationCtrlPt = 6;
+			}
+		}
+		{ CGIPackage 
+			- _id = GUID 2df94a0e-9a68-43fc-bdf0-d858a6770a4d;
+			- m_type = 127;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "ISubsystem";
+				- _filename = "HwTestPkg.sbs";
+				- _subsystem = "HardwarePkg";
+				- _class = "";
+				- _name = "HwTestPkg";
+				- _id = GUID 12c0f905-31d4-4b16-b9b4-0a70e2952046;
+			}
+			- m_pParent = GUID fbfb681d-d014-493b-ab6d-94e6337b8cfd;
+			- m_name = { CGIText 
+				- m_str = "HwTestPkg";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 15.9868352409481 -5.58421223036291  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4104;
+			- m_transform = 0.369181 0 0 0.344388 587.506 701.758 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_polygon = 9 0 161.992592592593  0 0  608 0  608 161.992592592593  0 161.992592592593  0 1151  1216 1151  1216 161.992592592593  0 161.992592592593  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- Compartments = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		{ CGIPortConnector 
+			- _id = GUID 47bdbfbb-50d5-4d2c-afa5-f8ae5b5ca0e6;
+			- m_type = 57;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IPort";
+				- _filename = "AlarmController.cls";
+				- _subsystem = "AlarmPkg";
+				- _class = "AlarmController";
+				- _name = "hwObserver";
+				- _id = GUID 0079851e-40a8-42e7-837d-a959abfa8ebc;
+			}
+			- m_pParent = GUID 47ccf3e3-a166-45fa-9760-ae8d10b296ed;
+			- m_name = { CGIText 
+				- m_str = "hwObserver";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 44;
+					- m_bgColor = 44;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 215 163  305 163  305 182  215 182  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nVerticalSpacing = -19;
+				- m_nOrientationCtrlPt = 2;
+			}
+			- m_drawBehavior = 4104;
+			- m_transform = 0 -9.9292 5.24257 0 -199.923 1215.15 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_position = 4 0 0  0 73  68 73  68 0  ;
+			- m_pInheritsFrom = { IHandle 
+				- _m2Class = "";
+			}
+			- m_nInheritanceMask = 0;
+			- m_SubType = 0;
+			- m_providedInterfaceLabel = { CGIText 
+				- m_str = "IDoorListener, IKeyListener, IMovementListener";
+				- m_style = "Arial" 8 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 44;
+					- m_bgColor = 44;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 61 129  286 129  286 143  61 143  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nVerticalSpacing = 14;
+				- m_nOrientationCtrlPt = 4;
+			}
+			- m_requiredInterfaceLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = -67;
+				- m_nVerticalSpacing = -25;
+				- m_nOrientationCtrlPt = 8;
+			}
+		}
+		{ CGIClass 
+			- _id = GUID 47ccf3e3-a166-45fa-9760-ae8d10b296ed;
+			- m_type = 87;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IClass";
+				- _filename = "AlarmController.cls";
+				- _subsystem = "AlarmPkg";
+				- _class = "";
+				- _name = "AlarmController";
+				- _id = OLDID 1424988 441;
+			}
+			- m_pParent = GUID ff44f3f4-12b4-49aa-93b9-325d87ddbc09;
+			- m_name = { CGIText 
+				- m_str = "AlarmController";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 44;
+					- m_bgColor = 44;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 15.9490482631579 16.3763157894737  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 26632;
+			- m_transform = 0.380241 0 0 0.562722 493.613 94.2335 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 2 329  1061 329  1061 1451  2 1451  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- frameset = "<frameset rows=50%,50%>
+<frame name=AttributeListCompartment>
+<frame name=PrimitiveOperationListCompartment>";
+			- Compartments = { IRPYRawContainer 
+				- size = 0;
+			}
+			- Attrs = { IRPYRawContainer 
+				- size = 0;
+			}
+			- Operations = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		{ CGIPortConnector 
+			- _id = GUID 5271a205-9577-44bc-84c9-df81ad44fd41;
+			- m_type = 57;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IPort";
+				- _filename = "IHardware.cls";
+				- _subsystem = "HardwarePkg::AbstractHW";
+				- _class = "AbsHardware";
+				- _name = "ctrl";
+				- _id = GUID 33b9ede6-a95f-4767-8557-d05c131c2814;
+			}
+			- m_pParent = GUID 1722ff8c-2d48-4832-8ec0-d995a57f68d7;
+			- m_name = { CGIText 
+				- m_str = "ctrl";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 44;
+					- m_bgColor = 44;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 412 395  444 395  444 414  412 414  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 16;
+				- m_nVerticalSpacing = -19;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4104;
+			- m_transform = 0 16.1268 -7.79085 0 1499.21 300.199 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_position = 4 0 0  0 73  68 73  68 0  ;
+			- m_pInheritsFrom = { IHandle 
+				- _m2Class = "";
+			}
+			- m_nInheritanceMask = 0;
+			- m_SubType = 0;
+			- m_providedInterfaceLabel = { CGIText 
+				- m_str = "ILedCtrl, ILightCtrl, ISirenCtrl";
+				- m_style = "Arial" 8 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 44;
+					- m_bgColor = 44;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 411 430  550 430  550 444  411 444  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 69;
+				- m_nVerticalSpacing = 14;
+				- m_nOrientationCtrlPt = 4;
+			}
+			- m_requiredInterfaceLabel = { CGIText 
+				- m_str = "IKeyListener, IMovementListener, IDoorListener";
+				- m_style = "Arial" 8 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 44;
+					- m_bgColor = 44;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 401 359  626 359  626 373  401 373  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 112;
+				- m_nVerticalSpacing = -14;
+				- m_nOrientationCtrlPt = 2;
+			}
+		}
+		{ CGIClass 
+			- _id = GUID 62e8f5a2-be1b-45ee-a182-7364f7153a90;
+			- m_type = 87;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IClass";
+				- _filename = "HwTestPkg.sbs";
+				- _subsystem = "HardwarePkg::HwTestPkg";
+				- _class = "";
+				- _name = "Hw";
+				- _id = GUID c62c3f31-cd8c-4803-9595-33b703f9296f;
+			}
+			- m_pParent = GUID 2df94a0e-9a68-43fc-bdf0-d858a6770a4d;
+			- m_name = { CGIText 
+				- m_str = "Hw";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 44;
+					- m_bgColor = 44;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 18.4736804210526 -8.0000024  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 26632;
+			- m_transform = 0.459301 0 0 0.486327 305.725 206.613 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 2 329  1061 329  1061 1451  2 1451  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- frameset = "<frameset rows=50%,50%>
+<frame name=AttributeListCompartment>
+<frame name=PrimitiveOperationListCompartment>";
+			- Compartments = { IRPYRawContainer 
+				- size = 0;
+			}
+			- Attrs = { IRPYRawContainer 
+				- size = 0;
+			}
+			- Operations = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		{ CGIInheritance 
+			- _id = GUID 6a491ef6-3fd9-4900-b031-15856a9e6365;
+			- m_type = 128;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IDependency";
+				- _filename = "AlarmPkg.sbs";
+				- _subsystem = "AlarmPkg";
+				- _class = "";
+				- _name = "AbstractHW";
+				- _id = GUID 8599e34c-8e4e-4d76-9f40-05e341dda5ae;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "AbstractHW";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 2;
+					- m_bgColor = 2;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 457 281  543 281  543 300  457 300  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 43;
+				- m_nVerticalSpacing = -10;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID ff44f3f4-12b4-49aa-93b9-325d87ddbc09;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID f3af6f33-0832-4dc5-9664-fe0183f070c1;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 2;
+					- m_bgColor = 2;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 427 279  441 279  441 296  427 296  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 7;
+				- m_nVerticalSpacing = -9;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_anglePoint1 = 0 -1 ;
+			- m_anglePoint2 = 0 -1 ;
+			- m_line_style = 0;
+			- m_SourcePort = 781 1151 ;
+			- m_TargetPort = 704 148 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIInheritance 
+			- _id = GUID 81b27497-acfb-44ab-9679-52ff61eecc09;
+			- m_type = 128;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IDependency";
+				- _filename = "SimulatedHwPkg.sbs";
+				- _subsystem = "HardwarePkg::SimulatedHwPkg";
+				- _class = "";
+				- _name = "AbstractHW";
+				- _id = GUID 1d53490c-fcfb-43a4-8f76-81a290b26ef5;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "AbstractHW";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 2;
+					- m_bgColor = 2;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 315 486  401 486  401 505  315 505  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 43;
+				- m_nVerticalSpacing = -10;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 18dce002-6d6b-4894-b8f1-d48eaeccbecd;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID f3af6f33-0832-4dc5-9664-fe0183f070c1;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 2;
+					- m_bgColor = 2;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 300 490  314 490  314 507  300 507  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 22;
+				- m_nVerticalSpacing = -11;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_anglePoint1 = 0 1 ;
+			- m_anglePoint2 = 0 1 ;
+			- m_line_style = 0;
+			- m_SourcePort = 1097 207 ;
+			- m_TargetPort = 336 1151 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIClass 
+			- _id = GUID 893e76d2-c1b8-4ca9-8aa8-abcbf7382f48;
+			- m_type = 87;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IClass";
+				- _filename = "SimulatedHwPkg.sbs";
+				- _subsystem = "HardwarePkg::SimulatedHwPkg";
+				- _class = "";
+				- _name = "guiDlg";
+				- _id = OLDID 950396 3;
+			}
+			- m_pParent = GUID 18dce002-6d6b-4894-b8f1-d48eaeccbecd;
+			- m_name = { CGIText 
+				- m_str = "guiDlg";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 44;
+					- m_bgColor = 44;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 5.84210581578947 -8.78947166315789  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 26632;
+			- m_transform = 0.508163 0 0 0.48888 433.639 288.768 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 2 329  1061 329  1061 1451  2 1451  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- frameset = "<frameset rows=50%,50%>
+<frame name=AttributeListCompartment>
+<frame name=PrimitiveOperationListCompartment>";
+			- Compartments = { IRPYRawContainer 
+				- size = 0;
+			}
+			- Attrs = { IRPYRawContainer 
+				- size = 0;
+			}
+			- Operations = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		{ CGIInheritance 
+			- _id = GUID d02cab17-1a20-47f7-8007-6b2e80f17f04;
+			- m_type = 103;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IGeneralization";
+				- _filename = "SimulatedHwPkg.sbs";
+				- _subsystem = "HardwarePkg::SimulatedHwPkg";
+				- _class = "guiDlg";
+				- _name = "AbsHardware";
+				- _id = GUID fcff4d68-6afe-11d5-b73b-006008a97b14;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 21;
+					- m_bgColor = 21;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 280 490  294 490  294 507  280 507  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 7;
+				- m_nVerticalSpacing = -9;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 893e76d2-c1b8-4ca9-8aa8-abcbf7382f48;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID 1722ff8c-2d48-4832-8ec0-d995a57f68d7;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 2;
+					- m_bgColor = 2;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 250 498  264 498  264 515  250 515  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 7;
+				- m_nVerticalSpacing = -9;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_anglePoint1 = 0.00483587075207298 0.999988307108673 ;
+			- m_anglePoint2 = 0.00483587075207298 0.999988307108673 ;
+			- m_line_style = 0;
+			- m_SourcePort = 949 329 ;
+			- m_TargetPort = 174 1410 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIInheritance 
+			- _id = GUID e26480ab-1362-4503-9207-561c5ea20fb1;
+			- m_type = 128;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IDependency";
+				- _filename = "HwTestPkg.sbs";
+				- _subsystem = "HardwarePkg::HwTestPkg";
+				- _class = "";
+				- _name = "AbstractHW";
+				- _id = GUID d6edc8eb-9a5d-472d-87d2-f3865fc7d8ba;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "AbstractHW";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 2;
+					- m_bgColor = 2;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 564 482  650 482  650 501  564 501  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 43;
+				- m_nVerticalSpacing = -10;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_pSource = GUID 2df94a0e-9a68-43fc-bdf0-d858a6770a4d;
+			- m_sourceType = 'F';
+			- m_pTarget = GUID f3af6f33-0832-4dc5-9664-fe0183f070c1;
+			- m_targetType = 'T';
+			- m_direction = ' ';
+			- m_rpn = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 2;
+					- m_bgColor = 2;
+					- m_bgFlag = 0;
+				}
+				- m_position = 4 548 489  562 489  562 506  548 506  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nHorizontalSpacing = 21;
+				- m_nVerticalSpacing = -8;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_anglePoint1 = -0.0140831024479429 0.999900828195197 ;
+			- m_anglePoint2 = -0.0140831024479429 0.999900828195197 ;
+			- m_line_style = 0;
+			- m_SourcePort = 1015 205 ;
+			- m_TargetPort = 981 1151 ;
+			- m_ShowName = 0;
+			- m_ShowStereotype = 1;
+		}
+		{ CGIPackage 
+			- _id = GUID f3af6f33-0832-4dc5-9664-fe0183f070c1;
+			- m_type = 127;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "ISubsystem";
+				- _filename = "AbstractHW.sbs";
+				- _subsystem = "HardwarePkg";
+				- _class = "";
+				- _name = "AbstractHW";
+				- _id = GUID 16670831-dd39-4039-ae24-4b62f0088286;
+			}
+			- m_pParent = GUID fbfb681d-d014-493b-ab6d-94e6337b8cfd;
+			- m_name = { CGIText 
+				- m_str = "AbstractHW";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 9.24817070360518 4.65263218288554  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4104;
+			- m_transform = 0.754414 0 0 0.357143 222.51 138.003 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_polygon = 9 0 147.985714285714  0 0  608 0  608 147.985714285714  0 147.985714285714  0 1151  1216 1151  1216 147.985714285714  0 147.985714285714  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- Compartments = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		{ CGIPackage 
+			- _id = GUID fbfb681d-d014-493b-ab6d-94e6337b8cfd;
+			- m_type = 127;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "ISubsystem";
+				- _filename = "HardwarePkg.sbs";
+				- _subsystem = "";
+				- _class = "";
+				- _name = "HardwarePkg";
+				- _id = GUID ac0adc67-3550-11d3-ac41-0010a4f1d0f6;
+			}
+			- m_pParent = GUID 07718422-7956-478a-979f-3864d6c1a370;
+			- m_name = { CGIText 
+				- m_str = "HardwarePkg";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 5.21053129518939 7.12631361270372  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4104;
+			- m_transform = 0.512336 0 0 0.340573 56 279 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_polygon = 9 0 55.7882653061224  0 0  608.975922953451 0  608.975922953451 55.7882653061224  0 55.7882653061224  0 1151  1216 1151  1216 55.7882653061224  0 55.7882653061224  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- Compartments = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		{ CGIPackage 
+			- _id = GUID ff44f3f4-12b4-49aa-93b9-325d87ddbc09;
+			- m_type = 127;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "ISubsystem";
+				- _filename = "AlarmPkg.sbs";
+				- _subsystem = "";
+				- _class = "";
+				- _name = "AlarmPkg";
+				- _id = OLDID 1424988 1;
+			}
+			- m_pParent = GUID 07718422-7956-478a-979f-3864d6c1a370;
+			- m_name = { CGIText 
+				- m_str = "AlarmPkg";
+				- m_style = "Arial" 10 0 0 1 2 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 4.70394655848681 19.3368289500091  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4104;
+			- m_transform = 0.501645 0 0 0.178975 50 50 ;
+			- m_bIsPreferencesInitialized = 1;
+			- m_polygon = 9 0 100.572815533981  0 0  608 0  608 100.572815533981  0 100.572815533981  0 1151  1216 1151  1216 100.572815533981  0 100.572815533981  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- Compartments = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		
+		- m_access = 'Z';
+		- m_modified = 'N';
+		- m_fileVersion = "";
+		- m_nModifyDate = 0;
+		- m_nCreateDate = 0;
+		- m_creator = "";
+		- m_bScaleWithZoom = 1;
+		- m_arrowStyle = 'S';
+		- m_pRoot = GUID 07718422-7956-478a-979f-3864d6c1a370;
+		- m_currentLeftTop = 0 0 ;
+		- m_currentRightBottom = 0 0 ;
+	}
+	- _defaultSubsystem = { IHandle 
+		- _m2Class = "ISubsystem";
+		- _filename = "AlarmPkg.sbs";
+		- _subsystem = "";
+		- _class = "";
+		- _name = "AlarmPkg";
+		- _id = OLDID 1424988 1;
+	}
+}
+

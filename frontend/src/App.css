@@ -1,0 +1,653 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  width: 420px;
+  max-width: 90vw;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-panel h3 {
+  margin: 0 0 4px;
+  color: var(--text-h);
+}
+
+.modal-field-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.modal-field-hint {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.65;
+}
+
+.modal-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  resize: vertical;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.modal-list {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.modal-list-row {
+  padding: 6px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: pre;
+}
+
+.modal-list-row:hover {
+  background: var(--bg-canvas);
+}
+
+.modal-list-row.selected {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.pending-connector-warning {
+  color: var(--danger);
+}
+
+.pending-connector-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: default;
+  white-space: normal;
+}
+
+.modal-list-empty {
+  padding: 10px;
+  font-size: 13px;
+  opacity: 0.65;
+}
+
+.modal-actions button {
+  padding: 7px 14px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-bg);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.tabs button {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.tabs button.active {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.arch-view-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 6px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel-bg);
+}
+
+.arch-view-tabs button {
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.arch-view-tabs button.active {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.model-title {
+  border: none;
+  background: transparent;
+  color: var(--text-h);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.model-title:hover:not(:disabled) {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.model-title:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.model-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.model-controls input {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  min-width: 260px;
+}
+
+.model-controls button {
+  padding: 7px 14px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #999;
+}
+.status-dot.connected { background: #3ec96a; }
+.status-dot.error { background: var(--danger); }
+.status-dot.connecting { background: #e0a52c; }
+
+.mode-indicator {
+  font-size: 13px;
+  white-space: nowrap;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.model-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error-banner {
+  background: var(--danger);
+  color: white;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.info-banner {
+  background: var(--accent-bg);
+  color: var(--accent);
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.app-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.palette {
+  width: 220px;
+  border-right: 1px solid var(--border);
+  background: var(--panel-bg);
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.palette h3 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  opacity: 0.7;
+}
+
+.palette-item {
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  cursor: grab;
+  font-size: 14px;
+  user-select: none;
+}
+
+.palette-item:active {
+  cursor: grabbing;
+}
+
+.palette-hint {
+  font-size: 12px;
+  opacity: 0.6;
+  margin-top: 16px;
+}
+
+.canvas {
+  flex: 1;
+  background: var(--bg-canvas);
+}
+
+/* React Flow custom nodes */
+
+/* React Flow stacks nodes by array/DOM order plus its own inline z-index (elevateNodesOnSelect
+ * bumps only the SELECTED node to 1000) — not by which node the user is actually editing. Dragging
+ * one node onto another selects it and elevates it to 1000, so a *different*, unselected node with
+ * an open inline form (+ Interface / + Nested Port / + Function — all share the "port-add-form"
+ * class, see PortsSection/PortRow/CapabilitiesSection/FunctionsSection.tsx) stays at 0 and gets
+ * rendered underneath, hiding its inputs — reproduced live: dragging one FunctionalNode over
+ * another with the first node's "+ Interface" form open buried the form under the dragged/selected
+ * node even though the boxes' sizes weren't the issue. Elevating by :has(.port-add-form) is driven
+ * by actual form presence rather than transient focus (an earlier :focus-within version broke as
+ * soon as focus moved off the input, e.g. clicking a <select>). !important is required because
+ * React Flow always sets an inline z-index style on the node wrapper. 2000 (not 1000) because
+ * React Flow's own elevateNodesOnSelect ALSO sets 1000 on the selected node — e.g. the node you
+ * just dragged on top of the one being edited — and a tie falls back to DOM order, which still let
+ * the selected-but-idle node win; reproduced live before raising this past 1000. The retype popover
+ * (see PortRow.tsx) doesn't need this — it's portaled to document.body, outside any node's stacking
+ * context. */
+.react-flow__node:has(.port-add-form) {
+  z-index: 2000 !important;
+}
+
+.arch-node {
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-bg);
+  min-width: 200px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  font-size: 13px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* Without a cap, an unresized node auto-measures to its widest row's natural content width — and
+ * an inline "+ Interface"/"+ Nested Port" form (several inputs + selects + buttons on one line) is
+ * wider than a node's normal content, so opening one grows that node past the tree layout's column
+ * width (COL_WIDTH in App.tsx) and visually overlaps the sibling node in the next column. Capping
+ * width forces the form (already flex-wrap: wrap, see .port-add-form) to wrap inside the node
+ * instead. Excluded once the user has manually resized the node (has-custom-size) since max-width
+ * would otherwise clamp NodeResizer's own inline width style right back down. */
+.arch-node:not(.has-custom-size) {
+  max-width: 240px;
+}
+
+/* Only fill (and clip/scroll within) the React Flow node's box once the user has actually
+ * dragged a resize handle (see hasCustomSize in App.tsx) — height:100% unconditionally would
+ * fight React Flow's own auto-measurement of unresized nodes: it freezes the wrapper at whatever
+ * height was last observed, and since .arch-node's height would be pinned to that same frozen
+ * value, organically added content (e.g. a new port) has no way to grow the box again. */
+.arch-node.has-custom-size {
+  height: 100%;
+}
+
+.arch-node.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-bg);
+}
+
+.arch-node.drop-target {
+  outline: 2px dashed var(--accent);
+  outline-offset: 2px;
+}
+
+.arch-node.level-SystemOfSystem { border-left: 4px solid #8a4ce0; }
+.arch-node.level-System { border-left: 4px solid #4c8dff; }
+.arch-node.level-Subsystem { border-left: 4px solid #2fa8a0; }
+.arch-node.level-Equipment { border-left: 4px solid #d18a2f; }
+.arch-node.level-Block { border-left: 4px solid #999; }
+.arch-node.level-FunctionalNode { border-left: 4px solid #e0507a; }
+.arch-node.level-LogicalNode { border-left: 4px solid #3aa373; }
+.arch-node.level-PhysicalNode { border-left: 4px solid #c98a1f; }
+
+.arch-node.actor {
+  border-color: #4c8dff;
+}
+
+.arch-node.capability {
+  border-left: 4px solid #8a4ce0;
+}
+
+.node-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  flex-shrink: 0;
+}
+
+.node-kind-badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
+}
+
+.node-label {
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.ports-section {
+  border-top: 1px solid var(--border);
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.capabilities-section {
+  border-top: 1px solid var(--border);
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.capability-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 12px;
+  background: var(--bg-canvas);
+  border-radius: 4px;
+  padding: 3px 6px;
+}
+
+.capability-name {
+  font-weight: 500;
+}
+
+.capability-delete {
+  border: none;
+  background: transparent;
+  color: var(--danger);
+  opacity: 0.7;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.capability-delete:hover {
+  opacity: 1;
+}
+
+.port-row-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-left: 2px solid var(--border);
+  padding-left: 2px;
+}
+
+.port-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 12px;
+  background: var(--bg-canvas);
+  border-radius: 4px;
+  padding: 3px 6px;
+}
+
+.port-add-form.nested {
+  margin-left: 12px;
+}
+
+.port-name {
+  font-weight: 500;
+}
+
+.port-expand-toggle {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  opacity: 0.6;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 0 2px 0 0;
+  line-height: 1;
+}
+
+.port-expand-toggle:hover {
+  opacity: 1;
+}
+
+.port-child-count {
+  font-weight: 400;
+  opacity: 0.6;
+  font-size: 11px;
+}
+
+.port-protected-label {
+  font-size: 11px;
+  opacity: 0.5;
+  font-style: italic;
+  padding: 2px 4px;
+}
+
+.port-menu-trigger {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  opacity: 0.75;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0;
+}
+
+.port-add-form {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.port-add-form input,
+.port-add-form select {
+  font-size: 12px;
+  padding: 3px 5px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  min-width: 60px;
+}
+
+.add-port-btn {
+  border: 1px dashed var(--border);
+  background: transparent;
+  color: var(--text);
+  opacity: 0.75;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 12px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+/* Context menu */
+
+.context-menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  padding: 4px;
+}
+
+.context-menu button {
+  text-align: left;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  padding: 7px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.context-menu button:hover {
+  background: var(--accent-bg);
+}
+
+.context-menu button.danger {
+  color: var(--danger);
+}
+
+.context-menu button.active {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.context-menu-section {
+  font-size: 10px;
+  text-transform: uppercase;
+  opacity: 0.55;
+  padding: 6px 10px 2px;
+}
+
+.port-context-menu {
+  /* position/top/right are set inline (see PortRow.tsx) — computed from the port row's own
+   * on-screen rect each time it opens, since this is portaled to document.body to escape the
+   * node's own overflow:auto (needed for manual node resizing via NodeResizer). */
+  min-width: 260px;
+  z-index: 1000;
+  max-height: min(320px, 70vh);
+  overflow-y: auto;
+}
+
+/* View/Direction shown side by side instead of stacked — requested live: "kann der Port context
+ * dialog mehrspaltig sein rubricken bebeneinader anstatt untereinander". Type/buttons stay full
+ * width below, unaffected. */
+.port-context-row {
+  display: flex;
+  gap: 8px;
+}
+
+.port-context-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 4px 4px;
+}
+
+/* Delete port / Close shown as actual buttons (bordered, with a background) instead of the plain
+ * menu-item look every other row in this popover uses — requested live: "Kannst du delete port und
+ * close als knöpfe darstellen". */
+.port-context-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.port-context-actions button {
+  flex: 1;
+  text-align: center;
+  border: 1px solid var(--border);
+  background: var(--bg-canvas);
+  border-radius: 6px;
+}
+
+.port-context-actions button.danger {
+  border-color: var(--danger);
+}
+
+.port-context-actions button:hover {
+  background: var(--accent-bg);
+}

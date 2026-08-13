@@ -1,0 +1,31 @@
+# Vendored / third-party reference code — not this project's own source
+ECAD/
+rhapsody.jar
+backend/lib/rhapsody.jar
+
+# Backend build output
+backend/out/
+backend/out2/
+backend/out3/
+
+# Backend runtime logs and local state
+backend/*.log
+backend/*_log.txt
+backend/start_log.txt
+backend/local-model.xml
+backend/.vscode/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.log
+frontend/local-model.xml
+
+# Claude Code local/personal settings
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db

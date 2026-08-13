@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RhapsodyArchive>
+	<MagicNumber></MagicNumber>
+	<CODE-PAGE>1252</CODE-PAGE>
+	<version>110.0</version>
+	<lang>C++</lang>
+	<BuildNo>202311300154</BuildNo>
+	<RMMMinimumClientVersion>100.0</RMMMinimumClientVersion>
+	
+	<RHAPSODY-MODEL>
+	<IProfile type="e">
+			<_id type="a">GUID cb7b1c1a-b1ef-481f-9bc8-cb6d89a3848f</_id>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">General</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Graphics</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">StructureDiagramContext</_Name>
+													<_Value type="a">Default</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Default,ClassOwner</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">CGCompatibilityPre751Cpp</_name>
+			<Stereotypes type="c">
+				<IRPYRawContainer type="e">
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IStereotype</_hm2Class>
+							<_hsubsystem type="a">PredefinedTypes</_hsubsystem>
+							<_hname type="a">Settings</_hname>
+							<_hid type="a">GUID c4916b7f-5ca2-41a3-b8a9-6ac22b145b51</_hid>
+						</IHandle>
+					
+				</IRPYRawContainer>
+			</Stereotypes>
+			<_modifiedTimeWeak type="a">7.28.2009::12:3:31</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<weakCGTime type="a">7.28.2009::12:3:31</weakCGTime>
+			<strongCGTime type="a">7.28.2009::12:3:31</strongCGTime>
+			<_defaultComposite type="s">GUID a39e51c2-6b66-46d1-9855-bf0ca6956635</_defaultComposite>
+			<_eventsBaseID type="a">-1</_eventsBaseID>
+			<_configurationRelatedTime type="a">1.2.1990::0:0:0</_configurationRelatedTime>
+			<AggregatesList type="e">
+				<value>GUID 69d4df0e-3ca0-4ad2-a731-61391ae930c9</value>
+				<value>GUID ce2f0020-f070-4d82-bbee-ba06b89bd41c</value>
+				<value>GUID cf47a82d-e8d1-49a4-b91f-ea3ccc9e8fee</value>
+				<value>GUID 9cac36b1-b2a7-4ac5-bad4-f3683cdbd0b5</value>
+				<value>GUID 89cc6166-2619-4904-a6ad-16094bd490c5</value>
+				<value>GUID 9df7c251-feb4-41f5-9e65-fc3d36306bd8</value>
+				<value>GUID 05d92770-bf32-4fbc-9109-eece172f2eda</value>
+				<value>GUID a39e51c2-6b66-46d1-9855-bf0ca6956635</value>
+			</AggregatesList>
+		</IProfile>
+		<IStereotype type="e">
+			<_id type="a">GUID 69d4df0e-3ca0-4ad2-a731-61391ae930c9</_id>
+			<_name type="a">COM ATL Class</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_m2Classes type="c">
+				<IRPYRawContainer type="e">
+					<value>Class</value>
+				</IRPYRawContainer>
+			</_m2Classes>
+		</IStereotype>
+		<IStereotype type="e">
+			<_id type="a">GUID ce2f0020-f070-4d82-bbee-ba06b89bd41c</_id>
+			<_name type="a">COM Coclass</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_m2Classes type="c">
+				<IRPYRawContainer type="e">
+					<value>Class</value>
+				</IRPYRawContainer>
+			</_m2Classes>
+		</IStereotype>
+		<IStereotype type="e">
+			<_id type="a">GUID cf47a82d-e8d1-49a4-b91f-ea3ccc9e8fee</_id>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Configuration</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">StartFrameworkInMainThread</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+						<IPropertySubject type="e">
+							<_Name type="a">CPP_CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Configuration</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">Environment</_Name>
+													<_Value type="a">MicrosoftDLL</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Microsoft,MicrosoftDLL,VxWorks,Solaris2,Borland,MSStandardLibrary,PsosX86,PsosPPC,MicrosoftWinCE,OseSfk,Linux</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+									<IPropertyMetaclass type="e">
+										<_Name type="a">MicrosoftDLL</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">COM</_Name>
+													<_Value type="a">True</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">MakeFileContent</_Name>
+													<_Value type="a">%0D
+############# Target type (Debug/Release) ##################%0D
+############################################################%0D
+CPPCompileDebug=$OMCPPCompileDebug%0D
+CPPCompileRelease=$OMCPPCompileRelease%0D
+LinkDebug=$OMLinkDebug%0D
+LinkRelease=$OMLinkRelease%0D
+BuildSet=$OMBuildSet%0D
+SUBSYSTEM=$OMSubSystem%0D
+COM=$OMCOM%0D
+RPFrameWorkDll=$OMRPFrameWorkDll%0D
+DEF_EXT=$OMDEFExtension%0D
+DLL_EXT=$OMDllExtension%0D
+ConfigurationCPPCompileSwitches=$OMConfigurationCPPCompileSwitches%0D
+%0D
+!IF &quot;$(RPFrameWorkDll)&quot; == &quot;True&quot;%0D
+ConfigurationCPPCompileSwitches=$(ConfigurationCPPCompileSwitches) /D &quot;FRAMEWORK_DLL&quot;%0D
+!ENDIF%0D
+%0D
+!IF &quot;$(COM)&quot; == &quot;True&quot;%0D
+SUBSYSTEM=/SUBSYSTEM:windows%0D
+!ENDIF%0D
+%0D
+################### Compilation flags ######################%0D
+############################################################%0D
+INCLUDE_QUALIFIER=/I%0D
+LIB_PREFIX=MS%0D
+CRT_FLAGS=%0D
+ENABLE_EH=/GX%0D
+%0D
+!IF &quot;$(MS_VER)&quot;==&quot;VC9&quot;%0D
+LIB_PREFIX=MSVC9%0D
+CRT_FLAGS=/D &quot;_CRT_SECURE_NO_DEPRECATE&quot;%0D
+ENABLE_EH=/EHa%0D
+!ENDIF%0D
+%0D
+################### Commands definition #########################%0D
+#################################################################%0D
+DLL_CMD=link.exe -dll%0D
+LINK_CMD=link.exe%0D
+DLL_FLAGS=$OMConfigurationLinkSwitches%0D
+LINK_FLAGS=$OMConfigurationLinkSwitches $(SUBSYSTEM) /MACHINE:I386 %0D
+%0D
+############### Generated macros #################%0D
+##################################################%0D
+$OMContextMacros%0D
+%0D
+######################## Predefined macros ############################%0D
+#######################################################################%0D
+!IF &quot;$(OBJS)&quot; != &quot;&quot;%0D
+$(OBJS) : $(FLAGSFILE) $(RULESFILE) $(INST_LIBS) $(OXF_LIBS)%0D
+!ENDIF%0D
+%0D
+LIB_EXT=.lib%0D
+%0D
+%0D
+LIB_POSTFIX=%0D
+!IF &quot;$(BuildSet)&quot;==&quot;Release&quot;%0D
+LIB_POSTFIX=R%0D
+!ENDIF%0D
+%0D
+!IF &quot;$(TARGET_TYPE)&quot; == &quot;Executable&quot;%0D
+LinkDebug=$(LinkDebug) /DEBUG%0D
+LinkRelease=$(LinkRelease) /OPT:NOREF%0D
+!ELSEIF &quot;$(TARGET_TYPE)&quot; == &quot;Library&quot;%0D
+LinkDebug=$(LinkDebug) /DEBUG /DEBUGTYPE:CV%0D
+LinkRelease=$(LinkRelease) /OPT:NOREF%0D
+!ENDIF%0D
+%0D
+!IF &quot;$(TIME_MODEL)&quot; == &quot;Simulated&quot;%0D
+TIM_EXT=%0D
+!ELSEIF &quot;$(TIME_MODEL)&quot; == &quot;RealTime&quot;%0D
+TIM_EXT=%0D
+!ELSE%0D
+!ERROR An invalid Time Model &quot;$(TIME_MODEL)&quot; is specified.%0D
+!ENDIF%0D
+%0D
+!IF &quot;$(INSTRUMENTATION)&quot; == &quot;Animation&quot;%0D
+INST_FLAGS=/D &quot;OMANIMATOR&quot;%0D
+INST_INCLUDES=/I $(OMROOT)\LangCpp\aom /I $(OMROOT)\LangCpp\tom%0D
+!IF &quot;$(RPFrameWorkDll)&quot; == &quot;True&quot;%0D
+INST_LIBS= %0D
+OXF_LIBS=$(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxfanimdll$(LIB_POSTFIX)$(LIB_EXT) %0D
+!ELSE%0D
+INST_LIBS= $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)aomanim$(LIB_POSTFIX)$(LIB_EXT)%0D
+OXF_LIBS=$(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxf$(TIM_EXT)inst$(LIB_POSTFIX)$(LIB_EXT) $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)omComAppl$(LIB_POSTFIX)$(LIB_EXT)%0D
+!ENDIF%0D
+SOCK_LIB=wsock32.lib%0D
+%0D
+!ELSEIF &quot;$(INSTRUMENTATION)&quot; == &quot;Tracing&quot;%0D
+INST_FLAGS=/D &quot;OMTRACER&quot;%0D
+INST_INCLUDES=/I $(OMROOT)\LangCpp\aom /I $(OMROOT)\LangCpp\tom%0D
+!IF &quot;$(RPFrameWorkDll)&quot; == &quot;True&quot;%0D
+INST_LIBS=%0D
+OXF_LIBS= $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxftracedll$(LIB_POSTFIX)$(LIB_EXT) %0D
+!ELSE%0D
+INST_LIBS=$(OMROOT)\LangCpp\lib\$(LIB_PREFIX)tomtrace$(LIB_POSTFIX)$(LIB_EXT) $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)aomtrace$(LIB_POSTFIX)$(LIB_EXT)%0D
+OXF_LIBS= $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxf$(TIM_EXT)inst$(LIB_POSTFIX)$(LIB_EXT) $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)omComAppl$(LIB_POSTFIX)$(LIB_EXT)%0D
+!ENDIF%0D
+SOCK_LIB=wsock32.lib%0D
+%0D
+!ELSEIF &quot;$(INSTRUMENTATION)&quot; == &quot;None&quot; %0D
+INST_FLAGS=%0D
+INST_INCLUDES=%0D
+INST_LIBS=%0D
+!IF &quot;$(RPFrameWorkDll)&quot; == &quot;True&quot;%0D
+OXF_LIBS=$(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxfdll$(LIB_POSTFIX)$(LIB_EXT)%0D
+!ELSE%0D
+OXF_LIBS=$(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxf$(TIM_EXT)$(LIB_POSTFIX)$(LIB_EXT)%0D
+!ENDIF%0D
+SOCK_LIB=%0D
+%0D
+!ELSE%0D
+!ERROR An invalid Instrumentation $(INSTRUMENTATION) is specified.%0D
+!ENDIF%0D
+%0D
+!IF &quot;$(COM)&quot; == &quot;True&quot;%0D
+COM_LIB=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib%0D
+COM_OBJS=$(TARGET_MAIN)$(OBJ_EXT) %0D
+DEF_NAME=$(TARGET_MAIN)$(DEF_EXT)%0D
+LINK_DEF=/def:$(DEF_NAME)%0D
+!ELSE%0D
+COM_LIB=%0D
+COM_OBJS=%0D
+DEF_NAME=%0D
+LINK_DEF=%0D
+!ENDIF%0D
+%0D
+################## Generated dependencies ########################%0D
+##################################################################%0D
+$OMContextDependencies%0D
+%0D
+!IF &quot;$(TARGET_MAIN)&quot; != &quot;&quot;%0D
+$(TARGET_MAIN)$(OBJ_EXT) : $(TARGET_MAIN)$(CPP_EXT) $(OBJS) $(FLAGSFILE) $(RULESFILE)%0D
+	$(CPP) $(ConfigurationCPPCompileSwitches) /Fo&quot;$OMFileObjPath&quot; $(TARGET_MAIN)$(CPP_EXT)%0D
+!ENDIF%0D
+%0D
+########################## Linking instructions ###############################%0D
+###############################################################################%0D
+!IF &quot;$(TARGET_NAME)&quot; != &quot;&quot;%0D
+$(TARGET_NAME)$(EXE_EXT): $(OBJS) $(ADDITIONAL_OBJS) $(TARGET_MAIN)$(OBJ_EXT) $OMMakefileName%0D
+	@echo Linking $(TARGET_NAME)$(EXE_EXT)%0D
+	$(LINK_CMD)  $(TARGET_MAIN)$(OBJ_EXT) $(OBJS) $(ADDITIONAL_OBJS) \%0D
+	$(LIBS) \%0D
+	$(INST_LIBS) \%0D
+	$(OXF_LIBS) \%0D
+	$(SOCK_LIB) \%0D
+	$(LINK_FLAGS) /out:$(TARGET_NAME)$(EXE_EXT)%0D
+%0D
+$(TARGET_NAME)$(DLL_EXT) : $(OBJS) $(ADDITIONAL_OBJS) $(COM_OBJS) $(DEF_NAME) $OMMakefileName%0D
+	@echo Building library $@%0D
+	$(DLL_CMD) $(DLL_FLAGS) $(COM_LIB) $(OBJS) $(COM_OBJS) $(ADDITIONAL_OBJS) \%0D
+	$(LIBS) \%0D
+	$(INST_LIBS) \%0D
+	$(OXF_LIBS) \%0D
+	$(SOCK_LIB) \%0D
+	$(LINK_DEF) \%0D
+	/out:$(TARGET_NAME)$(DLL_EXT)  %0D
+	@echo Registering COM Server... %0D
+	if exist $(TARGET_NAME)$(DLL_EXT) regsvr32 /s $(TARGET_NAME)$(DLL_EXT)%0D
+%0D
+!ENDIF%0D
+%0D
+clean:%0D
+	@echo Cleanup%0D
+	$OMCleanOBJS%0D
+	if exist *$(OBJ_EXT) erase *$(OBJ_EXT)%0D
+	if exist $(TARGET_NAME).pdb erase $(TARGET_NAME).pdb%0D
+	if exist $(TARGET_NAME)$(LIB_EXT) erase $(TARGET_NAME)$(LIB_EXT)%0D
+	if exist $(TARGET_NAME).ilk erase $(TARGET_NAME).ilk%0D
+	if exist $(TARGET_NAME)$(EXE_EXT) erase $(TARGET_NAME)$(EXE_EXT)%0D
+</_Value>
+													<_Type type="a">MultiLine</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">RPFrameWorkDll</_Name>
+													<_Value type="a">True</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">COM DLL</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_m2Classes type="c">
+				<IRPYRawContainer type="e">
+					<value>Component</value>
+				</IRPYRawContainer>
+			</_m2Classes>
+		</IStereotype>
+		<IStereotype type="e">
+			<_id type="a">GUID 9cac36b1-b2a7-4ac5-bad4-f3683cdbd0b5</_id>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Configuration</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">StartFrameworkInMainThread</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+						<IPropertySubject type="e">
+							<_Name type="a">CPP_CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Microsoft</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">COM</_Name>
+													<_Value type="a">True</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">MakeFileContent</_Name>
+													<_Value type="a">%0D
+############# Target type (Debug/Release) ##################%0D
+############################################################%0D
+CPPCompileDebug=$OMCPPCompileDebug%0D
+CPPCompileRelease=$OMCPPCompileRelease%0D
+LinkDebug=$OMLinkDebug%0D
+LinkRelease=$OMLinkRelease%0D
+BuildSet=$OMBuildSet%0D
+SUBSYSTEM=$OMSubSystem%0D
+COM=$OMCOM%0D
+RPFrameWorkDll=$OMRPFrameWorkDll%0D
+%0D
+ConfigurationCPPCompileSwitches=$OMConfigurationCPPCompileSwitches%0D
+%0D
+!IF &quot;$(RPFrameWorkDll)&quot; == &quot;True&quot;%0D
+ConfigurationCPPCompileSwitches=$(ConfigurationCPPCompileSwitches) /D &quot;FRAMEWORK_DLL&quot;%0D
+!ENDIF%0D
+%0D
+!IF &quot;$(COM)&quot; == &quot;True&quot;%0D
+SUBSYSTEM=/SUBSYSTEM:windows%0D
+!ENDIF%0D
+%0D
+################### Compilation flags ######################%0D
+############################################################%0D
+INCLUDE_QUALIFIER=/I%0D
+LIB_PREFIX=MS%0D
+CRT_FLAGS=%0D
+ENABLE_EH=/GX%0D
+%0D
+!IF &quot;$(MS_VER)&quot;==&quot;VC9&quot;%0D
+LIB_PREFIX=MSVC9%0D
+CRT_FLAGS=/D &quot;_CRT_SECURE_NO_DEPRECATE&quot;%0D
+ENABLE_EH=/EHa%0D
+!ENDIF%0D
+%0D
+################### Commands definition #########################%0D
+#################################################################%0D
+LIB_CMD=link.exe -lib%0D
+LINK_CMD=link.exe%0D
+LIB_FLAGS=$OMConfigurationLinkSwitches%0D
+LINK_FLAGS=$OMConfigurationLinkSwitches $(SUBSYSTEM) /MACHINE:I386 %0D
+%0D
+############### Generated macros #################%0D
+##################################################%0D
+$OMContextMacros%0D
+%0D
+######################## Predefined macros ############################%0D
+#######################################################################%0D
+$(OBJS) : $(INST_LIBS) $(OXF_LIBS)%0D
+%0D
+LIB_POSTFIX=%0D
+!IF &quot;$(BuildSet)&quot;==&quot;Release&quot;%0D
+LIB_POSTFIX=R%0D
+!ENDIF%0D
+%0D
+!IF &quot;$(TARGET_TYPE)&quot; == &quot;Executable&quot;%0D
+LinkDebug=$(LinkDebug) /DEBUG%0D
+LinkRelease=$(LinkRelease) /OPT:NOREF%0D
+!ELSEIF &quot;$(TARGET_TYPE)&quot; == &quot;Library&quot;%0D
+LinkDebug=$(LinkDebug) /DEBUGTYPE:CV%0D
+!ENDIF%0D
+%0D
+%0D
+!IF &quot;$(INSTRUMENTATION)&quot; == &quot;Animation&quot;%0D
+INST_FLAGS=/D &quot;OMANIMATOR&quot;%0D
+INST_INCLUDES=/I $(OMROOT)\LangCpp\aom /I $(OMROOT)\LangCpp\tom%0D
+!IF &quot;$(RPFrameWorkDll)&quot; == &quot;True&quot;%0D
+INST_LIBS= %0D
+OXF_LIBS=$(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxfanimdll$(LIB_POSTFIX)$(LIB_EXT) %0D
+!ELSE%0D
+INST_LIBS= $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)aomanim$(LIB_POSTFIX)$(LIB_EXT)%0D
+OXF_LIBS=$(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxfinst$(LIB_POSTFIX)$(LIB_EXT) $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)omComAppl$(LIB_POSTFIX)$(LIB_EXT)%0D
+!ENDIF%0D
+SOCK_LIB=wsock32.lib%0D
+%0D
+!ELSEIF &quot;$(INSTRUMENTATION)&quot; == &quot;Tracing&quot;%0D
+INST_FLAGS=/D &quot;OMTRACER&quot;%0D
+INST_INCLUDES=/I $(OMROOT)\LangCpp\aom /I $(OMROOT)\LangCpp\tom%0D
+!IF &quot;$(RPFrameWorkDll)&quot; == &quot;True&quot;%0D
+INST_LIBS=%0D
+OXF_LIBS= $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxftracedll$(LIB_POSTFIX)$(LIB_EXT) %0D
+!ELSE%0D
+INST_LIBS=$(OMROOT)\LangCpp\lib\$(LIB_PREFIX)tomtrace$(LIB_POSTFIX)$(LIB_EXT) $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)aomtrace$(LIB_POSTFIX)$(LIB_EXT)%0D
+OXF_LIBS= $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxfinst$(LIB_POSTFIX)$(LIB_EXT) $(OMROOT)\LangCpp\lib\$(LIB_PREFIX)omComAppl$(LIB_POSTFIX)$(LIB_EXT)%0D
+!ENDIF%0D
+SOCK_LIB=wsock32.lib%0D
+%0D
+!ELSEIF &quot;$(INSTRUMENTATION)&quot; == &quot;None&quot; %0D
+INST_FLAGS=%0D
+INST_INCLUDES=%0D
+INST_LIBS=%0D
+!IF &quot;$(RPFrameWorkDll)&quot; == &quot;True&quot;%0D
+OXF_LIBS=$(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxfdll$(LIB_POSTFIX)$(LIB_EXT)%0D
+!ELSE%0D
+OXF_LIBS=$(OMROOT)\LangCpp\lib\$(LIB_PREFIX)oxf$(LIB_POSTFIX)$(LIB_EXT)%0D
+!ENDIF%0D
+SOCK_LIB=%0D
+%0D
+!ELSE%0D
+!ERROR An invalid Instrumentation $(INSTRUMENTATION) is specified.%0D
+!ENDIF%0D
+%0D
+################## Generated dependencies ########################%0D
+##################################################################%0D
+$OMContextDependencies%0D
+%0D
+$(TARGET_MAIN)$(OBJ_EXT) : $(TARGET_MAIN)$(CPP_EXT) $(OBJS) %0D
+	$(CPP) $(ConfigurationCPPCompileSwitches) /Fo&quot;$OMFileObjPath&quot; $(TARGET_MAIN)$(CPP_EXT)%0D
+%0D
+########################## Linking instructions ###############################%0D
+###############################################################################%0D
+$(TARGET_NAME)$(EXE_EXT): $(OBJS) $(ADDITIONAL_OBJS) $(TARGET_MAIN)$(OBJ_EXT) $OMMakefileName%0D
+	@echo Linking $(TARGET_NAME)$(EXE_EXT)%0D
+	$(LINK_CMD)  $(TARGET_MAIN)$(OBJ_EXT) $(OBJS) $(ADDITIONAL_OBJS) \%0D
+	$(LIBS) \%0D
+	$(INST_LIBS) \%0D
+	$(OXF_LIBS) \%0D
+	$(SOCK_LIB) \%0D
+	$(LINK_FLAGS) /out:$(TARGET_NAME)$(EXE_EXT)%0D
+	@echo Registering COM Server... %0D
+	if exist $(TARGET_NAME)$(EXE_EXT) $(TARGET_NAME)$(EXE_EXT) /RegServer%0D
+%0D
+%0D
+$(TARGET_NAME)$(LIB_EXT) : $(OBJS) $(ADDITIONAL_OBJS) $OMMakefileName%0D
+	@echo Building library $@%0D
+	$(LIB_CMD) $(LIB_FLAGS) /out:$(TARGET_NAME)$(LIB_EXT) $(OBJS) $(ADDITIONAL_OBJS)%0D
+%0D
+clean:%0D
+	@echo Cleanup%0D
+	$OMCleanOBJS%0D
+	if exist *$(OBJ_EXT) erase *$(OBJ_EXT)%0D
+	if exist $(TARGET_NAME).pdb erase $(TARGET_NAME).pdb%0D
+	if exist $(TARGET_NAME)$(LIB_EXT) erase $(TARGET_NAME)$(LIB_EXT)%0D
+	if exist $(TARGET_NAME).ilk erase $(TARGET_NAME).ilk%0D
+	if exist $(TARGET_NAME)$(EXE_EXT) erase $(TARGET_NAME)$(EXE_EXT)%0D
+</_Value>
+													<_Type type="a">MultiLine</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">RPFrameWorkDll</_Name>
+													<_Value type="a">True</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">COM EXE</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_m2Classes type="c">
+				<IRPYRawContainer type="e">
+					<value>Component</value>
+				</IRPYRawContainer>
+			</_m2Classes>
+		</IStereotype>
+		<IStereotype type="e">
+			<_id type="a">GUID 89cc6166-2619-4904-a6ad-16094bd490c5</_id>
+			<_name type="a">COM Interface</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_m2Classes type="c">
+				<IRPYRawContainer type="e">
+					<value>Class</value>
+				</IRPYRawContainer>
+			</_m2Classes>
+		</IStereotype>
+		<IStereotype type="e">
+			<_id type="a">GUID 9df7c251-feb4-41f5-9e65-fc3d36306bd8</_id>
+			<_name type="a">COM Library</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_m2Classes type="c">
+				<IRPYRawContainer type="e">
+					<value>Package</value>
+				</IRPYRawContainer>
+			</_m2Classes>
+		</IStereotype>
+		<IStereotype type="e">
+			<_id type="a">GUID 05d92770-bf32-4fbc-9109-eece172f2eda</_id>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">COM</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">IDL</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">MIDLOutTypeLib</_Name>
+													<_Value type="a">$component$TypeLibExtension</_Value>
+													<_Type type="a">String</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+						<IPropertySubject type="e">
+							<_Name type="a">CPP_CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Configuration</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">Environment</_Name>
+													<_Value type="a">MicrosoftDLL</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Microsoft,MicrosoftDLL,VxWorks,Solaris2,Borland,MSStandardLibrary,PsosX86,PsosPPC,MicrosoftWinCE,OseSfk,Linux</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+									<IPropertyMetaclass type="e">
+										<_Name type="a">MicrosoftDLL</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">ExeExtension</_Name>
+													<_Value type="a">.tlb</_Value>
+													<_Type type="a">String</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">LibExtension</_Name>
+													<_Value type="a">.tlb</_Value>
+													<_Type type="a">String</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">COM TLB</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_m2Classes type="c">
+				<IRPYRawContainer type="e">
+					<value>Component</value>
+				</IRPYRawContainer>
+			</_m2Classes>
+		</IStereotype>
+		<IClass type="e">
+			<_id type="a">GUID a39e51c2-6b66-46d1-9855-bf0ca6956635</_id>
+			<_myState type="a">40960</_myState>
+			<_name type="a">TopLevel</_name>
+			<_modifiedTimeWeak type="a">7.28.2009::12:3:31</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<weakCGTime type="a">7.28.2009::12:3:31</weakCGTime>
+			<strongCGTime type="a">7.28.2009::12:3:31</strongCGTime>
+			<_itsStateChart type="r">
+				<IHandle type="e">
+				</IHandle>
+			</_itsStateChart>
+			<_classModifier type="a">Unspecified</_classModifier>
+		</IClass>
+		
+	</RHAPSODY-MODEL>
+	<OslcLinks type="c">
+		<IRPYRawContainer type="e">
+		</IRPYRawContainer>
+	</OslcLinks>
+
+<INCLUDES-RHAPSODY-INDEX>false</INCLUDES-RHAPSODY-INDEX>
+</RhapsodyArchive>
+

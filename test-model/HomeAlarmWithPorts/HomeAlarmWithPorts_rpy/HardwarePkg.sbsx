@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RhapsodyArchive>
+	<MagicNumber></MagicNumber>
+	<CODE-PAGE>1252</CODE-PAGE>
+	<version>110.0</version>
+	<lang>C++</lang>
+	<BuildNo>202311300154</BuildNo>
+	<RMMMinimumClientVersion>100.0</RMMMinimumClientVersion>
+	
+	<RHAPSODY-MODEL>
+	<ISubsystem type="e">
+			<_id type="a">GUID ac0adc67-3550-11d3-ac41-0010a4f1d0f6</_id>
+			<_myState type="a">8192</_myState>
+			<_name type="a">HardwarePkg</_name>
+			<_modifiedTimeWeak type="a">11.23.2003::14:50:26</_modifiedTimeWeak>
+			<_theMainDiagram type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IDiagram</_hm2Class>
+					<_hfilename type="a">.\Possible_hardware_implementations.omd</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">Possible hardware implementations</_hname>
+					<_hid type="a">GUID ac0add42-3550-11d3-ac41-0010a4f1d0f6</_hid>
+				</IHandle>
+			</_theMainDiagram>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_lastID type="a">8</_lastID>
+			<weakCGTime type="a">11.23.2003::14:50:26</weakCGTime>
+			<strongCGTime type="a">6.27.2001::15:31:40</strongCGTime>
+			<_defaultComposite type="s">GUID ac0adc68-3550-11d3-ac41-0010a4f1d0f6</_defaultComposite>
+			<_eventsBaseID type="a">-1</_eventsBaseID>
+			<_configurationRelatedTime type="a">11.23.2003::13:55:0</_configurationRelatedTime>
+			<AggregatesList type="e">
+				<value>GUID ac0add42-3550-11d3-ac41-0010a4f1d0f6</value>
+				<value>OLDID 950396 1</value>
+				<value>GUID 12c0f905-31d4-4b16-b9b4-0a70e2952046</value>
+				<value>GUID 16670831-dd39-4039-ae24-4b62f0088286</value>
+				<value>GUID ac0adc68-3550-11d3-ac41-0010a4f1d0f6</value>
+				<value>GUID 3c06b99b-2887-11d3-ac08-0010a4f1d0f6</value>
+				<value>OLDID 1424988 326</value>
+				<value>GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6</value>
+			</AggregatesList>
+		</ISubsystem>
+		<IDiagram type="e">
+			<fileName type="a">Possible_hardware_implementations</fileName>
+			<_id type="a">GUID ac0add42-3550-11d3-ac41-0010a4f1d0f6</_id>
+			<_name type="a">Possible hardware implementations</_name>
+		</IDiagram>
+		<ISubsystem type="e">
+			<fileName type="a">SimulatedHwPkg</fileName>
+			<_id type="a">OLDID 950396 1</_id>
+		</ISubsystem>
+		<ISubsystem type="e">
+			<fileName type="a">HwTestPkg</fileName>
+			<_id type="a">GUID 12c0f905-31d4-4b16-b9b4-0a70e2952046</_id>
+		</ISubsystem>
+		<ISubsystem type="e">
+			<fileName type="a">AbstractHW</fileName>
+			<_id type="a">GUID 16670831-dd39-4039-ae24-4b62f0088286</_id>
+		</ISubsystem>
+		<IClass type="e">
+			<_id type="a">GUID ac0adc68-3550-11d3-ac41-0010a4f1d0f6</_id>
+			<_myState type="a">40960</_myState>
+			<_name type="a">TopLevel</_name>
+			<_modifiedTimeWeak type="a">11.23.2003::14:50:26</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<weakCGTime type="a">11.23.2003::14:50:26</weakCGTime>
+			<strongCGTime type="a">6.27.2001::15:31:40</strongCGTime>
+			<_itsStateChart type="r">
+				<IHandle type="e">
+				</IHandle>
+			</_itsStateChart>
+			<_classModifier type="a">Unspecified</_classModifier>
+		</IClass>
+		<IType type="e">
+			<_id type="a">GUID 3c06b99b-2887-11d3-ac08-0010a4f1d0f6</_id>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Type</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">Animate</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Force,True,False</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">tLed</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 types of LED\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_lastID type="a">2</_lastID>
+			<_kind type="a">Enumeration</_kind>
+			<AggregatesList type="e">
+				<value>GUID e706abc0-476b-4c08-8cbc-3f0f5b53175f</value>
+				<value>GUID 80f52b4a-34a7-457c-8386-348d5ed3423e</value>
+			</AggregatesList>
+		</IType>
+		<IEnumerationLiteral type="e">
+			<_id type="a">GUID e706abc0-476b-4c08-8cbc-3f0f5b53175f</_id>
+			<_name type="a">GREEN</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+		</IEnumerationLiteral>
+		<IEnumerationLiteral type="e">
+			<_id type="a">GUID 80f52b4a-34a7-457c-8386-348d5ed3423e</_id>
+			<_name type="a">RED</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+		</IEnumerationLiteral>
+		<IType type="e">
+			<_id type="a">OLDID 1424988 326</_id>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Type</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">Animate</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Force,True,False</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">tLights</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 types of lights\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_lastID type="a">2</_lastID>
+			<_kind type="a">Enumeration</_kind>
+			<AggregatesList type="e">
+				<value>GUID 2015a07e-0fda-4267-926e-123b9a15fa3c</value>
+				<value>GUID 2cf19abc-1622-4bb3-8c6b-398df740421c</value>
+			</AggregatesList>
+		</IType>
+		<IEnumerationLiteral type="e">
+			<_id type="a">GUID 2015a07e-0fda-4267-926e-123b9a15fa3c</_id>
+			<_name type="a">DOWNSTAIRS</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+		</IEnumerationLiteral>
+		<IEnumerationLiteral type="e">
+			<_id type="a">GUID 2cf19abc-1622-4bb3-8c6b-398df740421c</_id>
+			<_name type="a">UPSTAIRS</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+		</IEnumerationLiteral>
+		<IType type="e">
+			<_id type="a">GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6</_id>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Type</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">Animate</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Force,True,False</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">tOnOff</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 state of a light or LED\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_lastID type="a">2</_lastID>
+			<_kind type="a">Enumeration</_kind>
+			<AggregatesList type="e">
+				<value>GUID aefa680d-c6f1-49b4-85d7-17a847d78120</value>
+				<value>GUID 685cd24b-2b63-4870-8741-bd20a3a3acf4</value>
+			</AggregatesList>
+		</IType>
+		<IEnumerationLiteral type="e">
+			<_id type="a">GUID aefa680d-c6f1-49b4-85d7-17a847d78120</_id>
+			<_name type="a">ON</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+		</IEnumerationLiteral>
+		<IEnumerationLiteral type="e">
+			<_id type="a">GUID 685cd24b-2b63-4870-8741-bd20a3a3acf4</_id>
+			<_name type="a">OFF</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+		</IEnumerationLiteral>
+		
+	</RHAPSODY-MODEL>
+	<OslcLinks type="c">
+		<IRPYRawContainer type="e">
+		</IRPYRawContainer>
+	</OslcLinks>
+
+<INCLUDES-RHAPSODY-INDEX>false</INCLUDES-RHAPSODY-INDEX>
+</RhapsodyArchive>
+

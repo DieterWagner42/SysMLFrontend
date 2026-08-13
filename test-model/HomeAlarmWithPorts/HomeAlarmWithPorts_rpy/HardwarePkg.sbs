@@ -1,0 +1,218 @@
+I-Logix-RPY-Archive version 8.1.4 C++ 998726
+{ ISubsystem 
+	- _id = GUID ac0adc67-3550-11d3-ac41-0010a4f1d0f6;
+	- _myState = 8192;
+	- _name = "HardwarePkg";
+	- _theMainDiagram = { IHandle 
+		- _m2Class = "IDiagram";
+		- _filename = "Possible_hardware_implementations.omd";
+		- _subsystem = "HardwarePkg";
+		- _class = "";
+		- _name = "Possible hardware implementations";
+		- _id = GUID ac0add42-3550-11d3-ac41-0010a4f1d0f6;
+	}
+	- _lastID = 8;
+	- Declaratives = { IRPYRawContainer 
+		- size = 4;
+		- value = 
+		{ IDiagram 
+			- fileName = "Possible_hardware_implementations";
+			- _id = GUID ac0add42-3550-11d3-ac41-0010a4f1d0f6;
+			- _name = "Possible hardware implementations";
+		}
+		{ ISubsystem 
+			- fileName = "SimulatedHwPkg";
+			- _id = OLDID 950396 1;
+		}
+		{ ISubsystem 
+			- fileName = "HwTestPkg";
+			- _id = GUID 12c0f905-31d4-4b16-b9b4-0a70e2952046;
+		}
+		{ ISubsystem 
+			- fileName = "AbstractHW";
+			- _id = GUID 16670831-dd39-4039-ae24-4b62f0088286;
+		}
+	}
+	- weakCGTime = 11.23.2003::14:50:26;
+	- strongCGTime = 6.27.2001::15:31:40;
+	- _defaultComposite = GUID ac0adc68-3550-11d3-ac41-0010a4f1d0f6;
+	- _eventsBaseID = -1;
+	- Classes = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ IClass 
+			- _id = GUID ac0adc68-3550-11d3-ac41-0010a4f1d0f6;
+			- _myState = 40960;
+			- _name = "TopLevel";
+			- weakCGTime = 11.23.2003::14:50:26;
+			- strongCGTime = 6.27.2001::15:31:40;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+	}
+	- Types = { IRPYRawContainer 
+		- size = 3;
+		- value = 
+		{ IType 
+			- _id = GUID 3c06b99b-2887-11d3-ac08-0010a4f1d0f6;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "CG";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Type";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "Animate";
+										- _Value = "False";
+										- _Type = Enum;
+										- _ExtraTypeInfo = "Force,True,False";
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- _name = "tLed";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 types of LED\\f1\\rtlch\\par
+}
+";
+			}
+			- _lastID = 2;
+			- Literals = { IRPYRawContainer 
+				- size = 2;
+				- value = 
+				{ IEnumerationLiteral 
+					- _id = GUID e706abc0-476b-4c08-8cbc-3f0f5b53175f;
+					- _name = "GREEN";
+					- _value = "";
+				}
+				{ IEnumerationLiteral 
+					- _id = GUID 80f52b4a-34a7-457c-8386-348d5ed3423e;
+					- _name = "RED";
+					- _value = "";
+				}
+			}
+			- _kind = Enumeration;
+		}
+		{ IType 
+			- _id = OLDID 1424988 326;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "CG";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Type";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "Animate";
+										- _Value = "False";
+										- _Type = Enum;
+										- _ExtraTypeInfo = "Force,True,False";
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- _name = "tLights";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 types of lights\\f1\\rtlch\\par
+}
+";
+			}
+			- _lastID = 2;
+			- Literals = { IRPYRawContainer 
+				- size = 2;
+				- value = 
+				{ IEnumerationLiteral 
+					- _id = GUID 2015a07e-0fda-4267-926e-123b9a15fa3c;
+					- _name = "DOWNSTAIRS";
+					- _value = "";
+				}
+				{ IEnumerationLiteral 
+					- _id = GUID 2cf19abc-1622-4bb3-8c6b-398df740421c;
+					- _name = "UPSTAIRS";
+					- _value = "";
+				}
+			}
+			- _kind = Enumeration;
+		}
+		{ IType 
+			- _id = GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "CG";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Type";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "Animate";
+										- _Value = "False";
+										- _Type = Enum;
+										- _ExtraTypeInfo = "Force,True,False";
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- _name = "tOnOff";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 state of a light or LED\\f1\\rtlch\\par
+}
+";
+			}
+			- _lastID = 2;
+			- Literals = { IRPYRawContainer 
+				- size = 2;
+				- value = 
+				{ IEnumerationLiteral 
+					- _id = GUID aefa680d-c6f1-49b4-85d7-17a847d78120;
+					- _name = "ON";
+					- _value = "";
+				}
+				{ IEnumerationLiteral 
+					- _id = GUID 685cd24b-2b63-4870-8741-bd20a3a3acf4;
+					- _name = "OFF";
+					- _value = "";
+				}
+			}
+			- _kind = Enumeration;
+		}
+	}
+	- _configurationRelatedTime = 11.23.2003::13:55:0;
+}
+

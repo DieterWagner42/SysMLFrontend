@@ -1,0 +1,287 @@
+I-Logix-RPY-Archive version 8.1.4 C++ 998726
+{ ISubsystem 
+	- _ownerHandle = { IHandle 
+		- _m2Class = "ISubsystem";
+		- _filename = "HardwarePkg.sbs";
+		- _subsystem = "";
+		- _class = "";
+		- _name = "HardwarePkg";
+		- _id = GUID ac0adc67-3550-11d3-ac41-0010a4f1d0f6;
+	}
+	- _id = GUID 12c0f905-31d4-4b16-b9b4-0a70e2952046;
+	- _myState = 8192;
+	- _name = "HwTestPkg";
+	- Dependencies = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ IDependency 
+			- _id = GUID d6edc8eb-9a5d-472d-87d2-f3865fc7d8ba;
+			- _myState = 2048;
+			- _name = "AbstractHW";
+			- _dependsOn = { INObjectHandle 
+				- _m2Class = "ISubsystem";
+				- _filename = "AbstractHW.sbs";
+				- _subsystem = "HardwarePkg";
+				- _class = "";
+				- _name = "AbstractHW";
+				- _id = GUID 16670831-dd39-4039-ae24-4b62f0088286;
+			}
+		}
+	}
+	- _lastID = 1;
+	- weakCGTime = 11.23.2003::14:50:26;
+	- strongCGTime = 7.8.2003::13:28:12;
+	- _defaultComposite = GUID bc29c773-3ad3-4f57-981b-dad5d4631100;
+	- _eventsBaseID = -1;
+	- Classes = { IRPYRawContainer 
+		- size = 2;
+		- value = 
+		{ IClass 
+			- _id = GUID bc29c773-3ad3-4f57-981b-dad5d4631100;
+			- _myState = 40960;
+			- _name = "TopLevel";
+			- weakCGTime = 11.23.2003::14:50:26;
+			- strongCGTime = 7.8.2003::13:28:12;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = GUID c62c3f31-cd8c-4803-9595-33b703f9296f;
+			- _myState = 8192;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "CG";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Package";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "GenerateWithAggregates";
+										- _Value = "True";
+										- _Type = Bool;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- _name = "Hw";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 a test class that just writes to standard out\\f1\\rtlch\\par
+}
+";
+			}
+			- _lastID = 1;
+			- weakCGTime = 11.23.2003::13:25:22;
+			- strongCGTime = 7.8.2003::13:23:29;
+			- Operations = { IRPYRawContainer 
+				- size = 3;
+				- value = 
+				{ IPrimitiveOperation 
+					- _id = GUID 00d0c19f-f202-4fa8-ad3a-a5ac82ab1ba3;
+					- _name = "setSiren";
+					- _virtual = 1;
+					- Args = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IArgument 
+							- _id = GUID 59802c24-1ef9-416b-939b-e9f93b93c24c;
+							- _name = "state";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IType";
+								- _filename = "HardwarePkg.sbs";
+								- _subsystem = "HardwarePkg";
+								- _class = "";
+								- _name = "tOnOff";
+								- _id = GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+					}
+					- _returnType = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesC++.sbs";
+						- _subsystem = "PredefinedTypesCpp";
+						- _class = "";
+						- _name = "void";
+						- _id = GUID c6b70728-b655-45a0-abb7-8ea5d3da94be;
+					}
+					- _abstract = 0;
+					- _final = 0;
+					- _concurrency = Sequential;
+					- _protection = iPublic;
+					- _static = 0;
+					- _constant = 0;
+					- _itsBody = { IBody 
+						- _bodyData = "if ( state == ON )
+   cout << \"siren on\" << endl;
+else
+   cout << \"siren off\" << endl;";
+					}
+				}
+				{ IPrimitiveOperation 
+					- _id = GUID 5988e031-9be8-4d65-b631-779c9e3d4a21;
+					- _name = "setLight";
+					- _virtual = 1;
+					- Args = { IRPYRawContainer 
+						- size = 2;
+						- value = 
+						{ IArgument 
+							- _id = GUID 891f9382-4c85-48f0-9b39-c92b0522886d;
+							- _name = "aLight";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IType";
+								- _filename = "HardwarePkg.sbs";
+								- _subsystem = "HardwarePkg";
+								- _class = "";
+								- _name = "tLights";
+								- _id = OLDID 1424988 326;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+						{ IArgument 
+							- _id = GUID f043bdf8-7466-465a-8257-a4c13b1d4a89;
+							- _name = "state";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IType";
+								- _filename = "HardwarePkg.sbs";
+								- _subsystem = "HardwarePkg";
+								- _class = "";
+								- _name = "tOnOff";
+								- _id = GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+					}
+					- _returnType = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesC++.sbs";
+						- _subsystem = "PredefinedTypesCpp";
+						- _class = "";
+						- _name = "void";
+						- _id = GUID c6b70728-b655-45a0-abb7-8ea5d3da94be;
+					}
+					- _abstract = 0;
+					- _final = 0;
+					- _concurrency = Sequential;
+					- _protection = iPublic;
+					- _static = 0;
+					- _constant = 0;
+					- _itsBody = { IBody 
+						- _bodyData = "cout << \"light \" << aLight << \" \";
+if ( state == ON )
+   cout << \"on\" << endl;
+else
+   cout << \"off\" << endl;";
+					}
+				}
+				{ IPrimitiveOperation 
+					- _id = GUID e1eb05ae-e24a-4db8-8934-29b029f687dd;
+					- _name = "setLed";
+					- _virtual = 1;
+					- Args = { IRPYRawContainer 
+						- size = 2;
+						- value = 
+						{ IArgument 
+							- _id = GUID 94591cec-c6db-44f4-b328-7734cfdfc830;
+							- _name = "ident";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IType";
+								- _filename = "HardwarePkg.sbs";
+								- _subsystem = "HardwarePkg";
+								- _class = "";
+								- _name = "tLed";
+								- _id = GUID 3c06b99b-2887-11d3-ac08-0010a4f1d0f6;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+						{ IArgument 
+							- _id = GUID 3d98fbf9-9a6a-4ac4-afae-62679572ac89;
+							- _name = "state";
+							- _defaultValue = "";
+							- _typeOf = { IHandle 
+								- _m2Class = "IType";
+								- _filename = "HardwarePkg.sbs";
+								- _subsystem = "HardwarePkg";
+								- _class = "";
+								- _name = "tOnOff";
+								- _id = GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6;
+							}
+							- _isOrdered = 0;
+							- _argumentDirection = In;
+						}
+					}
+					- _returnType = { IHandle 
+						- _m2Class = "IType";
+						- _filename = "PredefinedTypesC++.sbs";
+						- _subsystem = "PredefinedTypesCpp";
+						- _class = "";
+						- _name = "void";
+						- _id = GUID c6b70728-b655-45a0-abb7-8ea5d3da94be;
+					}
+					- _abstract = 0;
+					- _final = 0;
+					- _concurrency = Sequential;
+					- _protection = iPublic;
+					- _static = 0;
+					- _constant = 0;
+					- _itsBody = { IBody 
+						- _bodyData = "if ( ident == RED )
+   cout << \"red \";
+else
+   cout << \"green \";
+
+if ( state == ON )
+   cout << \"on\" << endl;
+else
+   cout << \"off\" << endl;";
+					}
+				}
+			}
+			- Inheritances = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IGeneralization 
+					- _id = GUID 8f40c484-21d5-4aba-991c-ff665de3ced6;
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _filename = "IHardware.cls";
+						- _subsystem = "HardwarePkg::AbstractHW";
+						- _class = "";
+						- _name = "AbsHardware";
+						- _id = OLDID 1424988 432;
+					}
+					- _inheritanceType = iPublic;
+					- _isVirtual = 0;
+				}
+			}
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+	}
+	- _configurationRelatedTime = 1.2.1990::0:0:0;
+}
+

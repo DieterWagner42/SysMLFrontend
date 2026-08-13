@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RhapsodyArchive>
+	<MagicNumber></MagicNumber>
+	<CODE-PAGE>1252</CODE-PAGE>
+	<version>110.0</version>
+	<lang>C++</lang>
+	<BuildNo>202311300154</BuildNo>
+	<RMMMinimumClientVersion>100.0</RMMMinimumClientVersion>
+	
+	<RHAPSODY-MODEL>
+	<IComponent type="e">
+			<_id type="a">GUID 5c208d45-6088-4348-9fc0-3c07d3135720</_id>
+			<_myState type="a">8192</_myState>
+			<_name type="a">HWAbsLib</_name>
+			<_modifiedTimeWeak type="a">1.12.2004::10:14:21</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_lastID type="a">1</_lastID>
+			<m_buildType type="a">Library</m_buildType>
+			<m_configActive type="r">
+				<ICodeGenConfigInfoHandle type="e">
+					<_hm2Class type="a">ICodeGenConfigInfo</_hm2Class>
+					<_hid type="a">GUID 27e64af1-5988-42b8-8d5f-62fd50762915</_hid>
+				</ICodeGenConfigInfoHandle>
+			</m_configActive>
+			<VariationPoints type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</VariationPoints>
+			<SelectedVariants type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</SelectedVariants>
+			<weakCGTime type="a">1.12.2004::10:14:21</weakCGTime>
+			<strongCGTime type="a">7.10.2003::12:20:17</strongCGTime>
+			<AggregatesList type="e">
+				<value>GUID 7d2c3910-2ca4-4f6c-98a1-6af2b01db3bc</value>
+				<value>GUID a5387137-996e-4566-b2ee-82df2357b138</value>
+				<value>GUID 27e64af1-5988-42b8-8d5f-62fd50762915</value>
+			</AggregatesList>
+		</IComponent>
+		<IDependency type="e">
+			<_id type="a">GUID 7d2c3910-2ca4-4f6c-98a1-6af2b01db3bc</_id>
+			<_myState type="a">2048</_myState>
+			<_name type="a">AlarmCtrlLib</_name>
+			<Stereotypes type="c">
+				<IRPYRawContainer type="e">
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IStereotype</_hm2Class>
+							<_hfilename type="a">.\..\HomeAlarmWithPorts.rpyx</_hfilename>
+							<_hname type="a">Callback</_hname>
+							<_hid type="a">GUID f05c3d75-ada7-4e46-99f6-162ee33bce50</_hid>
+						</IHandle>
+					
+				</IRPYRawContainer>
+			</Stereotypes>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_dependsOn type="r">
+				<INObjectHandle type="e">
+					<_hm2Class type="a">IComponent</_hm2Class>
+					<_hfilename type="a">.\AlarmCtrlLib.cmp</_hfilename>
+					<_hname type="a">AlarmCtrlLib</_hname>
+					<_hid type="a">GUID c5ba345b-6d0f-4168-8f1a-f5c31c5ae5d1</_hid>
+				</INObjectHandle>
+			</_dependsOn>
+			<_dependent type="r">
+				<INObjectHandle type="e">
+					<_hm2Class type="a">IComponent</_hm2Class>
+					<_hid type="a">GUID 5c208d45-6088-4348-9fc0-3c07d3135720</_hid>
+				</INObjectHandle>
+			</_dependent>
+		</IDependency>
+		<IFolder type="e">
+			<_id type="a">GUID a5387137-996e-4566-b2ee-82df2357b138</_id>
+			<_myState type="a">65536</_myState>
+			<_name type="a">Files</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<Elements type="c">
+				<IRPYRawContainer type="e">
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IClass</_hm2Class>
+							<_hfilename type="a">.\IHardware.clsx</_hfilename>
+							<_hsubsystem type="a">HardwarePkg::AbstractHW</_hsubsystem>
+							<_hname type="a">AbsHardware</_hname>
+							<_hid type="a">OLDID 1424988 432</_hid>
+						</IHandle>
+					
+					
+						<IHandle type="e">
+						</IHandle>
+					
+					
+						<IHandle type="e">
+						</IHandle>
+					
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IClass</_hm2Class>
+							<_hfilename type="a">.\AbstractHW.sbsx</_hfilename>
+							<_hsubsystem type="a">HardwarePkg::AbstractHW</_hsubsystem>
+							<_hname type="a">IDoorListener</_hname>
+							<_hid type="a">GUID e65ab3c7-2dfd-44cd-93ca-b895d7f57007</_hid>
+						</IHandle>
+					
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IClass</_hm2Class>
+							<_hfilename type="a">.\AbstractHW.sbsx</_hfilename>
+							<_hsubsystem type="a">HardwarePkg::AbstractHW</_hsubsystem>
+							<_hname type="a">IKeyListener</_hname>
+							<_hid type="a">GUID db9992d8-3be9-4867-8871-bb48bc2d5baa</_hid>
+						</IHandle>
+					
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IClass</_hm2Class>
+							<_hfilename type="a">.\AbstractHW.sbsx</_hfilename>
+							<_hsubsystem type="a">HardwarePkg::AbstractHW</_hsubsystem>
+							<_hname type="a">ILedCtrl</_hname>
+							<_hid type="a">GUID e55ab0dd-a2eb-4a76-bc70-c9a9afd95b97</_hid>
+						</IHandle>
+					
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IClass</_hm2Class>
+							<_hfilename type="a">.\AbstractHW.sbsx</_hfilename>
+							<_hsubsystem type="a">HardwarePkg::AbstractHW</_hsubsystem>
+							<_hname type="a">ILightCtrl</_hname>
+							<_hid type="a">GUID 1df77aff-fcf1-495b-815a-23e9348577e9</_hid>
+						</IHandle>
+					
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IClass</_hm2Class>
+							<_hfilename type="a">.\AbstractHW.sbsx</_hfilename>
+							<_hsubsystem type="a">HardwarePkg::AbstractHW</_hsubsystem>
+							<_hname type="a">IMovementListener</_hname>
+							<_hid type="a">GUID 065ba526-937e-4fd4-b77d-4e2049faad9c</_hid>
+						</IHandle>
+					
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IClass</_hm2Class>
+							<_hfilename type="a">.\AbstractHW.sbsx</_hfilename>
+							<_hsubsystem type="a">HardwarePkg::AbstractHW</_hsubsystem>
+							<_hname type="a">ISirenCtrl</_hname>
+							<_hid type="a">GUID 9b3268e8-cd8a-42da-b528-175797358715</_hid>
+						</IHandle>
+					
+					
+						<IHandle type="e">
+							<_hm2Class type="a">ISubsystem</_hm2Class>
+							<_hfilename type="a">.\AbstractHW.sbsx</_hfilename>
+							<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+							<_hname type="a">AbstractHW</_hname>
+							<_hid type="a">GUID 16670831-dd39-4039-ae24-4b62f0088286</_hid>
+						</IHandle>
+					
+				</IRPYRawContainer>
+			</Elements>
+			<Files type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</Files>
+		</IFolder>
+		<ICodeGenConfigInfo type="e">
+			<_id type="a">GUID 27e64af1-5988-42b8-8d5f-62fd50762915</_id>
+			<_myState type="a">8192</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CPP_CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Configuration</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">Environment</_Name>
+													<_Value type="a">Microsoft</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Microsoft,MicrosoftDLL,VxWorks,Solaris2,Borland,MultiWin32,MSStandardLibrary,PsosPPC,MicrosoftWinCE.NET,OseSfk,Linux,Solaris2GNU,QNXNeutrinoGCC, QNXNeutrinoCW,OsePPCDiab,INTEGRITY, IntegrityESTL, NucleusPLUS-PPC</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Microsoft</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">BuildCommandSet</_Name>
+													<_Value type="a">Release</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Debug,Release</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Operation</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">AnimAllowInvocation</_Name>
+													<_Value type="a">Public</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">None, Public, Protected, All</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">Debug</_name>
+			<_modifiedTimeWeak type="a">9.11.2007::12:45:16</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_scopeType type="a">Explicit</_scopeType>
+			<_instrumentation type="a">Animation</_instrumentation>
+			<_timeModel type="a">RealTime</_timeModel>
+			<m_generateActors type="a">1</m_generateActors>
+			<_statechartImplementation type="a">Flat</_statechartImplementation>
+			<_checksList type="a">0 ,</_checksList>
+			<_checksList_Default type="a">1</_checksList_Default>
+			<ScopeElements type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</ScopeElements>
+			<InitialInstances type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</InitialInstances>
+			<weakCGTime type="a">9.11.2007::12:45:16</weakCGTime>
+			<strongCGTime type="a">9.11.2007::12:45:16</strongCGTime>
+			<AnimScopeElements type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</AnimScopeElements>
+			<m_allInAnimScope type="a">1</m_allInAnimScope>
+			<m_generateUsecases type="a">0</m_generateUsecases>
+			<AggregatesList type="e">
+				<value>GUID 3aa3695b-0ea4-44fa-a06e-994fad535371</value>
+				<value>GUID 5c470601-fcba-4cac-b1ee-84f869017111</value>
+			</AggregatesList>
+		</ICodeGenConfigInfo>
+		<IMHyperLink type="e">
+			<_id type="a">GUID 3aa3695b-0ea4-44fa-a06e-994fad535371</_id>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_dependsOn type="r">
+				<INObjectHandle type="e">
+				</INObjectHandle>
+			</_dependsOn>
+			<_linkDispName type="a">Edit Makefile</_linkDispName>
+			<_linkType type="a">FREE</_linkType>
+			<_linkTarget type="a">HWAbsLib.mak</_linkTarget>
+			<isConfigurationFileHyperLink type="a">1</isConfigurationFileHyperLink>
+		</IMHyperLink>
+		<IFolder type="e">
+			<_id type="a">GUID 5c470601-fcba-4cac-b1ee-84f869017111</_id>
+			<_name type="a">Debug</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<Elements type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</Elements>
+			<Files type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</Files>
+		</IFolder>
+		
+	</RHAPSODY-MODEL>
+	<OslcLinks type="c">
+		<IRPYRawContainer type="e">
+		</IRPYRawContainer>
+	</OslcLinks>
+
+<INCLUDES-RHAPSODY-INDEX>false</INCLUDES-RHAPSODY-INDEX>
+</RhapsodyArchive>
+

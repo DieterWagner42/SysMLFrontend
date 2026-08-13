@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RhapsodyArchive>
+	<MagicNumber></MagicNumber>
+	<CODE-PAGE>1252</CODE-PAGE>
+	<version>110.0</version>
+	<lang>C++</lang>
+	<BuildNo>202311300154</BuildNo>
+	<RMMMinimumClientVersion>100.0</RMMMinimumClientVersion>
+	
+	<RHAPSODY-MODEL>
+	<IProject type="e">
+			<_id type="a">GUID 32db9eaf-1458-4c1b-96a3-ff8cbfff595e</_id>
+			<_myState type="a">8192</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Class</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">ReactiveSimpleComposites</_Name>
+													<_Value type="a">True</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Component</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">RelatedComponentsIncludePathInMakefile</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Configuration</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">AddExplicitInitialInstancesToScope</_Name>
+													<_Value type="a">True</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">RemoveWhiteSpacesInBuildFile</_Name>
+													<_Value type="a">True</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">StrictExternalElementsGeneration</_Name>
+													<_Value type="a">True</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">SupportExternalElementsInScope</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+						<IPropertySubject type="e">
+							<_Name type="a">General</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Model</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">DiagramIsSavedUnit</_Name>
+													<_Value type="a">True</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">HomeAlarmWithPorts</_name>
+			<_modifiedTimeWeak type="a">12.5.2023::3:8:44</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.5.2023::3:8:44</_modifiedTime>
+			<_lastID type="a">7</_lastID>
+			<_UserColors type="w">
+				<IRPYRawContainer type="e">
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+					<value>16777215</value>
+				</IRPYRawContainer>
+			</_UserColors>
+			<_defaultSubsystem type="r">
+				<ISubsystemHandle type="e">
+					<_hm2Class type="a">ISubsystem</_hm2Class>
+					<_hname type="a">AlarmPkg</_hname>
+					<_hid type="a">OLDID 1424988 1</_hid>
+				</ISubsystemHandle>
+			</_defaultSubsystem>
+			<_component type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IComponent</_hm2Class>
+					<_hname type="a">Gui</_hname>
+					<_hid type="a">GUID af62d64f-df03-11d2-ab10-0010a4f1d0f6</_hid>
+				</IHandle>
+			</_component>
+			<Multiplicities type="c">
+				<IRPYRawContainer type="e">
+					<IMultiplicityItem type="e">
+						<_name type="a">1</_name>
+						<_count type="a">20</_count>
+					</IMultiplicityItem>
+					
+					<IMultiplicityItem type="e">
+						<_name type="a">*</_name>
+						<_count type="a">-1</_count>
+					</IMultiplicityItem>
+					
+					<IMultiplicityItem type="e">
+						<_name type="a">0,1</_name>
+						<_count type="a">-1</_count>
+					</IMultiplicityItem>
+					
+					<IMultiplicityItem type="e">
+						<_name type="a">1..*</_name>
+						<_count type="a">-1</_count>
+					</IMultiplicityItem>
+					
+					<IMultiplicityItem type="e">
+						<_name type="a">3</_name>
+						<_count type="a">0</_count>
+					</IMultiplicityItem>
+					
+				</IRPYRawContainer>
+			</Multiplicities>
+			<_isImportedFromDM type="a">0</_isImportedFromDM>
+			<mapOslcAddedCollections type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</mapOslcAddedCollections>
+			<mapAssociationsToRemove type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</mapAssociationsToRemove>
+			<AggregatesList type="e">
+				<value>GUID 1783458c-844d-40a6-853a-e7868821e695</value>
+				<value>GUID f05c3d75-ada7-4e46-99f6-162ee33bce50</value>
+				<value>OLDID 1424988 1</value>
+				<value>GUID ac0adc67-3550-11d3-ac41-0010a4f1d0f6</value>
+				<value>GUID 9297b2a8-28b1-11d3-ac09-0010a4f1d0f6</value>
+				<value>GUID 1864284c-49a3-4b98-b28f-0b41cb98e99e</value>
+				<value>GUID dc254baa-b631-4308-a530-64665859e0bc</value>
+				<value>GUID b5dccace-2874-11d3-ac08-0010a4f1d0f6</value>
+				<value>GUID b5dcccb3-2874-11d3-ac08-0010a4f1d0f6</value>
+				<value>GUID b5dcd31a-2874-11d3-ac08-0010a4f1d0f6</value>
+				<value>GUID b5dccfc2-2874-11d3-ac08-0010a4f1d0f6</value>
+				<value>GUID b5dcd134-2874-11d3-ac08-0010a4f1d0f6</value>
+				<value>GUID 42319bf9-50ff-4b5d-9dd6-dfee30d59375</value>
+				<value>GUID af62d64f-df03-11d2-ab10-0010a4f1d0f6</value>
+				<value>GUID 9f27f676-df03-11d2-ab10-0010a4f1d0f6</value>
+				<value>GUID 5c208d45-6088-4348-9fc0-3c07d3135720</value>
+				<value>GUID c5ba345b-6d0f-4168-8f1a-f5c31c5ae5d1</value>
+				<value>GUID da83f0b8-a517-4a24-a425-73159c2a9e28</value>
+			</AggregatesList>
+		</IProject>
+		<IProfile type="e">
+			<fileName type="a">CGCompatibilityPre901Cpp</fileName>
+			<_id type="a">GUID 1783458c-844d-40a6-853a-e7868821e695</_id>
+		</IProfile>
+		<IStereotype type="e">
+			<_id type="a">GUID f05c3d75-ada7-4e46-99f6-162ee33bce50</_id>
+			<_name type="a">Callback</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_m2Classes type="c">
+				<IRPYRawContainer type="e">
+					<value>Dependency</value>
+				</IRPYRawContainer>
+			</_m2Classes>
+		</IStereotype>
+		<ISubsystem type="e">
+			<fileName type="a">AlarmPkg</fileName>
+			<_id type="a">OLDID 1424988 1</_id>
+		</ISubsystem>
+		<ISubsystem type="e">
+			<fileName type="a">HardwarePkg</fileName>
+			<_id type="a">GUID ac0adc67-3550-11d3-ac41-0010a4f1d0f6</_id>
+		</ISubsystem>
+		<ISubsystem type="e">
+			<fileName type="a">TestPkg</fileName>
+			<_id type="a">GUID 9297b2a8-28b1-11d3-ac09-0010a4f1d0f6</_id>
+		</ISubsystem>
+		<IDiagram type="e">
+			<fileName type="a">Packages</fileName>
+			<_id type="a">GUID 1864284c-49a3-4b98-b28f-0b41cb98e99e</_id>
+		</IDiagram>
+		<IDiagram type="e">
+			<fileName type="a">SampleOverview</fileName>
+			<_id type="a">GUID dc254baa-b631-4308-a530-64665859e0bc</_id>
+		</IDiagram>
+		<IMSC type="e">
+			<fileName type="a">Arming_the_alarm</fileName>
+			<_id type="a">GUID b5dccace-2874-11d3-ac08-0010a4f1d0f6</_id>
+			<_name type="a">Arming the alarm</_name>
+		</IMSC>
+		<IMSC type="e">
+			<fileName type="a">Changing_the_code</fileName>
+			<_id type="a">GUID b5dcccb3-2874-11d3-ac08-0010a4f1d0f6</_id>
+			<_name type="a">Changing the code</_name>
+		</IMSC>
+		<IMSC type="e">
+			<fileName type="a">Detecting_a_door_opening</fileName>
+			<_id type="a">GUID b5dcd31a-2874-11d3-ac08-0010a4f1d0f6</_id>
+			<_name type="a">Detecting a door opening</_name>
+		</IMSC>
+		<IMSC type="e">
+			<fileName type="a">Detecting_a_movement</fileName>
+			<_id type="a">GUID b5dccfc2-2874-11d3-ac08-0010a4f1d0f6</_id>
+			<_name type="a">Detecting a movement</_name>
+		</IMSC>
+		<IMSC type="e">
+			<fileName type="a">Powering_on</fileName>
+			<_id type="a">GUID b5dcd134-2874-11d3-ac08-0010a4f1d0f6</_id>
+			<_name type="a">Powering on</_name>
+		</IMSC>
+		<IMSC type="e">
+			<fileName type="a">MSC1</fileName>
+			<_id type="a">GUID 42319bf9-50ff-4b5d-9dd6-dfee30d59375</_id>
+		</IMSC>
+		<IComponent type="e">
+			<fileName type="a">Gui</fileName>
+			<_id type="a">GUID af62d64f-df03-11d2-ab10-0010a4f1d0f6</_id>
+		</IComponent>
+		<IComponent type="e">
+			<fileName type="a">Test</fileName>
+			<_id type="a">GUID 9f27f676-df03-11d2-ab10-0010a4f1d0f6</_id>
+		</IComponent>
+		<IComponent type="e">
+			<fileName type="a">HWAbsLib</fileName>
+			<_id type="a">GUID 5c208d45-6088-4348-9fc0-3c07d3135720</_id>
+		</IComponent>
+		<IComponent type="e">
+			<fileName type="a">AlarmCtrlLib</fileName>
+			<_id type="a">GUID c5ba345b-6d0f-4168-8f1a-f5c31c5ae5d1</_id>
+		</IComponent>
+		<IComponentDiagram type="e">
+			<fileName type="a">AlarmCtrl_Vs._HW</fileName>
+			<_id type="a">GUID da83f0b8-a517-4a24-a425-73159c2a9e28</_id>
+			<_name type="a">AlarmCtrl Vs. HW</_name>
+		</IComponentDiagram>
+		
+	</RHAPSODY-MODEL>
+	<OslcLinks type="c">
+		<IRPYRawContainer type="e">
+		</IRPYRawContainer>
+	</OslcLinks>
+
+<INCLUDES-RHAPSODY-INDEX>false</INCLUDES-RHAPSODY-INDEX>
+</RhapsodyArchive>
+

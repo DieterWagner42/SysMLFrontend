@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RhapsodyArchive>
+	<MagicNumber></MagicNumber>
+	<CODE-PAGE>1252</CODE-PAGE>
+	<version>110.0</version>
+	<lang>C++</lang>
+	<BuildNo>202311300154</BuildNo>
+	<RMMMinimumClientVersion>100.0</RMMMinimumClientVersion>
+	
+	<RHAPSODY-MODEL>
+	<ISubsystem type="e">
+			<_id type="a">GUID 12c0f905-31d4-4b16-b9b4-0a70e2952046</_id>
+			<_myState type="a">8192</_myState>
+			<_name type="a">HwTestPkg</_name>
+			<_modifiedTimeWeak type="a">11.23.2003::14:50:26</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_lastID type="a">1</_lastID>
+			<weakCGTime type="a">11.23.2003::14:50:26</weakCGTime>
+			<strongCGTime type="a">7.8.2003::13:28:12</strongCGTime>
+			<_defaultComposite type="s">GUID bc29c773-3ad3-4f57-981b-dad5d4631100</_defaultComposite>
+			<_eventsBaseID type="a">-1</_eventsBaseID>
+			<_configurationRelatedTime type="a">1.2.1990::0:0:0</_configurationRelatedTime>
+			<AggregatesList type="e">
+				<value>GUID d6edc8eb-9a5d-472d-87d2-f3865fc7d8ba</value>
+				<value>GUID bc29c773-3ad3-4f57-981b-dad5d4631100</value>
+				<value>GUID c62c3f31-cd8c-4803-9595-33b703f9296f</value>
+			</AggregatesList>
+		</ISubsystem>
+		<IDependency type="e">
+			<_id type="a">GUID d6edc8eb-9a5d-472d-87d2-f3865fc7d8ba</_id>
+			<_myState type="a">2048</_myState>
+			<_name type="a">AbstractHW</_name>
+			<_modifiedTimeWeak type="a">11.23.2003::14:50:26</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_dependsOn type="r">
+				<INObjectHandle type="e">
+					<_hm2Class type="a">ISubsystem</_hm2Class>
+					<_hfilename type="a">.\AbstractHW.sbs</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">AbstractHW</_hname>
+					<_hid type="a">GUID 16670831-dd39-4039-ae24-4b62f0088286</_hid>
+				</INObjectHandle>
+			</_dependsOn>
+			<_dependent type="r">
+				<INObjectHandle type="e">
+					<_hm2Class type="a">ISubsystem</_hm2Class>
+					<_hid type="a">GUID 12c0f905-31d4-4b16-b9b4-0a70e2952046</_hid>
+				</INObjectHandle>
+			</_dependent>
+		</IDependency>
+		<IClass type="e">
+			<_id type="a">GUID bc29c773-3ad3-4f57-981b-dad5d4631100</_id>
+			<_myState type="a">40960</_myState>
+			<_name type="a">TopLevel</_name>
+			<_modifiedTimeWeak type="a">11.23.2003::14:50:26</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<weakCGTime type="a">11.23.2003::14:50:26</weakCGTime>
+			<strongCGTime type="a">7.8.2003::13:28:12</strongCGTime>
+			<_itsStateChart type="r">
+				<IHandle type="e">
+				</IHandle>
+			</_itsStateChart>
+			<_classModifier type="a">Unspecified</_classModifier>
+		</IClass>
+		<IClass type="e">
+			<_id type="a">GUID c62c3f31-cd8c-4803-9595-33b703f9296f</_id>
+			<_myState type="a">8192</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Package</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">GenerateWithAggregates</_Name>
+													<_Value type="a">True</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">Hw</_name>
+			<_modifiedTimeWeak type="a">11.23.2003::13:25:22</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 a test class that just writes to standard out\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_lastID type="a">1</_lastID>
+			<weakCGTime type="a">11.23.2003::13:25:22</weakCGTime>
+			<strongCGTime type="a">7.8.2003::13:23:29</strongCGTime>
+			<_itsStateChart type="r">
+				<IHandle type="e">
+				</IHandle>
+			</_itsStateChart>
+			<_classModifier type="a">Unspecified</_classModifier>
+			<AggregatesList type="e">
+				<value>GUID 00d0c19f-f202-4fa8-ad3a-a5ac82ab1ba3</value>
+				<value>GUID 5988e031-9be8-4d65-b631-779c9e3d4a21</value>
+				<value>GUID e1eb05ae-e24a-4db8-8934-29b029f687dd</value>
+				<value>GUID 8f40c484-21d5-4aba-991c-ff665de3ced6</value>
+			</AggregatesList>
+		</IClass>
+		<IPrimitiveOperation type="e">
+			<_id type="a">GUID 00d0c19f-f202-4fa8-ad3a-a5ac82ab1ba3</_id>
+			<_name type="a">setSiren</_name>
+			<_modifiedTimeWeak type="a">11.23.2003::13:25:22</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_virtual type="a">1</_virtual>
+			<_returnType type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hsubsystem type="a">PredefinedTypesCpp</_hsubsystem>
+					<_hname type="a">void</_hname>
+					<_hid type="a">GUID c6b70728-b655-45a0-abb7-8ea5d3da94be</_hid>
+				</IHandle>
+			</_returnType>
+			<_abstract type="a">0</_abstract>
+			<_final type="a">0</_final>
+			<_concurrency type="a">Sequential</_concurrency>
+			<_protection type="a">iPublic</_protection>
+			<_static type="a">0</_static>
+			<_constant type="a">0</_constant>
+			<_itsBody type="p"><IBody type="e">
+				<_bodyData type="a">if ( state == ON )%0D
+   cout &lt;&lt; &quot;siren on&quot; &lt;&lt; endl;%0D
+else%0D
+   cout &lt;&lt; &quot;siren off&quot; &lt;&lt; endl;</_bodyData>
+			</IBody>
+			</_itsBody>
+			<AggregatesList type="e">
+				<value>GUID 59802c24-1ef9-416b-939b-e9f93b93c24c</value>
+			</AggregatesList>
+		</IPrimitiveOperation>
+		<IArgument type="e">
+			<_id type="a">GUID 59802c24-1ef9-416b-939b-e9f93b93c24c</_id>
+			<_name type="a">state</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_typeOf type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hfilename type="a">.\HardwarePkg.sbsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">tOnOff</_hname>
+					<_hid type="a">GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6</_hid>
+				</IHandle>
+			</_typeOf>
+			<_isOrdered type="a">0</_isOrdered>
+			<_argumentDirection type="a">In</_argumentDirection>
+		</IArgument>
+		<IPrimitiveOperation type="e">
+			<_id type="a">GUID 5988e031-9be8-4d65-b631-779c9e3d4a21</_id>
+			<_name type="a">setLight</_name>
+			<_modifiedTimeWeak type="a">11.23.2003::13:25:22</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_virtual type="a">1</_virtual>
+			<_returnType type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hsubsystem type="a">PredefinedTypesCpp</_hsubsystem>
+					<_hname type="a">void</_hname>
+					<_hid type="a">GUID c6b70728-b655-45a0-abb7-8ea5d3da94be</_hid>
+				</IHandle>
+			</_returnType>
+			<_abstract type="a">0</_abstract>
+			<_final type="a">0</_final>
+			<_concurrency type="a">Sequential</_concurrency>
+			<_protection type="a">iPublic</_protection>
+			<_static type="a">0</_static>
+			<_constant type="a">0</_constant>
+			<_itsBody type="p"><IBody type="e">
+				<_bodyData type="a">cout &lt;&lt; &quot;light &quot; &lt;&lt; aLight &lt;&lt; &quot; &quot;;%0D
+if ( state == ON )%0D
+   cout &lt;&lt; &quot;on&quot; &lt;&lt; endl;%0D
+else%0D
+   cout &lt;&lt; &quot;off&quot; &lt;&lt; endl;</_bodyData>
+			</IBody>
+			</_itsBody>
+			<AggregatesList type="e">
+				<value>GUID 891f9382-4c85-48f0-9b39-c92b0522886d</value>
+				<value>GUID f043bdf8-7466-465a-8257-a4c13b1d4a89</value>
+			</AggregatesList>
+		</IPrimitiveOperation>
+		<IArgument type="e">
+			<_id type="a">GUID 891f9382-4c85-48f0-9b39-c92b0522886d</_id>
+			<_name type="a">aLight</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_typeOf type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hfilename type="a">.\HardwarePkg.sbsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">tLights</_hname>
+					<_hid type="a">OLDID 1424988 326</_hid>
+				</IHandle>
+			</_typeOf>
+			<_isOrdered type="a">0</_isOrdered>
+			<_argumentDirection type="a">In</_argumentDirection>
+		</IArgument>
+		<IArgument type="e">
+			<_id type="a">GUID f043bdf8-7466-465a-8257-a4c13b1d4a89</_id>
+			<_name type="a">state</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_typeOf type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hfilename type="a">.\HardwarePkg.sbsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">tOnOff</_hname>
+					<_hid type="a">GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6</_hid>
+				</IHandle>
+			</_typeOf>
+			<_isOrdered type="a">0</_isOrdered>
+			<_argumentDirection type="a">In</_argumentDirection>
+		</IArgument>
+		<IPrimitiveOperation type="e">
+			<_id type="a">GUID e1eb05ae-e24a-4db8-8934-29b029f687dd</_id>
+			<_name type="a">setLed</_name>
+			<_modifiedTimeWeak type="a">11.23.2003::13:25:22</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_virtual type="a">1</_virtual>
+			<_returnType type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hsubsystem type="a">PredefinedTypesCpp</_hsubsystem>
+					<_hname type="a">void</_hname>
+					<_hid type="a">GUID c6b70728-b655-45a0-abb7-8ea5d3da94be</_hid>
+				</IHandle>
+			</_returnType>
+			<_abstract type="a">0</_abstract>
+			<_final type="a">0</_final>
+			<_concurrency type="a">Sequential</_concurrency>
+			<_protection type="a">iPublic</_protection>
+			<_static type="a">0</_static>
+			<_constant type="a">0</_constant>
+			<_itsBody type="p"><IBody type="e">
+				<_bodyData type="a">if ( ident == RED )%0D
+   cout &lt;&lt; &quot;red &quot;;%0D
+else%0D
+   cout &lt;&lt; &quot;green &quot;;%0D
+%0D
+if ( state == ON )%0D
+   cout &lt;&lt; &quot;on&quot; &lt;&lt; endl;%0D
+else%0D
+   cout &lt;&lt; &quot;off&quot; &lt;&lt; endl;</_bodyData>
+			</IBody>
+			</_itsBody>
+			<AggregatesList type="e">
+				<value>GUID 94591cec-c6db-44f4-b328-7734cfdfc830</value>
+				<value>GUID 3d98fbf9-9a6a-4ac4-afae-62679572ac89</value>
+			</AggregatesList>
+		</IPrimitiveOperation>
+		<IArgument type="e">
+			<_id type="a">GUID 94591cec-c6db-44f4-b328-7734cfdfc830</_id>
+			<_name type="a">ident</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_typeOf type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hfilename type="a">.\HardwarePkg.sbsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">tLed</_hname>
+					<_hid type="a">GUID 3c06b99b-2887-11d3-ac08-0010a4f1d0f6</_hid>
+				</IHandle>
+			</_typeOf>
+			<_isOrdered type="a">0</_isOrdered>
+			<_argumentDirection type="a">In</_argumentDirection>
+		</IArgument>
+		<IArgument type="e">
+			<_id type="a">GUID 3d98fbf9-9a6a-4ac4-afae-62679572ac89</_id>
+			<_name type="a">state</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_typeOf type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hfilename type="a">.\HardwarePkg.sbsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">tOnOff</_hname>
+					<_hid type="a">GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6</_hid>
+				</IHandle>
+			</_typeOf>
+			<_isOrdered type="a">0</_isOrdered>
+			<_argumentDirection type="a">In</_argumentDirection>
+		</IArgument>
+		<IGeneralization type="e">
+			<_id type="a">GUID 8f40c484-21d5-4aba-991c-ff665de3ced6</_id>
+			<_modifiedTimeWeak type="a">11.23.2003::13:25:22</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_dependsOn type="r">
+				<INObjectHandle type="e">
+					<_hm2Class type="a">IClass</_hm2Class>
+					<_hfilename type="a">.\IHardware.cls</_hfilename>
+					<_hsubsystem type="a">HardwarePkg::AbstractHW</_hsubsystem>
+					<_hname type="a">AbsHardware</_hname>
+					<_hid type="a">OLDID 1424988 432</_hid>
+				</INObjectHandle>
+			</_dependsOn>
+			<_inheritanceType type="a">iPublic</_inheritanceType>
+			<_isVirtual type="a">0</_isVirtual>
+		</IGeneralization>
+		
+	</RHAPSODY-MODEL>
+	<OslcLinks type="c">
+		<IRPYRawContainer type="e">
+		</IRPYRawContainer>
+	</OslcLinks>
+
+<INCLUDES-RHAPSODY-INDEX>false</INCLUDES-RHAPSODY-INDEX>
+</RhapsodyArchive>
+

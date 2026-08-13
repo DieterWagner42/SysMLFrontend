@@ -1,0 +1,157 @@
+import { useState } from "react";
+import { PortRow } from "../PortRow";
+import type { KnownInterface, PortDirection, PortSpec, PortView } from "../../types";
+import { allPortNames, excludeOwnNames, forView, knownTypes, matchKnownInterface, qualifiedValue, resolveQualifiedInput } from "../../utils/knownInterfaces";
+
+interface PortsSectionProps {
+  ownerGuid: string;
+  ports: PortSpec[];
+  onAddPort: (ownerGuid: string, name: string, direction: PortDirection, type: string, view: PortView) => void;
+  onPortChange: (portGuid: string, direction: PortDirection, type: string, view: PortView) => void;
+  onPortDelete: (portGuid: string) => void;
+  // When set, the view the currently-selected architecture view implies (Operational/Functional/
+  // Logical/Physical) — the "View" picker is hidden and every new port here is created with this
+  // view directly, instead of asking the user to redundantly pick what's already implied by
+  // "you're adding an interface while looking at the X view". Undefined for the Context tab's
+  // Actors, which have no such view context, so they keep the full manual picker.
+  lockedView?: PortView;
+  // Only meaningful when lockedView === "Physical": the open, configurable list of physical
+  // interface types (see App.tsx's config fetch) — when non-empty, replaces the free-text "Type"
+  // field with a dropdown of these, so physical ports are typed consistently instead of free text.
+  physicalTypes?: string[];
+  // Every distinct interface (name/direction/type) seen anywhere else in the model — offered as
+  // <datalist> suggestions on the name/type fields below so e.g. an Operational "HEU" port already
+  // used on the System can be reused on a Subsystem or FunctionalNode instead of retyping it. See
+  // App.tsx's knownInterfaces and utils/knownInterfaces.ts.
+  knownInterfaces: KnownInterface[];
+}
+
+const VIEWS: PortView[] = ["Operational", "Functional", "Logical", "Physical"];
+
+/** Port/interface list for a Block or Actor node, with an inline "add port" form. Shared between
+ * ArchitectureNode (Block) and ActorNode since both are classifiers that can own typed ProxyPorts.
+ * onAddPort is passed down unbound (not pre-closed over ownerGuid) so PortRow can reuse it to add
+ * nested/decomposed ports under an existing port instead of a new top-level one. */
+export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPortDelete, lockedView, physicalTypes, knownInterfaces }: PortsSectionProps) {
+  const [adding, setAdding] = useState(false);
+  const [name, setName] = useState("");
+  const [direction, setDirection] = useState<PortDirection>("InOut");
+  const [type, setType] = useState("");
+  const [view, setView] = useState<PortView>("Operational");
+  const usePhysicalTypeDropdown = lockedView === "Physical" && !!physicalTypes && physicalTypes.length > 0;
+  const namesListId = `known-iface-names-${ownerGuid}`;
+  const typesListId = `known-iface-types-${ownerGuid}`;
+  // Suggestions offered while adding THIS interface, scoped to the view it's actually being added
+  // in (lockedView, or the view <select>'s current pick when there's no locked view) — see
+  // utils/knownInterfaces.ts' forView — and excluding every name this owner already uses, INCLUDING
+  // nested/decomposed descendants (allPortNames/excludeOwnNames) so an already-used interface isn't
+  // suggested back as if it were a fresh reuse candidate. Recomputed on every render so it stays in
+  // sync with `view` when the user changes the <select> before typing a name.
+  const scopedKnownInterfaces = excludeOwnNames(forView(knownInterfaces, lockedView ?? view), allPortNames(ports));
+
+  function submit() {
+    if (!name.trim()) return;
+    onAddPort(ownerGuid, name.trim(), direction, type.trim(), lockedView ?? view);
+    setName("");
+    setType("");
+    setAdding(false);
+  }
+
+  // Selecting (or typing exactly) an existing interface's name auto-fills direction/type from it —
+  // still creates an independent new port, just pre-filled from the matching known one instead of
+  // starting blank. Only autofills type when the physical-dropdown isn't in play (that field is
+  // already constrained to the configured list, not free text). A qualified pick (e.g. "HEU.Voice",
+  // see qualifiedValue) ALWAYS keeps that "Parent.Name" form as the actual port name — requested
+  // live: "ich möchte dass immer der Prefix HEU oder HEU1 bei den nested ports eingefügt wird. das
+  // hilft alles besser zu identifizieren" — not just when it happens to collide with an existing
+  // name on this owner (the earlier, narrower behavior): every reused nested interface stays
+  // traceable to its source container by name alone, everywhere it's reused, not only when that
+  // was the only way to avoid an accidental overwrite (see the Rhapsody-name-uniqueness reasoning
+  // this was originally introduced for). A plain, non-nested pick (`matched.parentName == null`,
+  // or free-typed text that never matched a suggestion at all) is untouched — stays the bare name.
+  function handleNameChange(value: string) {
+    const { name: resolved, matched } = resolveQualifiedInput(scopedKnownInterfaces, value);
+    const finalName = matched?.parentName ? qualifiedValue(matched) : resolved;
+    setName(finalName);
+    const match = matched ?? matchKnownInterface(scopedKnownInterfaces, resolved);
+    if (match) {
+      if (match.direction) setDirection(match.direction);
+      if (match.type && !usePhysicalTypeDropdown) setType(match.type);
+    }
+  }
+
+  return (
+    <div className="ports-section nodrag" onClick={(e) => e.stopPropagation()}>
+      {ports.map((p) => (
+        <PortRow
+          key={p.guid}
+          port={p}
+          onAddPort={onAddPort}
+          onChange={onPortChange}
+          onDelete={onPortDelete}
+          lockedView={lockedView}
+          physicalTypes={physicalTypes}
+          knownInterfaces={knownInterfaces}
+        />
+      ))}
+      {adding ? (
+        <div className="port-add-form">
+          <input
+            autoFocus
+            placeholder="Port name"
+            value={name}
+            onChange={(e) => handleNameChange(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && submit()}
+            list={namesListId}
+          />
+          <datalist id={namesListId}>
+            {Array.from(new Set(scopedKnownInterfaces.map((k) => qualifiedValue(k)))).map((v) => (
+              <option key={v} value={v} />
+            ))}
+          </datalist>
+          {!lockedView && (
+            <select value={view} onChange={(e) => setView(e.target.value as PortView)}>
+              {VIEWS.map((v) => (
+                <option key={v} value={v}>{v}</option>
+              ))}
+            </select>
+          )}
+          <select value={direction} onChange={(e) => setDirection(e.target.value as PortDirection)}>
+            <option value="In">In</option>
+            <option value="Out">Out</option>
+            <option value="InOut">InOut</option>
+          </select>
+          {usePhysicalTypeDropdown ? (
+            <select value={type} onChange={(e) => setType(e.target.value)}>
+              <option value="">Type (optional)</option>
+              {physicalTypes!.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+          ) : (
+            <>
+              <input
+                placeholder="Type (optional)"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && submit()}
+                list={typesListId}
+              />
+              <datalist id={typesListId}>
+                {knownTypes(scopedKnownInterfaces).map((t) => (
+                  <option key={t} value={t} />
+                ))}
+              </datalist>
+            </>
+          )}
+          <button onClick={submit}>Add</button>
+          <button onClick={() => setAdding(false)}>Cancel</button>
+        </div>
+      ) : (
+        <button className="add-port-btn" onClick={() => setAdding(true)}>
+          + Interface
+        </button>
+      )}
+    </div>
+  );
+}

@@ -1,0 +1,50 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: MFCgui - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Debug/MFCgui.res" /d "_DEBUG" /d "_AFXDLL" "C:\Program Files\Telelogic\Rhapsody 7.3\Samples\CppSamples\HomeAlarmWithPorts\HomeAlarm_gui\MFCgui.rc"" 
+Creating temporary file "C:\DOCUME~1\ilregu\LOCALS~1\Temp\RSP1A5.tmp" with contents
+[
+/nologo /MD /W3 /GX /I "..\HWAbsLib\Debug" /I "..\AlarmCtrlLib\Debug" /I "C:\Program Files\Telelogic\Rhapsody 7.3\Share\LangCpp\osconfig\Win32" /I "..\\" /I "C:\Program Files\Telelogic\Rhapsody 7.3\Share\langCpp" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "OMANIMATOR" /FR"Debug/" /Fp"Debug/MFCgui.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /c 
+"C:\Program Files\Telelogic\Rhapsody 7.3\Samples\CppSamples\HomeAlarmWithPorts\HomeAlarm_gui\MFCgui.cpp"
+"C:\Program Files\Telelogic\Rhapsody 7.3\Samples\CppSamples\HomeAlarmWithPorts\HomeAlarm_gui\MFCguiDlg.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ilregu\LOCALS~1\Temp\RSP1A5.tmp" 
+Creating temporary file "C:\DOCUME~1\ilregu\LOCALS~1\Temp\RSP1A6.tmp" with contents
+[
+/nologo /MD /W3 /GX /I "..\HWAbsLib\Debug" /I "..\AlarmCtrlLib\Debug" /I "C:\Program Files\Telelogic\Rhapsody 7.3\Share\LangCpp\osconfig\Win32" /I "..\\" /I "C:\Program Files\Telelogic\Rhapsody 7.3\Share\langCpp" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "OMANIMATOR" /FR"Debug/" /Fp"Debug/MFCgui.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /c 
+"C:\Program Files\Telelogic\Rhapsody 7.3\Samples\CppSamples\HomeAlarmWithPorts\HomeAlarm_gui\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\ilregu\LOCALS~1\Temp\RSP1A6.tmp" 
+Creating temporary file "C:\DOCUME~1\ilregu\LOCALS~1\Temp\RSP1A7.tmp" with contents
+[
+wsock32.lib "C:\Program Files\Telelogic\Rhapsody 7.3\Share\LangCpp\lib\msoxfinst.lib" "C:\Program Files\Telelogic\Rhapsody 7.3\Share\LangCpp\lib\msomcomappl.lib" "C:\Program Files\Telelogic\Rhapsody 7.3\Share\LangCpp\lib\msaomanim.lib" winmm.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/gui.pdb" /machine:I386 /out:"..\Gui\Debug\gui.exe" /pdbtype:sept 
+".\Debug\MFCgui.obj"
+".\Debug\MFCguiDlg.obj"
+".\Debug\StdAfx.obj"
+".\Debug\MFCgui.res"
+"..\HWAbsLib\Debug\HWAbsLib.lib"
+"..\AlarmCtrlLib\Debug\AlarmCtrlLib.lib"
+]
+Creating command line "link.exe @C:\DOCUME~1\ilregu\LOCALS~1\Temp\RSP1A7.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+MFCgui.cpp
+MFCguiDlg.cpp
+Generating Code...
+Linking...
+
+
+
+<h3>Results</h3>
+gui.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

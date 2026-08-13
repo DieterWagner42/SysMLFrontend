@@ -1,0 +1,838 @@
+I-Logix-RPY-Archive version 8.1.4 C++ 998726
+{ IComponent 
+	- _id = GUID 9f27f676-df03-11d2-ab10-0010a4f1d0f6;
+	- _myState = 8192;
+	- _properties = { IPropertyContainer 
+		- Subjects = { IRPYRawContainer 
+			- size = 1;
+			- value = 
+			{ IPropertySubject 
+				- _Name = "CPP_CG";
+				- Metaclasses = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertyMetaclass 
+						- _Name = "Configuration";
+						- Properties = { IRPYRawContainer 
+							- size = 1;
+							- value = 
+							{ IProperty 
+								- _Name = "MakeFileGenerationScheme";
+								- _Value = "Default";
+								- _Type = Enum;
+								- _ExtraTypeInfo = "Default,2.0";
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	- _name = "Test";
+	- Dependencies = { IRPYRawContainer 
+		- size = 2;
+		- value = 
+		{ IDependency 
+			- _id = GUID 086d378f-2c53-4293-b1c7-4ad3f2527565;
+			- _myState = 2048;
+			- _name = "HWAbsLib";
+			- Stereotypes = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IHandle 
+					- _m2Class = "IStereotype";
+					- _filename = "PredefinedTypes.sbs";
+					- _subsystem = "PredefinedTypes";
+					- _class = "";
+					- _name = "Usage";
+					- _id = GUID 42aa4325-6112-4e88-87ce-66008878f1db;
+				}
+			}
+			- _dependsOn = { INObjectHandle 
+				- _m2Class = "IComponent";
+				- _filename = "HWAbsLib.cmp";
+				- _subsystem = "";
+				- _class = "";
+				- _name = "HWAbsLib";
+				- _id = GUID 5c208d45-6088-4348-9fc0-3c07d3135720;
+			}
+		}
+		{ IDependency 
+			- _id = GUID e887f5e4-d70d-4650-8815-df3b3cdd74fc;
+			- _myState = 2048;
+			- _name = "AlarmCtrlLib";
+			- Stereotypes = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IHandle 
+					- _m2Class = "IStereotype";
+					- _filename = "PredefinedTypes.sbs";
+					- _subsystem = "PredefinedTypes";
+					- _class = "";
+					- _name = "Usage";
+					- _id = GUID 42aa4325-6112-4e88-87ce-66008878f1db;
+				}
+			}
+			- _dependsOn = { INObjectHandle 
+				- _m2Class = "IComponent";
+				- _filename = "AlarmCtrlLib.cmp";
+				- _subsystem = "";
+				- _class = "";
+				- _name = "AlarmCtrlLib";
+				- _id = GUID c5ba345b-6d0f-4168-8f1a-f5c31c5ae5d1;
+			}
+		}
+	}
+	- Stereotypes = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ IHandle 
+			- _m2Class = "IStereotype";
+			- _filename = "PredefinedTypes.sbs";
+			- _subsystem = "PredefinedTypes";
+			- _class = "";
+			- _name = "Executable";
+			- _id = GUID f0dd8150-7f19-11d4-a076-00d0b780aafd;
+		}
+	}
+	- _description = { IDescription 
+		- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 This component allows testing of the entire Alarm package.\\f1\\rtlch\\par
+}
+";
+	}
+	- _lastID = 4;
+	- m_buildType = Executable;
+	- m_libraries = "";
+	- m_additionalSources = "";
+	- m_standardHeaders = "assert.h";
+	- m_includePath = "";
+	- m_initializationCode = "";
+	- m_folder = { IFolder 
+		- _id = GUID 9f27f677-df03-11d2-ab10-0010a4f1d0f6;
+		- _myState = 65536;
+		- _name = "Files";
+		- m_path = "";
+		- Elements = { IRPYRawContainer 
+			- size = 1;
+			- value = 
+			{ IHandle 
+				- _m2Class = "ISubsystem";
+				- _filename = "TestPkg.sbs";
+				- _subsystem = "";
+				- _class = "";
+				- _name = "TestPkg";
+				- _id = GUID 9297b2a8-28b1-11d3-ac09-0010a4f1d0f6;
+			}
+		}
+		- Files = { IRPYRawContainer 
+			- size = 5;
+			- value = 
+			{ IFile 
+				- _id = GUID 107dc891-2346-11d3-abfa-0010a4f1d0f6;
+				- _myState = 32768;
+				- _properties = { IPropertyContainer 
+					- Subjects = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IPropertySubject 
+							- _Name = "CG";
+							- Metaclasses = { IRPYRawContainer 
+								- size = 1;
+								- value = 
+								{ IPropertyMetaclass 
+									- _Name = "File";
+									- Properties = { IRPYRawContainer 
+										- size = 1;
+										- value = 
+										{ IProperty 
+											- _Name = "AddToMakefile";
+											- _Value = "False";
+											- _Type = Bool;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				- _name = "script.cfg";
+				- _description = { IDescription 
+					- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 Simple script to test the alarm controller. Executed by typing:\\par
+input script.cfg\\f1\\rtlch\\par
+}
+";
+				}
+				- m_path = "..\\..";
+				- m_type = userFile;
+				- Fragments = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IFileFragment 
+						- _id = GUID d91bf0af-15fb-11d4-9319-0010a4f1d0f6;
+						- _name = "Script to test alarm controller";
+						- _description = { IDescription 
+							- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 Script that arms the alarm and generates a door event to set off the alarm.\\f1\\rtlch\\par
+}
+";
+						}
+						- m_type = textFragment;
+						- m_text = "// script to arm and generate a Door event
+// make sure disarmed
+go idle
+
+AlarmController->GEN(evDisarm)
+go idle
+
+// arm via the keypad
+Keypad->GEN(evKey(1))
+Keypad->GEN(evKey(2))
+Keypad->GEN(evKey(3))
+Keypad->GEN(evKey(4))
+
+Keypad->GEN(evKeyOn)
+
+// set breakpoint when entering the detecting state
+break AlarmController stateEntered detecting
+
+// run until we hit the breakpoint
+go
+
+AlarmController->GEN(evDoor)
+
+go 
+
+// now in detecting state so remove breakpoint
+break AlarmController -stateEntered detecting
+";
+						- m_startRow = 0;
+						- m_startCol = 0;
+						- m_subject = { INObjectHandle 
+							- _m2Class = "";
+						}
+					}
+				}
+			}
+			{ IFile 
+				- _id = GUID 107dc8ff-2346-11d3-abfa-0010a4f1d0f6;
+				- _myState = 32768;
+				- _properties = { IPropertyContainer 
+					- Subjects = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IPropertySubject 
+							- _Name = "CG";
+							- Metaclasses = { IRPYRawContainer 
+								- size = 1;
+								- value = 
+								{ IPropertyMetaclass 
+									- _Name = "File";
+									- Properties = { IRPYRawContainer 
+										- size = 1;
+										- value = 
+										{ IProperty 
+											- _Name = "AddToMakefile";
+											- _Value = "False";
+											- _Type = Bool;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				- _name = "changeCode.cfg";
+				- _description = { IDescription 
+					- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 Simple script to test changing the code. Executed by typing:\\par
+input changecode.cfg\\par
+Expects that the current code is 1234.\\f1\\rtlch\\par
+}
+";
+				}
+				- m_path = "..\\..";
+				- m_type = userFile;
+				- Fragments = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IFileFragment 
+						- _id = GUID 9c2ce58b-3059-11d4-9383-0010a4f1d0f6;
+						- _name = "Script to change the code from 1234 to 5678";
+						- m_type = textFragment;
+						- m_text = "go idle
+set focus @theAlarmCtrl->theKeypad
+// trace everything into a file changecode.log
+trace #All all
+output ChangeCode.log
+
+go idle
+
+// enter reprogram mode via the keypad
+theAlarmCtrl->theKeypad->GEN(evKeyOff)
+go idle
+
+theAlarmCtrl->theKeypad->GEN(evKeyOn)
+go idle
+// enter old code
+theAlarmCtrl->theKeypad->GEN(evKey(1))
+go idle
+theAlarmCtrl->theKeypad->GEN(evKey(2))
+go idle
+theAlarmCtrl->theKeypad->GEN(evKey(3))
+go idle
+theAlarmCtrl->theKeypad->GEN(evKey(4))
+go idle
+theAlarmCtrl->theKeypad->GEN(evKeyOn)
+go idle
+
+//enter new code
+theAlarmCtrl->theKeypad->GEN(evKey(5))
+go idle
+theAlarmCtrl->theKeypad->GEN(evKey(6))
+go idle
+theAlarmCtrl->theKeypad->GEN(evKey(7))
+go idle
+theAlarmCtrl->theKeypad->GEN(evKey(8))
+go idle
+theAlarmCtrl->theKeypad->GEN(evKeyOn)
+break AlarmController operation flashGreenLed
+go";
+						- m_startRow = 0;
+						- m_startCol = 0;
+						- m_subject = { INObjectHandle 
+							- _m2Class = "";
+						}
+					}
+				}
+			}
+			{ IFile 
+				- _id = GUID 5ef6ff0a-2ae0-11d3-ac14-0010a4f1d0f6;
+				- _myState = 32768;
+				- _properties = { IPropertyContainer 
+					- Subjects = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IPropertySubject 
+							- _Name = "CG";
+							- Metaclasses = { IRPYRawContainer 
+								- size = 1;
+								- value = 
+								{ IPropertyMetaclass 
+									- _Name = "File";
+									- Properties = { IRPYRawContainer 
+										- size = 1;
+										- value = 
+										{ IProperty 
+											- _Name = "AddToMakefile";
+											- _Value = "False";
+											- _Type = Bool;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				- _name = "Requirements.txt";
+				- _description = { IDescription 
+					- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 textual requirements for the HomeAlarm\\f1\\rtlch\\par
+}
+";
+				}
+				- m_path = "..\\..";
+				- m_type = userFile;
+				- Fragments = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IFileFragment 
+						- _id = GUID 3ac52937-b8d2-49d9-960b-45d24a88e5fb;
+						- _name = "Requirements";
+						- m_type = textFragment;
+						- m_text = "Can be armed / disarmed either via a remote control unit or via a 
+simple keypad. When using a keypad to arm the alarm, a four-digit
+code must be entered followed by the on key. To disarm the alarm, 
+a four-digit code must be entered followed by the off key.  It should
+be possible to change the code.
+When the alarm is armed and a presence is detected, the alarm
+will sound immediately. When arming the alarm, there is an exit 
+delay to allow the homeowner to exit. When opening the door 
+when the alarm is armed, there is an entry delay during which the 
+homeowner can disarm the alarm, failing to do so will result in the 
+alarm going off.
+The home alarm system should also be capable of switching lights 
+on/off to simulate presence in the house.
+The alarm will have two LED's, one green and one red. 
+The red led will indicate the alarm is active, 
+the green will indicate that the alarm is powered up.
+";
+						- m_startRow = 0;
+						- m_startCol = 0;
+						- m_subject = { INObjectHandle 
+							- _m2Class = "";
+						}
+					}
+				}
+			}
+			{ IFile 
+				- _id = GUID a1e63880-2ee8-11d3-ac29-0010a4f1d0f6;
+				- _myState = 32768;
+				- _properties = { IPropertyContainer 
+					- Subjects = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IPropertySubject 
+							- _Name = "CG";
+							- Metaclasses = { IRPYRawContainer 
+								- size = 1;
+								- value = 
+								{ IPropertyMetaclass 
+									- _Name = "File";
+									- Properties = { IRPYRawContainer 
+										- size = 1;
+										- value = 
+										{ IProperty 
+											- _Name = "AddToMakefile";
+											- _Value = "False";
+											- _Type = Bool;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				- _name = "changeCode.ref";
+				- _description = { IDescription 
+					- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 Reference log file, generated once, checked and then cut and pasted.\\f1\\rtlch\\par
+}
+";
+				}
+				- m_path = "..\\..";
+				- m_type = userFile;
+				- Fragments = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IFileFragment 
+						- _id = GUID fa4aa750-2eee-11d3-ac29-0010a4f1d0f6;
+						- _name = "Reference log";
+						- _description = { IDescription 
+							- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 Reference\\f1\\rtlch\\par
+}
+";
+						}
+						- m_type = textFragment;
+						- m_text = "Command From File>> AlarmController->GEN(evDisarm)
+Command From File>> go idle
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController Event evDisarm()
+ Executable is Idle
+Command From File>> // enter reprogram mode via the keypad
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKeyOff)
+Command From File>> go idle
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKeyOff()
+ HomeAlarm[0]->theAlarmController Received from <user via Tracer> Event evDisarm()
+ main() Invoked HomeAlarm[0]->theAlarmController->Take Event evDisarm()
+ HomeAlarm[0]->theAlarmController->Take Event evDisarm() Returned
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKeyOff()
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKeyOff()
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKeyOff() Returned
+ Executable is Idle
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKeyOn)
+Command From File>> // enter old code
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKey(1))
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKey(2))
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKey(3))
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKey(4))
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKeyOn)
+Command From File>> go idle
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKeyOn()
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKey(n = 1)
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKey(n = 2)
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKey(n = 3)
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKey(n = 4)
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKeyOn()
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKeyOn()
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKeyOn()
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.armingDisarmingReprogramming.idle
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.armingDisarmingReprogramming.reprogramming
+   HomeAlarm[0]->theAlarmController->theKeypad set tm(10000) at ROOT.active.armingDisarmingReprogramming.reprogramming
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.armingDisarmingReprogramming.reprogramming.waitOldCode
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKeyOn() Returned
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKey(n = 1)
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 1)
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.currentCode.notEntered
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.currentCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Invoked isCodeEntered()
+     HomeAlarm[0]->theAlarmController->theKeypad  Modified Attribute Values
+    	newCode	1
+    	count	1
+    
+   HomeAlarm[0]->theAlarmController->theKeypad->isCodeEntered() Returned
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 1) Returned
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKey(n = 2)
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 2)
+   HomeAlarm[0]->theAlarmController->theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Invoked isCodeEntered()
+     HomeAlarm[0]->theAlarmController->theKeypad  Modified Attribute Values
+    	newCode	12
+    	count	2
+    
+   HomeAlarm[0]->theAlarmController->theKeypad->isCodeEntered() Returned
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 2) Returned
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKey(n = 3)
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 3)
+   HomeAlarm[0]->theAlarmController->theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Invoked isCodeEntered()
+     HomeAlarm[0]->theAlarmController->theKeypad  Modified Attribute Values
+    	newCode	123
+    	count	3
+    
+   HomeAlarm[0]->theAlarmController->theKeypad->isCodeEntered() Returned
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 3) Returned
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKey(n = 4)
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 4)
+   HomeAlarm[0]->theAlarmController->theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Invoked isCodeEntered()
+     HomeAlarm[0]->theAlarmController->theKeypad  Modified Attribute Values
+    	newCode	1234
+    	count	4
+    
+   HomeAlarm[0]->theAlarmController->theKeypad->isCodeEntered() Returned
+   HomeAlarm[0]->theAlarmController->theKeypad Invoked isCodeCorrect()
+   HomeAlarm[0]->theAlarmController->theKeypad->isCodeCorrect() Returned
+   HomeAlarm[0]->theAlarmController->theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.currentCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.currentCode.correct
+   HomeAlarm[0]->theAlarmController->theKeypad set tm(3000) at ROOT.active.codeEntry.currentCode.correct
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 4) Returned
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKeyOn()
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKeyOn()
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.armingDisarmingReprogramming.reprogramming.waitOldCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.armingDisarmingReprogramming.reprogramming.waitNewCode
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKeyOn() Returned
+ Executable is Idle
+Command From File>> //enter new code
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKey(5))
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKey(6))
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKey(7))
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKey(8))
+Command From File>> HomeAlarm[0]->theAlarmController->theKeypad->GEN(evKeyOn)
+Command From File>> break Keypad operation changeCode
+Command From File>> go
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKey(n = 5)
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKey(n = 6)
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKey(n = 7)
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKey(n = 8)
+ <user via Tracer> Sent to HomeAlarm[0]->theAlarmController->theKeypad Event evKeyOn()
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKey(n = 5)
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 5)
+   HomeAlarm[0]->theAlarmController->theKeypad cancelled tm(3000) at ROOT.active.codeEntry.currentCode.correct
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.currentCode.correct
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.currentCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Invoked isCodeEntered()
+     HomeAlarm[0]->theAlarmController->theKeypad  Modified Attribute Values
+    	newCode	5
+    	count	1
+    
+   HomeAlarm[0]->theAlarmController->theKeypad->isCodeEntered() Returned
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 5) Returned
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKey(n = 6)
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 6)
+   HomeAlarm[0]->theAlarmController->theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Invoked isCodeEntered()
+     HomeAlarm[0]->theAlarmController->theKeypad  Modified Attribute Values
+    	newCode	56
+    	count	2
+    
+   HomeAlarm[0]->theAlarmController->theKeypad->isCodeEntered() Returned
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 6) Returned
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKey(n = 7)
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 7)
+   HomeAlarm[0]->theAlarmController->theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Invoked isCodeEntered()
+     HomeAlarm[0]->theAlarmController->theKeypad  Modified Attribute Values
+    	newCode	567
+    	count	3
+    
+   HomeAlarm[0]->theAlarmController->theKeypad->isCodeEntered() Returned
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 7) Returned
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKey(n = 8)
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 8)
+   HomeAlarm[0]->theAlarmController->theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Invoked isCodeEntered()
+     HomeAlarm[0]->theAlarmController->theKeypad  Modified Attribute Values
+    	newCode	5678
+    	count	4
+    
+   HomeAlarm[0]->theAlarmController->theKeypad->isCodeEntered() Returned
+   HomeAlarm[0]->theAlarmController->theKeypad Invoked isCodeCorrect()
+   HomeAlarm[0]->theAlarmController->theKeypad->isCodeCorrect() Returned
+   HomeAlarm[0]->theAlarmController->theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.enteringCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.currentCode
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.currentCode.different
+   HomeAlarm[0]->theAlarmController->theKeypad set tm(3000) at ROOT.active.codeEntry.currentCode.different
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKey(n = 8) Returned
+ HomeAlarm[0]->theAlarmController->theKeypad Received from <user via Tracer> Event evKeyOn()
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKeyOn()
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.armingDisarmingReprogramming.reprogramming.waitNewCode
+   HomeAlarm[0]->theAlarmController->theKeypad cancelled tm(10000) at ROOT.active.armingDisarmingReprogramming.reprogramming
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.armingDisarmingReprogramming.reprogramming
+   HomeAlarm[0]->theAlarmController->theKeypad Invoked changeCode()
+ *********************************************
+<Method Called Keypad changeCode> Break point Active
+*********************************************
+ Executable reached breakpoint
+Command From File>> go idle
+     HomeAlarm[0]->theAlarmController->theKeypad Sent to itself Event tm(3000) at ROOT.active.codeEntry.currentCode.different
+     HomeAlarm[0]->theAlarmController->theKeypad Invoked HomeAlarm[0]->theAlarmController->flashGreenLed()
+       HomeAlarm[0]->theAlarmController->theKeypad  Modified Attribute Values
+      	oldCode	5678
+      
+       HomeAlarm[0]->theAlarmController Sent to HomeAlarm[0]->theAlarmController->theGreenLed Event evFlash(n = 4)
+     HomeAlarm[0]->theAlarmController->flashGreenLed() Returned
+   HomeAlarm[0]->theAlarmController->theKeypad->changeCode() Returned
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.armingDisarmingReprogramming.idle
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event evKeyOn() Returned
+ HomeAlarm[0]->theAlarmController->theKeypad Received from itself Event tm(3000) at ROOT.active.codeEntry.currentCode.different
+ main() Invoked HomeAlarm[0]->theAlarmController->theKeypad->Take Event Timeout
+   HomeAlarm[0]->theAlarmController->theKeypad Exited State ROOT.active.codeEntry.currentCode.different
+   HomeAlarm[0]->theAlarmController->theKeypad Entered State ROOT.active.codeEntry.currentCode.notEntered
+ HomeAlarm[0]->theAlarmController->theKeypad->Take Event Timeout Returned
+ Executable is Idle
+ HomeAlarm[0]->theAlarmController->theGreenLed Received from HomeAlarm[0]->theAlarmController Event evFlash(n = 4)
+ main() Invoked HomeAlarm[0]->theAlarmController->theGreenLed->Take Event evFlash(n = 4)
+   HomeAlarm[0]->theAlarmController->theGreenLed Exited State ROOT.active.flashMode.stable
+   HomeAlarm[0]->theAlarmController->theGreenLed Entered State ROOT.active.flashMode.flashing
+   HomeAlarm[0]->theAlarmController->theGreenLed set tm(500) at ROOT.active.flashMode.flashing
+ HomeAlarm[0]->theAlarmController->theGreenLed->Take Event evFlash(n = 4) Returned
+ HomeAlarm[0]->theAlarmController->theGreenLed  Modified Attribute Values
+	count	9
+
+ Executable is Idle
+";
+						- m_startRow = 0;
+						- m_startCol = 0;
+						- m_subject = { INObjectHandle 
+							- _m2Class = "";
+						}
+					}
+				}
+			}
+			{ IFile 
+				- _id = GUID a1e639bc-2ee8-11d3-ac29-0010a4f1d0f6;
+				- _myState = 32768;
+				- _properties = { IPropertyContainer 
+					- Subjects = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IPropertySubject 
+							- _Name = "CG";
+							- Metaclasses = { IRPYRawContainer 
+								- size = 1;
+								- value = 
+								{ IPropertyMetaclass 
+									- _Name = "File";
+									- Properties = { IRPYRawContainer 
+										- size = 1;
+										- value = 
+										{ IProperty 
+											- _Name = "AddToMakefile";
+											- _Value = "False";
+											- _Type = Bool;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				- _name = "changecode.log";
+				- _description = { IDescription 
+					- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 Place holder to allow the changeCode.log file to be viewed\\f1\\rtlch\\par
+}
+";
+				}
+				- m_path = "..\\..";
+				- m_type = userFile;
+				- Fragments = { IRPYRawContainer 
+					- size = 0;
+				}
+			}
+		}
+	}
+	- m_configActive = { ICodeGenConfigInfoHandle 
+		- _m2Class = "ICodeGenConfigInfo";
+		- _id = GUID 98c0454b-e5bd-11d2-ab2c-0010a4f1d0f6;
+	}
+	- Configs = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ ICodeGenConfigInfo 
+			- _id = GUID 98c0454b-e5bd-11d2-ab2c-0010a4f1d0f6;
+			- _myState = 8192;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "CPP_CG";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 3;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Configuration";
+								- Properties = { IRPYRawContainer 
+									- size = 2;
+									- value = 
+									{ IProperty 
+										- _Name = "Environment";
+										- _Value = "Microsoft";
+										- _Type = Enum;
+										- _ExtraTypeInfo = "Microsoft,MicrosoftDLL,VxWorks,Solaris2,Borland,MultiWin32,MSStandardLibrary,PsosPPC,MicrosoftWinCE.NET,OseSfk,Linux,Solaris2GNU,QNXNeutrinoGCC, QNXNeutrinoCW,OsePPCDiab,INTEGRITY, IntegrityESTL, NucleusPLUS-PPC";
+									}
+									{ IProperty 
+										- _Name = "MakeFileGenerationScheme";
+										- _Value = "Default";
+										- _Type = Enum;
+										- _ExtraTypeInfo = "Default,2.0";
+									}
+								}
+							}
+							{ IPropertyMetaclass 
+								- _Name = "Microsoft";
+								- Properties = { IRPYRawContainer 
+									- size = 2;
+									- value = 
+									{ IProperty 
+										- _Name = "BuildCommandSet";
+										- _Value = "Debug";
+										- _Type = Enum;
+										- _ExtraTypeInfo = "Debug,Release";
+									}
+									{ IProperty 
+										- _Name = "LinkSwitches";
+										- _Value = "$OMLinkCommandSet /NOLOGO /NODEFAULTLIB:MSVCRT";
+										- _Type = String;
+									}
+								}
+							}
+							{ IPropertyMetaclass 
+								- _Name = "Operation";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "AnimAllowInvocation";
+										- _Value = "Public";
+										- _Type = Enum;
+										- _ExtraTypeInfo = "None, Public, Protected, All";
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- _name = "Debug";
+			- _description = { IDescription 
+				- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 Generate code with animation instrumentation that can be executed\\par
+in order to test the alarm package.\\f1\\rtlch\\par
+}
+";
+			}
+			- HyperLinks = { IRPYRawContainer 
+				- size = 2;
+				- value = 
+				{ IMHyperLink 
+					- _id = GUID 9fee7886-d54b-4f9c-bb1a-b7a1508cea7a;
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "";
+					}
+					- _linkDispName = "Edit Makefile";
+					- _linkType = "FREE";
+					- _linkTarget = "L:\\Program Files\\Telelogic\\Rhapsody 7.1\\Samples\\CppSamples\\HomeAlarmWithPorts\\Test\\Debug\\Test.mak";
+					- isConfigurationFileHyperLink = 1;
+				}
+				{ IMHyperLink 
+					- _id = GUID 317ffd52-bd51-433f-baa2-298caf379688;
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "";
+					}
+					- _linkDispName = "Edit Main File";
+					- _linkType = "FREE";
+					- _linkTarget = "L:\\Program Files\\Telelogic\\Rhapsody 7.1\\Samples\\CppSamples\\HomeAlarmWithPorts\\Test\\Debug\\MainTest";
+					- isConfigurationFileHyperLink = 1;
+				}
+			}
+			- _scopeType = Explicit;
+			- _libraries = "";
+			- _additionalSources = "";
+			- _standardHeaders = "";
+			- _includePath = "";
+			- _targetMain = "";
+			- _instrumentation = Animation;
+			- _timeModel = RealTime;
+			- m_generateActors = 0;
+			- _statechartImplementation = Flat;
+			- _initializationCode = "";
+			- _checksList = 0 ;
+			- ScopeElements = { IRPYRawContainer 
+				- size = 0;
+			}
+			- InitialInstances = { IRPYRawContainer 
+				- size = 0;
+			}
+			- _root = { IFolder 
+				- _id = GUID 98c0454c-e5bd-11d2-ab2c-0010a4f1d0f6;
+				- _myState = 65536;
+				- _name = "Debug";
+				- m_path = "";
+				- Elements = { IRPYRawContainer 
+					- size = 0;
+				}
+				- Files = { IRPYRawContainer 
+					- size = 0;
+				}
+			}
+			- weakCGTime = 9.11.2007::12:49:56;
+			- strongCGTime = 9.11.2007::12:49:56;
+			- AnimScopeElements = { IRPYRawContainer 
+				- size = 0;
+			}
+			- m_allInAnimScope = 1;
+		}
+	}
+	- weakCGTime = 3.13.2005::8:51:47;
+	- strongCGTime = 7.10.2003::12:24:53;
+}
+

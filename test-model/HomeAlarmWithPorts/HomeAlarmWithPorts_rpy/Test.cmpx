@@ -1,0 +1,963 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RhapsodyArchive>
+	<MagicNumber></MagicNumber>
+	<CODE-PAGE>1252</CODE-PAGE>
+	<version>110.0</version>
+	<lang>C++</lang>
+	<BuildNo>202311300154</BuildNo>
+	<RMMMinimumClientVersion>100.0</RMMMinimumClientVersion>
+	
+	<RHAPSODY-MODEL>
+	<IComponent type="e">
+			<_id type="a">GUID 9f27f676-df03-11d2-ab10-0010a4f1d0f6</_id>
+			<_myState type="a">8192</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CPP_CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Configuration</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">MakeFileGenerationScheme</_Name>
+													<_Value type="a">Default</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Default,2.0</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">Test</_name>
+			<Stereotypes type="c">
+				<IRPYRawContainer type="e">
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IStereotype</_hm2Class>
+							<_hsubsystem type="a">PredefinedTypes</_hsubsystem>
+							<_hname type="a">Executable</_hname>
+							<_hid type="a">GUID f0dd8150-7f19-11d4-a076-00d0b780aafd</_hid>
+						</IHandle>
+					
+				</IRPYRawContainer>
+			</Stereotypes>
+			<_modifiedTimeWeak type="a">3.13.2005::8:51:47</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 This component allows testing of the entire Alarm package.\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_lastID type="a">4</_lastID>
+			<m_buildType type="a">Executable</m_buildType>
+			<m_standardHeaders type="a">assert.h</m_standardHeaders>
+			<m_configActive type="r">
+				<ICodeGenConfigInfoHandle type="e">
+					<_hm2Class type="a">ICodeGenConfigInfo</_hm2Class>
+					<_hid type="a">GUID 98c0454b-e5bd-11d2-ab2c-0010a4f1d0f6</_hid>
+				</ICodeGenConfigInfoHandle>
+			</m_configActive>
+			<VariationPoints type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</VariationPoints>
+			<SelectedVariants type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</SelectedVariants>
+			<weakCGTime type="a">3.13.2005::8:51:47</weakCGTime>
+			<strongCGTime type="a">7.10.2003::12:24:53</strongCGTime>
+			<AggregatesList type="e">
+				<value>GUID 086d378f-2c53-4293-b1c7-4ad3f2527565</value>
+				<value>GUID e887f5e4-d70d-4650-8815-df3b3cdd74fc</value>
+				<value>GUID 9f27f677-df03-11d2-ab10-0010a4f1d0f6</value>
+				<value>GUID 98c0454b-e5bd-11d2-ab2c-0010a4f1d0f6</value>
+			</AggregatesList>
+		</IComponent>
+		<IDependency type="e">
+			<_id type="a">GUID 086d378f-2c53-4293-b1c7-4ad3f2527565</_id>
+			<_myState type="a">2048</_myState>
+			<_name type="a">HWAbsLib</_name>
+			<Stereotypes type="c">
+				<IRPYRawContainer type="e">
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IStereotype</_hm2Class>
+							<_hsubsystem type="a">PredefinedTypes</_hsubsystem>
+							<_hname type="a">Usage</_hname>
+							<_hid type="a">GUID 42aa4325-6112-4e88-87ce-66008878f1db</_hid>
+						</IHandle>
+					
+				</IRPYRawContainer>
+			</Stereotypes>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_dependsOn type="r">
+				<INObjectHandle type="e">
+					<_hm2Class type="a">IComponent</_hm2Class>
+					<_hfilename type="a">.\HWAbsLib.cmp</_hfilename>
+					<_hname type="a">HWAbsLib</_hname>
+					<_hid type="a">GUID 5c208d45-6088-4348-9fc0-3c07d3135720</_hid>
+				</INObjectHandle>
+			</_dependsOn>
+			<_dependent type="r">
+				<INObjectHandle type="e">
+					<_hm2Class type="a">IComponent</_hm2Class>
+					<_hid type="a">GUID 9f27f676-df03-11d2-ab10-0010a4f1d0f6</_hid>
+				</INObjectHandle>
+			</_dependent>
+		</IDependency>
+		<IDependency type="e">
+			<_id type="a">GUID e887f5e4-d70d-4650-8815-df3b3cdd74fc</_id>
+			<_myState type="a">2048</_myState>
+			<_name type="a">AlarmCtrlLib</_name>
+			<Stereotypes type="c">
+				<IRPYRawContainer type="e">
+					
+						<IHandle type="e">
+							<_hm2Class type="a">IStereotype</_hm2Class>
+							<_hsubsystem type="a">PredefinedTypes</_hsubsystem>
+							<_hname type="a">Usage</_hname>
+							<_hid type="a">GUID 42aa4325-6112-4e88-87ce-66008878f1db</_hid>
+						</IHandle>
+					
+				</IRPYRawContainer>
+			</Stereotypes>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_dependsOn type="r">
+				<INObjectHandle type="e">
+					<_hm2Class type="a">IComponent</_hm2Class>
+					<_hfilename type="a">.\AlarmCtrlLib.cmp</_hfilename>
+					<_hname type="a">AlarmCtrlLib</_hname>
+					<_hid type="a">GUID c5ba345b-6d0f-4168-8f1a-f5c31c5ae5d1</_hid>
+				</INObjectHandle>
+			</_dependsOn>
+			<_dependent type="r">
+				<INObjectHandle type="e">
+					<_hm2Class type="a">IComponent</_hm2Class>
+					<_hid type="a">GUID 9f27f676-df03-11d2-ab10-0010a4f1d0f6</_hid>
+				</INObjectHandle>
+			</_dependent>
+		</IDependency>
+		<IFolder type="e">
+			<_id type="a">GUID 9f27f677-df03-11d2-ab10-0010a4f1d0f6</_id>
+			<_myState type="a">65536</_myState>
+			<_name type="a">Files</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<Elements type="c">
+				<IRPYRawContainer type="e">
+					
+						<IHandle type="e">
+							<_hm2Class type="a">ISubsystem</_hm2Class>
+							<_hfilename type="a">.\TestPkg.sbsx</_hfilename>
+							<_hname type="a">TestPkg</_hname>
+							<_hid type="a">GUID 9297b2a8-28b1-11d3-ac09-0010a4f1d0f6</_hid>
+						</IHandle>
+					
+				</IRPYRawContainer>
+			</Elements>
+			<AggregatesList type="e">
+				<value>GUID 107dc891-2346-11d3-abfa-0010a4f1d0f6</value>
+				<value>GUID 107dc8ff-2346-11d3-abfa-0010a4f1d0f6</value>
+				<value>GUID 5ef6ff0a-2ae0-11d3-ac14-0010a4f1d0f6</value>
+				<value>GUID a1e63880-2ee8-11d3-ac29-0010a4f1d0f6</value>
+				<value>GUID a1e639bc-2ee8-11d3-ac29-0010a4f1d0f6</value>
+			</AggregatesList>
+		</IFolder>
+		<IFile type="e">
+			<_id type="a">GUID 107dc891-2346-11d3-abfa-0010a4f1d0f6</_id>
+			<_myState type="a">32768</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">File</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">AddToMakefile</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">script.cfg</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 Simple script to test the alarm controller. Executed by typing:\par%0D
+input script.cfg\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<m_path type="a">..\..</m_path>
+			<m_type type="a">userFile</m_type>
+			<AggregatesList type="e">
+				<value>GUID d91bf0af-15fb-11d4-9319-0010a4f1d0f6</value>
+			</AggregatesList>
+		</IFile>
+		<IFileFragment type="e">
+			<_id type="a">GUID d91bf0af-15fb-11d4-9319-0010a4f1d0f6</_id>
+			<_name type="a">Script to test alarm controller</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 Script that arms the alarm and generates a door event to set off the alarm.\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<m_type type="a">textFragment</m_type>
+			<m_text type="a">// script to arm and generate a Door event%0D
+// make sure disarmed%0D
+go idle%0D
+%0D
+AlarmController-&gt;GEN(evDisarm)%0D
+go idle%0D
+%0D
+// arm via the keypad%0D
+Keypad-&gt;GEN(evKey(1))%0D
+Keypad-&gt;GEN(evKey(2))%0D
+Keypad-&gt;GEN(evKey(3))%0D
+Keypad-&gt;GEN(evKey(4))%0D
+%0D
+Keypad-&gt;GEN(evKeyOn)%0D
+%0D
+// set breakpoint when entering the detecting state%0D
+break AlarmController stateEntered detecting%0D
+%0D
+// run until we hit the breakpoint%0D
+go%0D
+%0D
+AlarmController-&gt;GEN(evDoor)%0D
+%0D
+go %0D
+%0D
+// now in detecting state so remove breakpoint%0D
+break AlarmController -stateEntered detecting%0D
+</m_text>
+			<m_startRow type="a">0</m_startRow>
+			<m_startCol_Short type="a">0</m_startCol_Short>
+			<m_endRow type="a">0</m_endRow>
+			<m_endCol_Short type="a">0</m_endCol_Short>
+			<m_subject type="r">
+				<INObjectHandle type="e">
+				</INObjectHandle>
+			</m_subject>
+		</IFileFragment>
+		<IFile type="e">
+			<_id type="a">GUID 107dc8ff-2346-11d3-abfa-0010a4f1d0f6</_id>
+			<_myState type="a">32768</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">File</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">AddToMakefile</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">changeCode.cfg</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 Simple script to test changing the code. Executed by typing:\par%0D
+input changecode.cfg\par%0D
+Expects that the current code is 1234.\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<m_path type="a">..\..</m_path>
+			<m_type type="a">userFile</m_type>
+			<AggregatesList type="e">
+				<value>GUID 9c2ce58b-3059-11d4-9383-0010a4f1d0f6</value>
+			</AggregatesList>
+		</IFile>
+		<IFileFragment type="e">
+			<_id type="a">GUID 9c2ce58b-3059-11d4-9383-0010a4f1d0f6</_id>
+			<_name type="a">Script to change the code from 1234 to 5678</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<m_type type="a">textFragment</m_type>
+			<m_text type="a">go idle%0D
+set focus @theAlarmCtrl-&gt;theKeypad%0D
+// trace everything into a file changecode.log%0D
+trace #All all%0D
+output ChangeCode.log%0D
+%0D
+go idle%0D
+%0D
+// enter reprogram mode via the keypad%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKeyOff)%0D
+go idle%0D
+%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKeyOn)%0D
+go idle%0D
+// enter old code%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKey(1))%0D
+go idle%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKey(2))%0D
+go idle%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKey(3))%0D
+go idle%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKey(4))%0D
+go idle%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKeyOn)%0D
+go idle%0D
+%0D
+//enter new code%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKey(5))%0D
+go idle%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKey(6))%0D
+go idle%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKey(7))%0D
+go idle%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKey(8))%0D
+go idle%0D
+theAlarmCtrl-&gt;theKeypad-&gt;GEN(evKeyOn)%0D
+break AlarmController operation flashGreenLed%0D
+go</m_text>
+			<m_startRow type="a">0</m_startRow>
+			<m_startCol_Short type="a">0</m_startCol_Short>
+			<m_endRow type="a">0</m_endRow>
+			<m_endCol_Short type="a">0</m_endCol_Short>
+			<m_subject type="r">
+				<INObjectHandle type="e">
+				</INObjectHandle>
+			</m_subject>
+		</IFileFragment>
+		<IFile type="e">
+			<_id type="a">GUID 5ef6ff0a-2ae0-11d3-ac14-0010a4f1d0f6</_id>
+			<_myState type="a">32768</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">File</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">AddToMakefile</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">Requirements.txt</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 textual requirements for the HomeAlarm\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<m_path type="a">..\..</m_path>
+			<m_type type="a">userFile</m_type>
+			<AggregatesList type="e">
+				<value>GUID 3ac52937-b8d2-49d9-960b-45d24a88e5fb</value>
+			</AggregatesList>
+		</IFile>
+		<IFileFragment type="e">
+			<_id type="a">GUID 3ac52937-b8d2-49d9-960b-45d24a88e5fb</_id>
+			<_name type="a">Requirements</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<m_type type="a">textFragment</m_type>
+			<m_text type="a">Can be armed / disarmed either via a remote control unit or via a %0D
+simple keypad. When using a keypad to arm the alarm, a four-digit%0D
+code must be entered followed by the on key. To disarm the alarm, %0D
+a four-digit code must be entered followed by the off key.  It should%0D
+be possible to change the code.%0D
+When the alarm is armed and a presence is detected, the alarm%0D
+will sound immediately. When arming the alarm, there is an exit %0D
+delay to allow the homeowner to exit. When opening the door %0D
+when the alarm is armed, there is an entry delay during which the %0D
+homeowner can disarm the alarm, failing to do so will result in the %0D
+alarm going off.%0D
+The home alarm system should also be capable of switching lights %0D
+on/off to simulate presence in the house.%0D
+The alarm will have two LED's, one green and one red. %0D
+The red led will indicate the alarm is active, %0D
+the green will indicate that the alarm is powered up.%0D
+</m_text>
+			<m_startRow type="a">0</m_startRow>
+			<m_startCol_Short type="a">0</m_startCol_Short>
+			<m_endRow type="a">0</m_endRow>
+			<m_endCol_Short type="a">0</m_endCol_Short>
+			<m_subject type="r">
+				<INObjectHandle type="e">
+				</INObjectHandle>
+			</m_subject>
+		</IFileFragment>
+		<IFile type="e">
+			<_id type="a">GUID a1e63880-2ee8-11d3-ac29-0010a4f1d0f6</_id>
+			<_myState type="a">32768</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">File</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">AddToMakefile</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">changeCode.ref</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 Reference log file, generated once, checked and then cut and pasted.\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<m_path type="a">..\..</m_path>
+			<m_type type="a">userFile</m_type>
+			<AggregatesList type="e">
+				<value>GUID fa4aa750-2eee-11d3-ac29-0010a4f1d0f6</value>
+			</AggregatesList>
+		</IFile>
+		<IFileFragment type="e">
+			<_id type="a">GUID fa4aa750-2eee-11d3-ac29-0010a4f1d0f6</_id>
+			<_name type="a">Reference log</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 Reference\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<m_type type="a">textFragment</m_type>
+			<m_text type="a">Command From File&gt;&gt; AlarmController-&gt;GEN(evDisarm)%0D
+Command From File&gt;&gt; go idle%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController Event evDisarm()%0D
+ Executable is Idle%0D
+Command From File&gt;&gt; // enter reprogram mode via the keypad%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKeyOff)%0D
+Command From File&gt;&gt; go idle%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKeyOff()%0D
+ HomeAlarm[0]-&gt;theAlarmController Received from &lt;user via Tracer&gt; Event evDisarm()%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;Take Event evDisarm()%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;Take Event evDisarm() Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKeyOff()%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKeyOff()%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKeyOff() Returned%0D
+ Executable is Idle%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKeyOn)%0D
+Command From File&gt;&gt; // enter old code%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKey(1))%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKey(2))%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKey(3))%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKey(4))%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKeyOn)%0D
+Command From File&gt;&gt; go idle%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKeyOn()%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKey(n = 1)%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKey(n = 2)%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKey(n = 3)%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKey(n = 4)%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKeyOn()%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKeyOn()%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKeyOn()%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.armingDisarmingReprogramming.idle%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.armingDisarmingReprogramming.reprogramming%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad set tm(10000) at ROOT.active.armingDisarmingReprogramming.reprogramming%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.armingDisarmingReprogramming.reprogramming.waitOldCode%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKeyOn() Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKey(n = 1)%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 1)%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.currentCode.notEntered%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.currentCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked isCodeEntered()%0D
+     HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad  Modified Attribute Values%0D
+    	newCode	1%0D
+    	count	1%0D
+    %0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;isCodeEntered() Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 1) Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKey(n = 2)%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 2)%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked isCodeEntered()%0D
+     HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad  Modified Attribute Values%0D
+    	newCode	12%0D
+    	count	2%0D
+    %0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;isCodeEntered() Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 2) Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKey(n = 3)%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 3)%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked isCodeEntered()%0D
+     HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad  Modified Attribute Values%0D
+    	newCode	123%0D
+    	count	3%0D
+    %0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;isCodeEntered() Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 3) Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKey(n = 4)%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 4)%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked isCodeEntered()%0D
+     HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad  Modified Attribute Values%0D
+    	newCode	1234%0D
+    	count	4%0D
+    %0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;isCodeEntered() Returned%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked isCodeCorrect()%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;isCodeCorrect() Returned%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.currentCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.currentCode.correct%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad set tm(3000) at ROOT.active.codeEntry.currentCode.correct%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 4) Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKeyOn()%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKeyOn()%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.armingDisarmingReprogramming.reprogramming.waitOldCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.armingDisarmingReprogramming.reprogramming.waitNewCode%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKeyOn() Returned%0D
+ Executable is Idle%0D
+Command From File&gt;&gt; //enter new code%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKey(5))%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKey(6))%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKey(7))%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKey(8))%0D
+Command From File&gt;&gt; HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;GEN(evKeyOn)%0D
+Command From File&gt;&gt; break Keypad operation changeCode%0D
+Command From File&gt;&gt; go%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKey(n = 5)%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKey(n = 6)%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKey(n = 7)%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKey(n = 8)%0D
+ &lt;user via Tracer&gt; Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Event evKeyOn()%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKey(n = 5)%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 5)%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad cancelled tm(3000) at ROOT.active.codeEntry.currentCode.correct%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.currentCode.correct%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.currentCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked isCodeEntered()%0D
+     HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad  Modified Attribute Values%0D
+    	newCode	5%0D
+    	count	1%0D
+    %0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;isCodeEntered() Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 5) Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKey(n = 6)%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 6)%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked isCodeEntered()%0D
+     HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad  Modified Attribute Values%0D
+    	newCode	56%0D
+    	count	2%0D
+    %0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;isCodeEntered() Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 6) Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKey(n = 7)%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 7)%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked isCodeEntered()%0D
+     HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad  Modified Attribute Values%0D
+    	newCode	567%0D
+    	count	3%0D
+    %0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;isCodeEntered() Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 7) Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKey(n = 8)%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 8)%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad set tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked isCodeEntered()%0D
+     HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad  Modified Attribute Values%0D
+    	newCode	5678%0D
+    	count	4%0D
+    %0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;isCodeEntered() Returned%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked isCodeCorrect()%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;isCodeCorrect() Returned%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad cancelled tm(5000) at ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.enteringCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.currentCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.currentCode.different%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad set tm(3000) at ROOT.active.codeEntry.currentCode.different%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKey(n = 8) Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from &lt;user via Tracer&gt; Event evKeyOn()%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKeyOn()%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.armingDisarmingReprogramming.reprogramming.waitNewCode%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad cancelled tm(10000) at ROOT.active.armingDisarmingReprogramming.reprogramming%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.armingDisarmingReprogramming.reprogramming%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked changeCode()%0D
+ *********************************************%0D
+&lt;Method Called Keypad changeCode&gt; Break point Active%0D
+*********************************************%0D
+ Executable reached breakpoint%0D
+Command From File&gt;&gt; go idle%0D
+     HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Sent to itself Event tm(3000) at ROOT.active.codeEntry.currentCode.different%0D
+     HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;flashGreenLed()%0D
+       HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad  Modified Attribute Values%0D
+      	oldCode	5678%0D
+      %0D
+       HomeAlarm[0]-&gt;theAlarmController Sent to HomeAlarm[0]-&gt;theAlarmController-&gt;theGreenLed Event evFlash(n = 4)%0D
+     HomeAlarm[0]-&gt;theAlarmController-&gt;flashGreenLed() Returned%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;changeCode() Returned%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.armingDisarmingReprogramming.idle%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event evKeyOn() Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Received from itself Event tm(3000) at ROOT.active.codeEntry.currentCode.different%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event Timeout%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Exited State ROOT.active.codeEntry.currentCode.different%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad Entered State ROOT.active.codeEntry.currentCode.notEntered%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theKeypad-&gt;Take Event Timeout Returned%0D
+ Executable is Idle%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theGreenLed Received from HomeAlarm[0]-&gt;theAlarmController Event evFlash(n = 4)%0D
+ main() Invoked HomeAlarm[0]-&gt;theAlarmController-&gt;theGreenLed-&gt;Take Event evFlash(n = 4)%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theGreenLed Exited State ROOT.active.flashMode.stable%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theGreenLed Entered State ROOT.active.flashMode.flashing%0D
+   HomeAlarm[0]-&gt;theAlarmController-&gt;theGreenLed set tm(500) at ROOT.active.flashMode.flashing%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theGreenLed-&gt;Take Event evFlash(n = 4) Returned%0D
+ HomeAlarm[0]-&gt;theAlarmController-&gt;theGreenLed  Modified Attribute Values%0D
+	count	9%0D
+%0D
+ Executable is Idle%0D
+</m_text>
+			<m_startRow type="a">0</m_startRow>
+			<m_startCol_Short type="a">0</m_startCol_Short>
+			<m_endRow type="a">0</m_endRow>
+			<m_endCol_Short type="a">0</m_endCol_Short>
+			<m_subject type="r">
+				<INObjectHandle type="e">
+				</INObjectHandle>
+			</m_subject>
+		</IFileFragment>
+		<IFile type="e">
+			<_id type="a">GUID a1e639bc-2ee8-11d3-ac29-0010a4f1d0f6</_id>
+			<_myState type="a">32768</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">File</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">AddToMakefile</_Name>
+													<_Value type="a">False</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">changecode.log</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 Place holder to allow the changeCode.log file to be viewed\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<m_path type="a">..\..</m_path>
+			<m_type type="a">userFile</m_type>
+			<Fragments type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</Fragments>
+		</IFile>
+		<ICodeGenConfigInfo type="e">
+			<_id type="a">GUID 98c0454b-e5bd-11d2-ab2c-0010a4f1d0f6</_id>
+			<_myState type="a">8192</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CPP_CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Configuration</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">Environment</_Name>
+													<_Value type="a">Microsoft</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Microsoft,MicrosoftDLL,VxWorks,Solaris2,Borland,MultiWin32,MSStandardLibrary,PsosPPC,MicrosoftWinCE.NET,OseSfk,Linux,Solaris2GNU,QNXNeutrinoGCC, QNXNeutrinoCW,OsePPCDiab,INTEGRITY, IntegrityESTL, NucleusPLUS-PPC</_ExtraTypeInfo>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">MakeFileGenerationScheme</_Name>
+													<_Value type="a">Default</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Default,2.0</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Microsoft</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">BuildCommandSet</_Name>
+													<_Value type="a">Debug</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">Debug,Release</_ExtraTypeInfo>
+												</IProperty>
+												
+												<IProperty type="e">
+													<_Name type="a">LinkSwitches</_Name>
+													<_Value type="a">$OMLinkCommandSet /NOLOGO /NODEFAULTLIB:MSVCRT</_Value>
+													<_Type type="a">String</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Operation</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">AnimAllowInvocation</_Name>
+													<_Value type="a">Public</_Value>
+													<_Type type="a">Enum</_Type>
+													<_ExtraTypeInfo type="a">None, Public, Protected, All</_ExtraTypeInfo>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">Debug</_name>
+			<_modifiedTimeWeak type="a">9.11.2007::12:49:56</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 Generate code with animation instrumentation that can be executed\par%0D
+in order to test the alarm package.\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_scopeType type="a">Explicit</_scopeType>
+			<_instrumentation type="a">Animation</_instrumentation>
+			<_timeModel type="a">RealTime</_timeModel>
+			<m_generateActors type="a">0</m_generateActors>
+			<_statechartImplementation type="a">Flat</_statechartImplementation>
+			<_checksList type="a">0 ,</_checksList>
+			<_checksList_Default type="a">1</_checksList_Default>
+			<ScopeElements type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</ScopeElements>
+			<InitialInstances type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</InitialInstances>
+			<weakCGTime type="a">9.11.2007::12:49:56</weakCGTime>
+			<strongCGTime type="a">9.11.2007::12:49:56</strongCGTime>
+			<AnimScopeElements type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</AnimScopeElements>
+			<m_allInAnimScope type="a">1</m_allInAnimScope>
+			<m_generateUsecases type="a">0</m_generateUsecases>
+			<AggregatesList type="e">
+				<value>GUID 9fee7886-d54b-4f9c-bb1a-b7a1508cea7a</value>
+				<value>GUID 317ffd52-bd51-433f-baa2-298caf379688</value>
+				<value>GUID 98c0454c-e5bd-11d2-ab2c-0010a4f1d0f6</value>
+			</AggregatesList>
+		</ICodeGenConfigInfo>
+		<IMHyperLink type="e">
+			<_id type="a">GUID 9fee7886-d54b-4f9c-bb1a-b7a1508cea7a</_id>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_dependsOn type="r">
+				<INObjectHandle type="e">
+				</INObjectHandle>
+			</_dependsOn>
+			<_linkDispName type="a">Edit Makefile</_linkDispName>
+			<_linkType type="a">FREE</_linkType>
+			<_linkTarget type="a">Test.mak</_linkTarget>
+			<isConfigurationFileHyperLink type="a">1</isConfigurationFileHyperLink>
+		</IMHyperLink>
+		<IMHyperLink type="e">
+			<_id type="a">GUID 317ffd52-bd51-433f-baa2-298caf379688</_id>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_dependsOn type="r">
+				<INObjectHandle type="e">
+				</INObjectHandle>
+			</_dependsOn>
+			<_linkDispName type="a">Edit Main File</_linkDispName>
+			<_linkType type="a">FREE</_linkType>
+			<_linkTarget type="a">MainTest</_linkTarget>
+			<isConfigurationFileHyperLink type="a">1</isConfigurationFileHyperLink>
+		</IMHyperLink>
+		<IFolder type="e">
+			<_id type="a">GUID 98c0454c-e5bd-11d2-ab2c-0010a4f1d0f6</_id>
+			<_myState type="a">65536</_myState>
+			<_name type="a">Debug</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<Elements type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</Elements>
+			<Files type="c">
+				<IRPYRawContainer type="e">
+				</IRPYRawContainer>
+			</Files>
+		</IFolder>
+		
+	</RHAPSODY-MODEL>
+	<OslcLinks type="c">
+		<IRPYRawContainer type="e">
+		</IRPYRawContainer>
+	</OslcLinks>
+
+<INCLUDES-RHAPSODY-INDEX>false</INCLUDES-RHAPSODY-INDEX>
+</RhapsodyArchive>
+

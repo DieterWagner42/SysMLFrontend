@@ -1,0 +1,242 @@
+I-Logix-RPY-Archive version 8.1.4 C++ 998726
+{ IComponent 
+	- _id = GUID 5c208d45-6088-4348-9fc0-3c07d3135720;
+	- _myState = 8192;
+	- _name = "HWAbsLib";
+	- Dependencies = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ IDependency 
+			- _id = GUID 7d2c3910-2ca4-4f6c-98a1-6af2b01db3bc;
+			- _myState = 2048;
+			- _name = "AlarmCtrlLib";
+			- Stereotypes = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IHandle 
+					- _m2Class = "IStereotype";
+					- _filename = "";
+					- _subsystem = "";
+					- _class = "";
+					- _name = "Callback";
+					- _id = GUID f05c3d75-ada7-4e46-99f6-162ee33bce50;
+				}
+			}
+			- _dependsOn = { INObjectHandle 
+				- _m2Class = "IComponent";
+				- _filename = "AlarmCtrlLib.cmp";
+				- _subsystem = "";
+				- _class = "";
+				- _name = "AlarmCtrlLib";
+				- _id = GUID c5ba345b-6d0f-4168-8f1a-f5c31c5ae5d1;
+			}
+		}
+	}
+	- _lastID = 1;
+	- m_buildType = Library;
+	- m_libraries = "";
+	- m_additionalSources = "";
+	- m_standardHeaders = "";
+	- m_includePath = "";
+	- m_initializationCode = "";
+	- m_folder = { IFolder 
+		- _id = GUID a5387137-996e-4566-b2ee-82df2357b138;
+		- _myState = 65536;
+		- _name = "Files";
+		- m_path = "";
+		- Elements = { IRPYRawContainer 
+			- size = 10;
+			- value = 
+			{ IHandle 
+				- _m2Class = "IClass";
+				- _filename = "IHardware.cls";
+				- _subsystem = "HardwarePkg::AbstractHW";
+				- _class = "";
+				- _name = "AbsHardware";
+				- _id = OLDID 1424988 432;
+			}
+			{ IHandle 
+				- _m2Class = "";
+			}
+			{ IHandle 
+				- _m2Class = "";
+			}
+			{ IHandle 
+				- _m2Class = "IClass";
+				- _filename = "AbstractHW.sbs";
+				- _subsystem = "HardwarePkg::AbstractHW";
+				- _class = "";
+				- _name = "IDoorListener";
+				- _id = GUID e65ab3c7-2dfd-44cd-93ca-b895d7f57007;
+			}
+			{ IHandle 
+				- _m2Class = "IClass";
+				- _filename = "AbstractHW.sbs";
+				- _subsystem = "HardwarePkg::AbstractHW";
+				- _class = "";
+				- _name = "IKeyListener";
+				- _id = GUID db9992d8-3be9-4867-8871-bb48bc2d5baa;
+			}
+			{ IHandle 
+				- _m2Class = "IClass";
+				- _filename = "AbstractHW.sbs";
+				- _subsystem = "HardwarePkg::AbstractHW";
+				- _class = "";
+				- _name = "ILedCtrl";
+				- _id = GUID e55ab0dd-a2eb-4a76-bc70-c9a9afd95b97;
+			}
+			{ IHandle 
+				- _m2Class = "IClass";
+				- _filename = "AbstractHW.sbs";
+				- _subsystem = "HardwarePkg::AbstractHW";
+				- _class = "";
+				- _name = "ILightCtrl";
+				- _id = GUID 1df77aff-fcf1-495b-815a-23e9348577e9;
+			}
+			{ IHandle 
+				- _m2Class = "IClass";
+				- _filename = "AbstractHW.sbs";
+				- _subsystem = "HardwarePkg::AbstractHW";
+				- _class = "";
+				- _name = "IMovementListener";
+				- _id = GUID 065ba526-937e-4fd4-b77d-4e2049faad9c;
+			}
+			{ IHandle 
+				- _m2Class = "IClass";
+				- _filename = "AbstractHW.sbs";
+				- _subsystem = "HardwarePkg::AbstractHW";
+				- _class = "";
+				- _name = "ISirenCtrl";
+				- _id = GUID 9b3268e8-cd8a-42da-b528-175797358715;
+			}
+			{ IHandle 
+				- _m2Class = "ISubsystem";
+				- _filename = "AbstractHW.sbs";
+				- _subsystem = "HardwarePkg";
+				- _class = "";
+				- _name = "AbstractHW";
+				- _id = GUID 16670831-dd39-4039-ae24-4b62f0088286;
+			}
+		}
+		- Files = { IRPYRawContainer 
+			- size = 0;
+		}
+	}
+	- m_configActive = { ICodeGenConfigInfoHandle 
+		- _m2Class = "ICodeGenConfigInfo";
+		- _id = GUID 27e64af1-5988-42b8-8d5f-62fd50762915;
+	}
+	- Configs = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ ICodeGenConfigInfo 
+			- _id = GUID 27e64af1-5988-42b8-8d5f-62fd50762915;
+			- _myState = 8192;
+			- _properties = { IPropertyContainer 
+				- Subjects = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertySubject 
+						- _Name = "CPP_CG";
+						- Metaclasses = { IRPYRawContainer 
+							- size = 3;
+							- value = 
+							{ IPropertyMetaclass 
+								- _Name = "Configuration";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "Environment";
+										- _Value = "Microsoft";
+										- _Type = Enum;
+										- _ExtraTypeInfo = "Microsoft,MicrosoftDLL,VxWorks,Solaris2,Borland,MultiWin32,MSStandardLibrary,PsosPPC,MicrosoftWinCE.NET,OseSfk,Linux,Solaris2GNU,QNXNeutrinoGCC, QNXNeutrinoCW,OsePPCDiab,INTEGRITY, IntegrityESTL, NucleusPLUS-PPC";
+									}
+								}
+							}
+							{ IPropertyMetaclass 
+								- _Name = "Microsoft";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "BuildCommandSet";
+										- _Value = "Release";
+										- _Type = Enum;
+										- _ExtraTypeInfo = "Debug,Release";
+									}
+								}
+							}
+							{ IPropertyMetaclass 
+								- _Name = "Operation";
+								- Properties = { IRPYRawContainer 
+									- size = 1;
+									- value = 
+									{ IProperty 
+										- _Name = "AnimAllowInvocation";
+										- _Value = "Public";
+										- _Type = Enum;
+										- _ExtraTypeInfo = "None, Public, Protected, All";
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			- _name = "Debug";
+			- HyperLinks = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IMHyperLink 
+					- _id = GUID 3aa3695b-0ea4-44fa-a06e-994fad535371;
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "";
+					}
+					- _linkDispName = "Edit Makefile";
+					- _linkType = "FREE";
+					- _linkTarget = "L:\\Program Files\\Telelogic\\Rhapsody 7.1\\Samples\\CppSamples\\HomeAlarmWithPorts\\HWAbsLib\\Debug\\HWAbsLib.mak";
+					- isConfigurationFileHyperLink = 1;
+				}
+			}
+			- _scopeType = Explicit;
+			- _libraries = "";
+			- _additionalSources = "";
+			- _standardHeaders = "";
+			- _includePath = "";
+			- _targetMain = "";
+			- _instrumentation = Animation;
+			- _timeModel = RealTime;
+			- m_generateActors = 1;
+			- _statechartImplementation = Flat;
+			- _initializationCode = "";
+			- _checksList = 0 ;
+			- ScopeElements = { IRPYRawContainer 
+				- size = 0;
+			}
+			- InitialInstances = { IRPYRawContainer 
+				- size = 0;
+			}
+			- _root = { IFolder 
+				- _id = GUID 5c470601-fcba-4cac-b1ee-84f869017111;
+				- _name = "Debug";
+				- m_path = "";
+				- Elements = { IRPYRawContainer 
+					- size = 0;
+				}
+				- Files = { IRPYRawContainer 
+					- size = 0;
+				}
+			}
+			- weakCGTime = 9.11.2007::12:45:16;
+			- strongCGTime = 9.11.2007::12:45:16;
+			- AnimScopeElements = { IRPYRawContainer 
+				- size = 0;
+			}
+			- m_allInAnimScope = 1;
+		}
+	}
+	- weakCGTime = 1.12.2004::10:14:21;
+	- strongCGTime = 7.10.2003::12:20:17;
+}
+

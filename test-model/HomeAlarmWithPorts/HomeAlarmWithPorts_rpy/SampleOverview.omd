@@ -1,0 +1,228 @@
+I-Logix-RPY-Archive version 8.6.0 C++ 4012249
+{ IDiagram 
+	- _id = GUID dc254baa-b631-4308-a530-64665859e0bc;
+	- _myState = 8192;
+	- _properties = { IPropertyContainer 
+		- Subjects = { IRPYRawContainer 
+			- size = 1;
+			- value = 
+			{ IPropertySubject 
+				- _Name = "Format";
+				- Metaclasses = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IPropertyMetaclass 
+						- _Name = "FreeText";
+						- Properties = { IRPYRawContainer 
+							- size = 6;
+							- value = 
+							{ IProperty 
+								- _Name = "Fill.Transparent_Fill";
+								- _Value = "1";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "HorzAlign";
+								- _Value = "0";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Line.Transparent";
+								- _Value = "1";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Multiline";
+								- _Value = "True";
+								- _Type = Bool;
+							}
+							{ IProperty 
+								- _Name = "VertAlign";
+								- _Value = "0";
+								- _Type = Int;
+							}
+							{ IProperty 
+								- _Name = "Wordbreak";
+								- _Value = "False";
+								- _Type = Bool;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	- _name = "SampleOverview";
+	- _lastModifiedTime = "1.12.2012::13:22:55";
+	- _graphicChart = { CGIClassChart 
+		- _id = GUID 0533a7a5-153b-4fc3-8109-001f769d7847;
+		- m_type = 0;
+		- m_pModelObject = { IHandle 
+			- _m2Class = "IDiagram";
+			- _id = GUID dc254baa-b631-4308-a530-64665859e0bc;
+		}
+		- m_pParent = ;
+		- m_name = { CGIText 
+			- m_str = "";
+			- m_style = "Arial" 10 0 0 0 1 ;
+			- m_color = { IColor 
+				- m_fgColor = 0;
+				- m_bgColor = 0;
+				- m_bgFlag = 0;
+			}
+			- m_position = 1 0 0  ;
+			- m_nIdent = 0;
+			- m_bImplicitSetRectPoints = 0;
+			- m_nOrientationCtrlPt = 8;
+		}
+		- m_drawBehavior = 0;
+		- m_bIsPreferencesInitialized = 1;
+		- elementList = 3;
+		{ CGICompositeClass 
+			- _id = GUID 1cceb05e-5bff-48d0-a091-c0a91d11a2dd;
+			- m_type = 78;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "IClass";
+				- _filename = "AlarmPkg.sbs";
+				- _subsystem = "AlarmPkg";
+				- _class = "";
+				- _name = "TopLevel";
+				- _id = OLDID 1424988 2;
+			}
+			- m_pParent = ;
+			- m_name = { CGIText 
+				- m_str = "TopLevel";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 5;
+			}
+			- m_drawBehavior = 0;
+			- m_bIsPreferencesInitialized = 1;
+			- m_AdditionalLabel = { CGIText 
+				- m_str = "";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 0;
+					- m_bgColor = 0;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 0 0  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 1;
+			}
+			- m_polygon = 4 50 50  729 50  729 270  50 270  ;
+			- m_nNameFormat = 0;
+			- m_nIsNameFormat = 0;
+			- Compartments = { IRPYRawContainer 
+				- size = 0;
+			}
+		}
+		{ CGIFreeText 
+			- _id = GUID 7e32e0b5-0891-4c79-a19d-33f6075d5610;
+			- m_type = 46;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "";
+			}
+			- m_pParent = GUID 1cceb05e-5bff-48d0-a091-c0a91d11a2dd;
+			- m_name = { CGIText 
+				- m_str = "This is a variant of the original HomeAlarm sample, redesigned using ports.
+
+Ports are a new UML2.0 modeling concept that allows strong encapsulation of classes from the
+environment. In this case, the Hardware and Alarm Controller are decoupled by specifying ports
+as their boundary interaction points.
+
+This sample also demonstrates the usage of the new Rhapsody 5.0 Requirement modeling concept - the AlarmPkg 
+contains a set of requirements defined for the Home Alarm system. These requirements are realized by the use cases 
+using <<trace>> dependencies as shown in the Requirements Vs. Use Cases diagram.
+
+It is recommended to refer to the original sample in order to compare the traditional class-based approach vs
+the port-based approach.
+
+";
+				- m_style = "Arial" 10 0 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 32;
+					- m_bgColor = 32;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 3 13.7315789473684  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_points = 4 52 77  827 77  827 320  52 320  ;
+			- m_text = "This is a variant of the original HomeAlarm sample, redesigned using ports.
+
+Ports are a new UML2.0 modeling concept that allows strong encapsulation of classes from the
+environment. In this case, the Hardware and Alarm Controller are decoupled by specifying ports
+as their boundary interaction points.
+
+This sample also demonstrates the usage of the new Rhapsody 5.0 Requirement modeling concept - the AlarmPkg 
+contains a set of requirements defined for the Home Alarm system. These requirements are realized by the use cases 
+using <<trace>> dependencies as shown in the Requirements Vs. Use Cases diagram.
+
+It is recommended to refer to the original sample in order to compare the traditional class-based approach vs
+the port-based approach.
+
+";
+		}
+		{ CGIFreeText 
+			- _id = GUID 9e0fb5c3-f5be-44e9-9e65-38cfae7b81a3;
+			- m_type = 46;
+			- m_pModelObject = { IHandle 
+				- _m2Class = "";
+			}
+			- m_pParent = GUID 1cceb05e-5bff-48d0-a091-c0a91d11a2dd;
+			- m_name = { CGIText 
+				- m_str = "Sample Overview
+";
+				- m_style = "Arial" 16 1 0 0 1 ;
+				- m_color = { IColor 
+					- m_fgColor = 32;
+					- m_bgColor = 32;
+					- m_bgFlag = 0;
+				}
+				- m_position = 1 2.8421052631579 14.9421052631579  ;
+				- m_nIdent = 0;
+				- m_bImplicitSetRectPoints = 0;
+				- m_nOrientationCtrlPt = 8;
+			}
+			- m_drawBehavior = 4096;
+			- m_bIsPreferencesInitialized = 1;
+			- m_points = 4 50 46  258 46  258 98  50 98  ;
+			- m_text = "Sample Overview
+";
+		}
+		
+		- m_access = 'Z';
+		- m_modified = 'N';
+		- m_fileVersion = "";
+		- m_nModifyDate = 0;
+		- m_nCreateDate = 0;
+		- m_creator = "";
+		- m_bScaleWithZoom = 1;
+		- m_arrowStyle = 'S';
+		- m_pRoot = GUID 1cceb05e-5bff-48d0-a091-c0a91d11a2dd;
+		- m_currentLeftTop = 0 0 ;
+		- m_currentRightBottom = 0 0 ;
+	}
+	- _defaultSubsystem = { IHandle 
+		- _m2Class = "ISubsystem";
+		- _filename = "AlarmPkg.sbs";
+		- _subsystem = "";
+		- _class = "";
+		- _name = "AlarmPkg";
+		- _id = OLDID 1424988 1;
+	}
+}
+

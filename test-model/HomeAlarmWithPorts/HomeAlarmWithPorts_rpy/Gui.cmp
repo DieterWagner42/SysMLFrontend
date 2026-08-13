@@ -1,0 +1,205 @@
+I-Logix-RPY-Archive version 8.1.4 C++ 998726
+{ IComponent 
+	- _id = GUID af62d64f-df03-11d2-ab10-0010a4f1d0f6;
+	- _myState = 8192;
+	- _name = "Gui";
+	- Dependencies = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ IDependency 
+			- _id = GUID fd927ce3-b5ab-4b83-bd50-53b701a403b6;
+			- _myState = 2048;
+			- _name = "HWAbsLib";
+			- Stereotypes = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IHandle 
+					- _m2Class = "IStereotype";
+					- _filename = "PredefinedTypes.sbs";
+					- _subsystem = "PredefinedTypes";
+					- _class = "";
+					- _name = "Usage";
+					- _id = GUID 42aa4325-6112-4e88-87ce-66008878f1db;
+				}
+			}
+			- _dependsOn = { INObjectHandle 
+				- _m2Class = "IComponent";
+				- _filename = "HWAbsLib.cmp";
+				- _subsystem = "";
+				- _class = "";
+				- _name = "HWAbsLib";
+				- _id = GUID 5c208d45-6088-4348-9fc0-3c07d3135720;
+			}
+		}
+	}
+	- Stereotypes = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ IHandle 
+			- _m2Class = "IStereotype";
+			- _filename = "PredefinedTypes.sbs";
+			- _subsystem = "PredefinedTypes";
+			- _class = "";
+			- _name = "Executable";
+			- _id = GUID f0dd8150-7f19-11d4-a076-00d0b780aafd;
+		}
+	}
+	- _description = { IDescription 
+		- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 Component to run GUI application only.\\par
+How to build GUI application - more details see\\par
+<Rhapsody>/Samples/CppSamples/ReadMe.txt\\par
+}
+";
+	}
+	- _lastID = 2;
+	- m_buildType = Executable;
+	- m_libraries = "";
+	- m_additionalSources = "";
+	- m_standardHeaders = "";
+	- m_includePath = "";
+	- m_initializationCode = "";
+	- m_folder = { IFolder 
+		- _id = GUID af62d650-df03-11d2-ab10-0010a4f1d0f6;
+		- _myState = 65536;
+		- _name = "Files";
+		- m_path = "";
+		- Elements = { IRPYRawContainer 
+			- size = 0;
+		}
+		- Files = { IRPYRawContainer 
+			- size = 1;
+			- value = 
+			{ IFile 
+				- _id = GUID ee04c5a3-2560-11d3-ac02-0010a4f1d0f6;
+				- _myState = 32768;
+				- _properties = { IPropertyContainer 
+					- Subjects = { IRPYRawContainer 
+						- size = 1;
+						- value = 
+						{ IPropertySubject 
+							- _Name = "CG";
+							- Metaclasses = { IRPYRawContainer 
+								- size = 1;
+								- value = 
+								{ IPropertyMetaclass 
+									- _Name = "File";
+									- Properties = { IRPYRawContainer 
+										- size = 1;
+										- value = 
+										{ IProperty 
+											- _Name = "AddToMakefile";
+											- _Value = "False";
+											- _Type = Bool;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				- _name = "omanimator.cfg";
+				- m_path = "../..";
+				- m_type = userFile;
+				- Fragments = { IRPYRawContainer 
+					- size = 1;
+					- value = 
+					{ IFileFragment 
+						- _id = GUID 330aacad-2b00-11d3-ac15-0010a4f1d0f6;
+						- _name = "Script that runs automatically on starting animation";
+						- m_type = textFragment;
+						- m_text = "// Switch off the animation before starting
+display
+// Run with animation off to create all objects
+go idle
+// Switch animation back on
+watch
+// Run continuously
+go";
+						- m_startRow = 0;
+						- m_startCol = 0;
+						- m_subject = { INObjectHandle 
+							- _m2Class = "";
+						}
+					}
+				}
+			}
+		}
+	}
+	- m_configActive = { ICodeGenConfigInfoHandle 
+		- _m2Class = "ICodeGenConfigInfo";
+		- _id = GUID af62cfc8-df03-11d2-ab10-0010a4f1d0f6;
+	}
+	- Configs = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ ICodeGenConfigInfo 
+			- _id = GUID af62cfc8-df03-11d2-ab10-0010a4f1d0f6;
+			- _myState = 8192;
+			- _name = "Debug";
+			- HyperLinks = { IRPYRawContainer 
+				- size = 2;
+				- value = 
+				{ IMHyperLink 
+					- _id = GUID d8fb50cd-4058-4401-ab7e-be4ee0b2c4ef;
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "";
+					}
+					- _linkDispName = "Edit Makefile";
+					- _linkType = "FREE";
+					- _linkTarget = "L:\\Program Files\\Telelogic\\Rhapsody 7.1\\Samples\\CppSamples\\HomeAlarmWithPorts\\Gui\\Debug\\Gui.mak";
+					- isConfigurationFileHyperLink = 1;
+				}
+				{ IMHyperLink 
+					- _id = GUID f5f3d60b-0888-4427-9878-a5853cc286f0;
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "";
+					}
+					- _linkDispName = "Edit Main File";
+					- _linkType = "FREE";
+					- _linkTarget = "L:\\Program Files\\Telelogic\\Rhapsody 7.1\\Samples\\CppSamples\\HomeAlarmWithPorts\\Gui\\Debug\\MainGui";
+					- isConfigurationFileHyperLink = 1;
+				}
+			}
+			- _scopeType = Explicit;
+			- _libraries = "";
+			- _additionalSources = "";
+			- _standardHeaders = "";
+			- _includePath = "";
+			- _targetMain = "";
+			- _instrumentation = Animation;
+			- _timeModel = RealTime;
+			- m_generateActors = 0;
+			- _statechartImplementation = Flat;
+			- _initializationCode = "";
+			- _checksList = 0 ;
+			- ScopeElements = { IRPYRawContainer 
+				- size = 0;
+			}
+			- InitialInstances = { IRPYRawContainer 
+				- size = 0;
+			}
+			- _root = { IFolder 
+				- _id = GUID af62cfc9-df03-11d2-ab10-0010a4f1d0f6;
+				- _myState = 65536;
+				- _name = "Debug";
+				- m_path = "";
+				- Elements = { IRPYRawContainer 
+					- size = 0;
+				}
+				- Files = { IRPYRawContainer 
+					- size = 0;
+				}
+			}
+			- weakCGTime = 11.23.2003::13:33:27;
+			- strongCGTime = 11.23.2003::13:33:27;
+			- AnimScopeElements = { IRPYRawContainer 
+				- size = 0;
+			}
+			- m_allInAnimScope = 1;
+		}
+	}
+	- weakCGTime = 3.6.2008::10:44:51;
+	- strongCGTime = 10.22.2002::15:53:35;
+}
+

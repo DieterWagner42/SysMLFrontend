@@ -1,0 +1,100 @@
+I-Logix-RPY-Archive version 8.1.4 C++ 998726
+{ ISubsystem 
+	- _ownerHandle = { IHandle 
+		- _m2Class = "ISubsystem";
+		- _filename = "HardwarePkg.sbs";
+		- _subsystem = "";
+		- _class = "";
+		- _name = "HardwarePkg";
+		- _id = GUID ac0adc67-3550-11d3-ac41-0010a4f1d0f6;
+	}
+	- _id = OLDID 950396 1;
+	- _myState = 8192;
+	- _name = "SimulatedHwPkg";
+	- Dependencies = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ IDependency 
+			- _id = GUID 1d53490c-fcfb-43a4-8f76-81a290b26ef5;
+			- _myState = 2048;
+			- _name = "AbstractHW";
+			- _dependsOn = { INObjectHandle 
+				- _m2Class = "ISubsystem";
+				- _filename = "AbstractHW.sbs";
+				- _subsystem = "HardwarePkg";
+				- _class = "";
+				- _name = "AbstractHW";
+				- _id = GUID 16670831-dd39-4039-ae24-4b62f0088286;
+			}
+		}
+	}
+	- _description = { IDescription 
+		- _textRTF = "{\\rtf1\\fbidis\\ansi\\ansicpg1255\\deff0\\deflang1037{\\fonttbl{\\f0\\fnil\\fcharset0 MS Sans Serif;}{\\f1\\fnil\\fcharset177 MS Sans Serif;}}
+\\viewkind4\\uc1\\pard\\ltrpar\\f0\\fs17 Package for simulating the hardware by using a GUI, this package is never actually used. The GUI is created within VisualStudio will though inherit from IHardware and will specialize the setXXX operations and call the OnXXX operations\\f1\\rtlch\\par
+}
+";
+	}
+	- _lastID = 5;
+	- Declaratives = { IRPYRawContainer 
+		- size = 1;
+		- value = 
+		{ IStereotype 
+			- _id = GUID 60543ac2-9225-4536-98a2-08f7c7920a88;
+			- _name = "Realization";
+			- _m2Classes = { IRPYRawContainer 
+				- size = 1;
+				- value = "Dependency"; 
+			}
+		}
+	}
+	- weakCGTime = 11.23.2003::14:50:26;
+	- strongCGTime = 6.27.2001::15:31:40;
+	- _defaultComposite = OLDID 950396 2;
+	- _eventsBaseID = -1;
+	- Classes = { IRPYRawContainer 
+		- size = 2;
+		- value = 
+		{ IClass 
+			- _id = OLDID 950396 2;
+			- _myState = 32768;
+			- _name = "TopLevel";
+			- weakCGTime = 11.23.2003::14:50:26;
+			- strongCGTime = 6.27.2001::15:31:40;
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+		{ IClass 
+			- _id = OLDID 950396 3;
+			- _name = "guiDlg";
+			- weakCGTime = 7.10.2003::11:3:17;
+			- strongCGTime = 6.27.2001::15:31:40;
+			- Inheritances = { IRPYRawContainer 
+				- size = 1;
+				- value = 
+				{ IGeneralization 
+					- _id = GUID fcff4d68-6afe-11d5-b73b-006008a97b14;
+					- _dependsOn = { INObjectHandle 
+						- _m2Class = "IClass";
+						- _filename = "IHardware.cls";
+						- _subsystem = "HardwarePkg::AbstractHW";
+						- _class = "";
+						- _name = "AbsHardware";
+						- _id = OLDID 1424988 432;
+					}
+					- _inheritanceType = iPublic;
+					- _isVirtual = 0;
+				}
+			}
+			- _multiplicity = "";
+			- _itsStateChart = { IHandle 
+				- _m2Class = "";
+			}
+			- _classModifier = Unspecified;
+		}
+	}
+	- _configurationRelatedTime = 10.22.2002::13:53:35;
+}
+

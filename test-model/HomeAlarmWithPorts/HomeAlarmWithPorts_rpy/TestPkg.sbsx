@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RhapsodyArchive>
+	<MagicNumber></MagicNumber>
+	<CODE-PAGE>1252</CODE-PAGE>
+	<version>110.0</version>
+	<lang>C++</lang>
+	<BuildNo>202311300154</BuildNo>
+	<RMMMinimumClientVersion>100.0</RMMMinimumClientVersion>
+	
+	<RHAPSODY-MODEL>
+	<ISubsystem type="e">
+			<_id type="a">GUID 9297b2a8-28b1-11d3-ac09-0010a4f1d0f6</_id>
+			<_myState type="a">8192</_myState>
+			<_name type="a">TestPkg</_name>
+			<_modifiedTimeWeak type="a">1.12.2004::10:1:28</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_lastID type="a">4</_lastID>
+			<weakCGTime type="a">1.12.2004::10:1:28</weakCGTime>
+			<strongCGTime type="a">11.23.2003::13:52:3</strongCGTime>
+			<_defaultComposite type="s">GUID 9297b2a9-28b1-11d3-ac09-0010a4f1d0f6</_defaultComposite>
+			<_eventsBaseID type="a">-1</_eventsBaseID>
+			<_configurationRelatedTime type="a">7.10.2003::12:22:32</_configurationRelatedTime>
+			<AggregatesList type="e">
+				<value>GUID b6ee0b74-57cc-4754-9eb2-50c7268bb715</value>
+				<value>GUID 9f29a99a-2350-11d3-abfa-0010a4f1d0f6</value>
+				<value>GUID 9297b2a9-28b1-11d3-ac09-0010a4f1d0f6</value>
+			</AggregatesList>
+		</ISubsystem>
+		<IDiagram type="e">
+			<fileName type="a">TestConfig</fileName>
+			<_id type="a">GUID b6ee0b74-57cc-4754-9eb2-50c7268bb715</_id>
+		</IDiagram>
+		<IClass type="e">
+			<_id type="a">GUID 9f29a99a-2350-11d3-abfa-0010a4f1d0f6</_id>
+			<_myState type="a">8192</_myState>
+			<_properties type="p"><IPropertyContainer type="e">
+				<Subjects type="c">
+					<IRPYRawContainer type="e">
+						<IPropertySubject type="e">
+							<_Name type="a">CG</_Name>
+							<Metaclasses type="c">
+								<IRPYRawContainer type="e">
+									<IPropertyMetaclass type="e">
+										<_Name type="a">Package</_Name>
+										<Properties type="c">
+											<IRPYRawContainer type="e">
+												<IProperty type="e">
+													<_Name type="a">GenerateWithAggregates</_Name>
+													<_Value type="a">True</_Value>
+													<_Type type="a">Bool</_Type>
+												</IProperty>
+												
+											</IRPYRawContainer>
+										</Properties>
+									</IPropertyMetaclass>
+									
+								</IRPYRawContainer>
+							</Metaclasses>
+						</IPropertySubject>
+						
+					</IRPYRawContainer>
+				</Subjects>
+			</IPropertyContainer>
+			</_properties>
+			<_name type="a">Hw</_name>
+			<_modifiedTimeWeak type="a">1.12.2004::10:3:31</_modifiedTimeWeak>
+			<_description type="p"><IDescription type="e">
+				<_textRTF type="a">{\rtf1\fbidis\ansi\ansicpg1255\deff0\deflang1037{\fonttbl{\f0\fnil\fcharset0 MS Sans Serif;}{\f1\fnil\fcharset177 MS Sans Serif;}}%0D
+\viewkind4\uc1\pard\ltrpar\f0\fs17 a test class that just writes to standard out\f1\rtlch\par%0D
+}%0D
+</_textRTF>
+			</IDescription>
+			</_description>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_lastID type="a">1</_lastID>
+			<weakCGTime type="a">1.12.2004::10:3:31</weakCGTime>
+			<strongCGTime type="a">7.14.2003::9:18:39</strongCGTime>
+			<_itsStateChart type="r">
+				<IHandle type="e">
+				</IHandle>
+			</_itsStateChart>
+			<_classModifier type="a">Unspecified</_classModifier>
+			<AggregatesList type="e">
+				<value>GUID 9f29b45a-2350-11d3-abfa-0010a4f1d0f6</value>
+				<value>GUID 9f29b508-2350-11d3-abfa-0010a4f1d0f6</value>
+				<value>GUID 9f29b5e4-2350-11d3-abfa-0010a4f1d0f6</value>
+				<value>GUID fcff4d72-6afe-11d5-b73b-006008a97b14</value>
+			</AggregatesList>
+		</IClass>
+		<IPrimitiveOperation type="e">
+			<_id type="a">GUID 9f29b45a-2350-11d3-abfa-0010a4f1d0f6</_id>
+			<_name type="a">setSiren</_name>
+			<_modifiedTimeWeak type="a">1.12.2004::10:3:31</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_virtual type="a">1</_virtual>
+			<_returnType type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hsubsystem type="a">PredefinedTypesCpp</_hsubsystem>
+					<_hname type="a">void</_hname>
+					<_hid type="a">GUID c6b70728-b655-45a0-abb7-8ea5d3da94be</_hid>
+				</IHandle>
+			</_returnType>
+			<_abstract type="a">0</_abstract>
+			<_final type="a">0</_final>
+			<_concurrency type="a">Sequential</_concurrency>
+			<_protection type="a">iPublic</_protection>
+			<_static type="a">0</_static>
+			<_constant type="a">0</_constant>
+			<_itsBody type="p"><IBody type="e">
+				<_bodyData type="a">if ( state == ON ) %0D
+	printf(&quot;siren on\n&quot;);%0D
+else%0D
+	printf(&quot;siren off\n&quot;);%0D
+</_bodyData>
+			</IBody>
+			</_itsBody>
+			<AggregatesList type="e">
+				<value>GUID b5dce437-2874-11d3-ac08-0010a4f1d0f6</value>
+			</AggregatesList>
+		</IPrimitiveOperation>
+		<IArgument type="e">
+			<_id type="a">GUID b5dce437-2874-11d3-ac08-0010a4f1d0f6</_id>
+			<_name type="a">state</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_typeOf type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hfilename type="a">.\HardwarePkg.sbsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">tOnOff</_hname>
+					<_hid type="a">GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6</_hid>
+				</IHandle>
+			</_typeOf>
+			<_isOrdered type="a">0</_isOrdered>
+			<_argumentDirection type="a">In</_argumentDirection>
+		</IArgument>
+		<IPrimitiveOperation type="e">
+			<_id type="a">GUID 9f29b508-2350-11d3-abfa-0010a4f1d0f6</_id>
+			<_name type="a">setLight</_name>
+			<_modifiedTimeWeak type="a">1.12.2004::10:3:31</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_virtual type="a">1</_virtual>
+			<_returnType type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hsubsystem type="a">PredefinedTypesCpp</_hsubsystem>
+					<_hname type="a">void</_hname>
+					<_hid type="a">GUID c6b70728-b655-45a0-abb7-8ea5d3da94be</_hid>
+				</IHandle>
+			</_returnType>
+			<_abstract type="a">0</_abstract>
+			<_final type="a">0</_final>
+			<_concurrency type="a">Sequential</_concurrency>
+			<_protection type="a">iPublic</_protection>
+			<_static type="a">0</_static>
+			<_constant type="a">0</_constant>
+			<_itsBody type="p"><IBody type="e">
+				<_bodyData type="a">printf(&quot;light %25d&quot;, aLight);%0D
+if ( state == ON )%0D
+	printf(&quot;on\n&quot;);%0D
+else%0D
+	printf(&quot;off\n&quot;);%0D
+</_bodyData>
+			</IBody>
+			</_itsBody>
+			<AggregatesList type="e">
+				<value>GUID 9f29b509-2350-11d3-abfa-0010a4f1d0f6</value>
+				<value>GUID b5dce335-2874-11d3-ac08-0010a4f1d0f6</value>
+			</AggregatesList>
+		</IPrimitiveOperation>
+		<IArgument type="e">
+			<_id type="a">GUID 9f29b509-2350-11d3-abfa-0010a4f1d0f6</_id>
+			<_name type="a">aLight</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_typeOf type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hfilename type="a">.\HardwarePkg.sbsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">tLights</_hname>
+					<_hid type="a">OLDID 1424988 326</_hid>
+				</IHandle>
+			</_typeOf>
+			<_isOrdered type="a">0</_isOrdered>
+			<_argumentDirection type="a">In</_argumentDirection>
+		</IArgument>
+		<IArgument type="e">
+			<_id type="a">GUID b5dce335-2874-11d3-ac08-0010a4f1d0f6</_id>
+			<_name type="a">state</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_typeOf type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hfilename type="a">.\HardwarePkg.sbsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">tOnOff</_hname>
+					<_hid type="a">GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6</_hid>
+				</IHandle>
+			</_typeOf>
+			<_isOrdered type="a">0</_isOrdered>
+			<_argumentDirection type="a">In</_argumentDirection>
+		</IArgument>
+		<IPrimitiveOperation type="e">
+			<_id type="a">GUID 9f29b5e4-2350-11d3-abfa-0010a4f1d0f6</_id>
+			<_name type="a">setLed</_name>
+			<_modifiedTimeWeak type="a">1.12.2004::10:3:31</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_virtual type="a">1</_virtual>
+			<_returnType type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hsubsystem type="a">PredefinedTypesCpp</_hsubsystem>
+					<_hname type="a">void</_hname>
+					<_hid type="a">GUID c6b70728-b655-45a0-abb7-8ea5d3da94be</_hid>
+				</IHandle>
+			</_returnType>
+			<_abstract type="a">0</_abstract>
+			<_final type="a">0</_final>
+			<_concurrency type="a">Sequential</_concurrency>
+			<_protection type="a">iPublic</_protection>
+			<_static type="a">0</_static>
+			<_constant type="a">0</_constant>
+			<_itsBody type="p"><IBody type="e">
+				<_bodyData type="a">if ( ident == RED )%0D
+	printf(&quot;red &quot;);%0D
+else%0D
+	printf(&quot;green &quot;);%0D
+%0D
+if ( state == ON )%0D
+	printf(&quot;on\n&quot;);%0D
+else%0D
+	printf(&quot;off\n&quot;);%0D
+</_bodyData>
+			</IBody>
+			</_itsBody>
+			<AggregatesList type="e">
+				<value>GUID 64309f28-288f-11d3-ac08-0010a4f1d0f6</value>
+				<value>GUID b5dce2e9-2874-11d3-ac08-0010a4f1d0f6</value>
+			</AggregatesList>
+		</IPrimitiveOperation>
+		<IArgument type="e">
+			<_id type="a">GUID 64309f28-288f-11d3-ac08-0010a4f1d0f6</_id>
+			<_name type="a">ident</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_typeOf type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hfilename type="a">.\HardwarePkg.sbsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">tLed</_hname>
+					<_hid type="a">GUID 3c06b99b-2887-11d3-ac08-0010a4f1d0f6</_hid>
+				</IHandle>
+			</_typeOf>
+			<_isOrdered type="a">0</_isOrdered>
+			<_argumentDirection type="a">In</_argumentDirection>
+		</IArgument>
+		<IArgument type="e">
+			<_id type="a">GUID b5dce2e9-2874-11d3-ac08-0010a4f1d0f6</_id>
+			<_name type="a">state</_name>
+			<_modifiedTimeWeak type="a">12.31.1969::16:0:0</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_typeOf type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IType</_hm2Class>
+					<_hfilename type="a">.\HardwarePkg.sbsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg</_hsubsystem>
+					<_hname type="a">tOnOff</_hname>
+					<_hid type="a">GUID b5dcdd05-2874-11d3-ac08-0010a4f1d0f6</_hid>
+				</IHandle>
+			</_typeOf>
+			<_isOrdered type="a">0</_isOrdered>
+			<_argumentDirection type="a">In</_argumentDirection>
+		</IArgument>
+		<IGeneralization type="e">
+			<_id type="a">GUID fcff4d72-6afe-11d5-b73b-006008a97b14</_id>
+			<_modifiedTimeWeak type="a">1.12.2004::10:3:31</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_dependsOn type="r">
+				<INObjectHandle type="e">
+					<_hm2Class type="a">IClass</_hm2Class>
+					<_hfilename type="a">.\IHardware.clsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg::AbstractHW</_hsubsystem>
+					<_hname type="a">AbsHardware</_hname>
+					<_hid type="a">OLDID 1424988 432</_hid>
+				</INObjectHandle>
+			</_dependsOn>
+			<_inheritanceType type="a">iPublic</_inheritanceType>
+			<_isVirtual type="a">0</_isVirtual>
+		</IGeneralization>
+		<IClass type="e">
+			<_id type="a">GUID 9297b2a9-28b1-11d3-ac09-0010a4f1d0f6</_id>
+			<_myState type="a">40960</_myState>
+			<_name type="a">TopLevel</_name>
+			<_modifiedTimeWeak type="a">1.12.2004::10:1:28</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<weakCGTime type="a">1.12.2004::10:1:28</weakCGTime>
+			<strongCGTime type="a">11.23.2003::13:52:3</strongCGTime>
+			<_itsStateChart type="r">
+				<IHandle type="e">
+				</IHandle>
+			</_itsStateChart>
+			<_classModifier type="a">Unspecified</_classModifier>
+			<AggregatesList type="e">
+				<value>GUID 1af92f13-3b33-451e-a217-8e5e72804cc9</value>
+				<value>GUID 050628f1-8696-4f67-bca4-f7ef7b564505</value>
+				<value>GUID 90b5aadb-f774-4959-850e-7bf0bb44b244</value>
+				<value>GUID 2bcff3af-e491-4e4d-b423-810474d1ce36</value>
+			</AggregatesList>
+		</IClass>
+		<IPart type="e">
+			<_id type="a">GUID 1af92f13-3b33-451e-a217-8e5e72804cc9</_id>
+			<_name type="a">theAlarmCtrl</_name>
+			<_modifiedTimeWeak type="a">1.12.2004::10:1:28</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_multiplicity type="a">1</_multiplicity>
+			<_otherClass type="r">
+				<IClassifierHandle type="e">
+					<_hm2Class type="a">IClass</_hm2Class>
+					<_hfilename type="a">.\AlarmController.clsx</_hfilename>
+					<_hsubsystem type="a">AlarmPkg</_hsubsystem>
+					<_hname type="a">AlarmController</_hname>
+					<_hid type="a">OLDID 1424988 441</_hid>
+				</IClassifierHandle>
+			</_otherClass>
+			<_inverse type="r">
+				<IHandle type="e">
+				</IHandle>
+			</_inverse>
+		</IPart>
+		<IPart type="e">
+			<_id type="a">GUID 050628f1-8696-4f67-bca4-f7ef7b564505</_id>
+			<_name type="a">theHW</_name>
+			<_modifiedTimeWeak type="a">1.12.2004::10:1:28</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_multiplicity type="a">1</_multiplicity>
+			<_otherClass type="r">
+				<IClassifierHandle type="e">
+					<_hm2Class type="a">IClass</_hm2Class>
+					<_hfilename type="a">.\HwTestPkg.sbsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg::HwTestPkg</_hsubsystem>
+					<_hname type="a">Hw</_hname>
+					<_hid type="a">GUID c62c3f31-cd8c-4803-9595-33b703f9296f</_hid>
+				</IClassifierHandle>
+			</_otherClass>
+			<_inverse type="r">
+				<IHandle type="e">
+				</IHandle>
+			</_inverse>
+		</IPart>
+		<IObjectLink type="e">
+			<_id type="a">GUID 90b5aadb-f774-4959-850e-7bf0bb44b244</_id>
+			<_myState type="a">2048</_myState>
+			<_name type="a">theAlarmCtrl_theHW</_name>
+			<_modifiedTimeWeak type="a">1.12.2004::10:1:28</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_toLink type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IPart</_hm2Class>
+					<_hid type="a">GUID 050628f1-8696-4f67-bca4-f7ef7b564505</_hid>
+				</IHandle>
+			</_toLink>
+			<_fromLink type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IPart</_hm2Class>
+					<_hid type="a">GUID 1af92f13-3b33-451e-a217-8e5e72804cc9</_hid>
+				</IHandle>
+			</_fromLink>
+			<_instantiates type="r">
+				<IMetaLinkHandle type="e">
+				</IMetaLinkHandle>
+			</_instantiates>
+			<_end1Multiplicity type="a">1</_end1Multiplicity>
+			<_end2Multiplicity type="a">1</_end2Multiplicity>
+			<_toPort type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IPort</_hm2Class>
+					<_hfilename type="a">.\IHardware.clsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg::AbstractHW</_hsubsystem>
+					<_hclass type="a">AbsHardware</_hclass>
+					<_hname type="a">ctrl</_hname>
+					<_hid type="a">GUID 33b9ede6-a95f-4767-8557-d05c131c2814</_hid>
+				</IHandle>
+			</_toPort>
+			<_fromPort type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IPort</_hm2Class>
+					<_hfilename type="a">.\AlarmController.clsx</_hfilename>
+					<_hsubsystem type="a">AlarmPkg</_hsubsystem>
+					<_hclass type="a">AlarmController</_hclass>
+					<_hname type="a">hwCtrl</_hname>
+					<_hid type="a">GUID ba9369fa-023b-4cfb-adc9-e922af45a638</_hid>
+				</IHandle>
+			</_fromPort>
+		</IObjectLink>
+		<IObjectLink type="e">
+			<_id type="a">GUID 2bcff3af-e491-4e4d-b423-810474d1ce36</_id>
+			<_myState type="a">2048</_myState>
+			<_name type="a">theAlarmCtrl_theHW_0</_name>
+			<_modifiedTimeWeak type="a">1.12.2004::10:1:28</_modifiedTimeWeak>
+			<_modifiedTime type="a">12.31.1969::16:0:0</_modifiedTime>
+			<_toLink type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IPart</_hm2Class>
+					<_hid type="a">GUID 050628f1-8696-4f67-bca4-f7ef7b564505</_hid>
+				</IHandle>
+			</_toLink>
+			<_fromLink type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IPart</_hm2Class>
+					<_hid type="a">GUID 1af92f13-3b33-451e-a217-8e5e72804cc9</_hid>
+				</IHandle>
+			</_fromLink>
+			<_instantiates type="r">
+				<IMetaLinkHandle type="e">
+				</IMetaLinkHandle>
+			</_instantiates>
+			<_end1Multiplicity type="a">1</_end1Multiplicity>
+			<_end2Multiplicity type="a">1</_end2Multiplicity>
+			<_toPort type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IPort</_hm2Class>
+					<_hfilename type="a">.\IHardware.clsx</_hfilename>
+					<_hsubsystem type="a">HardwarePkg::AbstractHW</_hsubsystem>
+					<_hclass type="a">AbsHardware</_hclass>
+					<_hname type="a">ctrl</_hname>
+					<_hid type="a">GUID 33b9ede6-a95f-4767-8557-d05c131c2814</_hid>
+				</IHandle>
+			</_toPort>
+			<_fromPort type="r">
+				<IHandle type="e">
+					<_hm2Class type="a">IPort</_hm2Class>
+					<_hfilename type="a">.\AlarmController.clsx</_hfilename>
+					<_hsubsystem type="a">AlarmPkg</_hsubsystem>
+					<_hclass type="a">AlarmController</_hclass>
+					<_hname type="a">hwObserver</_hname>
+					<_hid type="a">GUID 0079851e-40a8-42e7-837d-a959abfa8ebc</_hid>
+				</IHandle>
+			</_fromPort>
+		</IObjectLink>
+		
+	</RHAPSODY-MODEL>
+	<OslcLinks type="c">
+		<IRPYRawContainer type="e">
+		</IRPYRawContainer>
+	</OslcLinks>
+
+<INCLUDES-RHAPSODY-INDEX>false</INCLUDES-RHAPSODY-INDEX>
+</RhapsodyArchive>
+

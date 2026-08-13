@@ -1,0 +1,26 @@
+# Microsoft Developer Studio Generated Dependency File, included by MFCgui.mak
+
+.\MFCgui.cpp : \
+	".\MFCgui.h"\
+	".\MFCguiDlg.h"\
+	".\StdAfx.h"\
+	
+
+.\MFCgui.rc : \
+	".\res\bitmap1.bmp"\
+	".\res\bmp00001.bmp"\
+	".\res\MFCgui.ico"\
+	".\res\MFCgui.rc2"\
+	".\res\red_led1.bmp"\
+	".\res\red_led_.bmp"\
+	
+
+.\MFCguiDlg.cpp : \
+	".\MFCgui.h"\
+	".\MFCguiDlg.h"\
+	".\StdAfx.h"\
+	
+
+.\StdAfx.cpp : \
+	".\StdAfx.h"\
+	
