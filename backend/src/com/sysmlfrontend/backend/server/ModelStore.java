@@ -45,8 +45,14 @@ public interface ModelStore {
     default List<Object> getPendingConnectors() { return java.util.Collections.emptyList(); }
 
     /** Creates one connector previously reported by getPendingConnectors, re-resolving its GUIDs
-     * fresh (see RhapsodyModelStore's own implementation). No-op in local mode. */
-    default void createPendingConnector(String linkOwnerGuid, String fromPartGuid, String toPartGuid, String fromPortGuid, String toPortGuid) { }
+     * fresh (see RhapsodyModelStore's own implementation). fromOwnerGuid/toOwnerGuid are the same
+     * fields getPendingConnectors' own entries already carry (for their description text) — reused
+     * here as the authoritative source for each end's owning classifier, rather than re-deriving it
+     * from fromPart/toPart's own containment (which only works when those are Ports; a Context View
+     * connector's fromPart/toPart are genuine Composition-part INSTANCES instead, which have no
+     * equivalent "owner classifier" derivable from getOwner() alone). No-op in local mode. */
+    default void createPendingConnector(String linkOwnerGuid, String fromPartGuid, String toPartGuid, String fromPortGuid, String toPortGuid,
+            String fromOwnerGuid, String toOwnerGuid) { }
 
     /** The GUID to use as the default parent for new elements (the project/model root). */
     String rootGuid();
@@ -165,6 +171,38 @@ public interface ModelStore {
      * itself (it may still be linked elsewhere, or exist unlinked in the Capabilities tab; use
      * deleteElement(capabilityGuid) to actually delete one). */
     void unlinkCapability(String ownerGuid, String capabilityGuid);
+
+    // ── Context Views (user-defined, top-level groupings of Actors — e.g. "Operational
+    // Context", "Maintenance Context") ──────────────────────────────────────────────────
+
+    /** Every top-level Context View in the whole model — each becomes its own tab in the Context
+     * tab's own tab bar (alongside a built-in "All" tab showing every Actor unfiltered), showing
+     * only the Actors linked to it. Purely a user-defined filter/grouping — mirrors Capabilities'
+     * shape (getCapabilities/linkCapability) exactly, minus the UseCase-owning layer: a Context
+     * View owns nothing of its own, it only groups references to already-existing Actors.
+     * Requested live: "im context gibt es mehrere user defined Views... wir brauchen für jeden
+     * neuen kontext einen neuen tab". */
+    List<Object> getContextViews();
+
+    default Map<String, Object> createContextView(String name) {
+        return createContextView(name, null);
+    }
+
+    /** See createArchitectureElement's sourceGuid javadoc — same upsert-by-identity semantics. */
+    Map<String, Object> createContextView(String name, String sourceGuid);
+
+    /** Context Views actorGuid is linked to — mirrors getCapabilitiesOf(ownerGuid). An Actor may
+     * belong to any number of Context Views at once (confirmed live: "mehrere Kontexte möglich"),
+     * unlike the Architecture tab's own views, which are mutually exclusive per element. */
+    List<Object> getContextViewsOf(String actorGuid);
+
+    /** Links an already-existing Context View (contextViewGuid) to actorGuid. No-op if already
+     * linked. */
+    void linkContextView(String actorGuid, String contextViewGuid);
+
+    /** Removes the link between actorGuid and contextViewGuid — does not delete the Context View
+     * itself (use deleteElement(contextViewGuid) for that). */
+    void unlinkContextView(String actorGuid, String contextViewGuid);
 
     // ── Interfaces (ports — ProxyPorts, one of 4 views, nestable for decomposition) ──────
 

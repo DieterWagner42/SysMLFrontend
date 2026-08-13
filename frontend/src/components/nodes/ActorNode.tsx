@@ -19,7 +19,12 @@ export interface ActorNodeData {
 }
 
 /** Custom node for an external system (SysML Actor) in the Context tab.
- * Actors can own ports too, representing the interfaces they expose to the system-of-interest. */
+ * Actors can own ports too, representing the interfaces they expose to the system-of-interest.
+ * Context View membership (which tab(s) this Actor shows up under) is managed entirely through
+ * drag&drop (AddActorPicker) and the node's own right-click menu ("Remove from this Context") —
+ * requested live: "external systems brauche keine rubrik context view / add context view", after
+ * an earlier version had an inline linking section here that became redundant once drag&drop
+ * covered the same thing more directly. */
 export function ActorNode({ data, selected }: NodeProps<ActorNodeData>) {
   return (
     <div

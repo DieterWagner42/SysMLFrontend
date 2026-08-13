@@ -160,6 +160,14 @@ public class RhapsodyModelStore implements ModelStore {
     // the visible tree (it would otherwise double up, same bug class as interfaceBlocks — see
     // backend/CLAUDE.md bug notes).
     private static final String FUNCTION_STEREOTYPE = "function";
+    // A Context View is a real IRPClass ("Block") living directly under kontextPackage() — a FLAT
+    // structure, no separate "ContextViews" sub-package (requested live: "das Package ContextViews
+    // brauchen wir nicht eine flache Struktur ist ausreichend!") — so it can't be told apart from a
+    // genuine architecture element by package location alone the way interfaceBlocks/Functions can.
+    // This dedicated stereotype (applied alongside "Block" at creation — see createContextView) is
+    // what lets collectArchitectureChildren filter it out of the visible Architecture tree, same
+    // idiom as INTERFACE_BLOCK_STEREOTYPE/FUNCTION_STEREOTYPE above.
+    private static final String CONTEXT_VIEW_STEREOTYPE = "contextView";
     private static final Set<String> PORT_VIEWS = Set.of("Operational", "Functional", "Logical", "Physical");
 
     private final IRPApplication application;
@@ -659,7 +667,7 @@ public class RhapsodyModelStore implements ModelStore {
         // Actors (Context tab — external systems the system-of-interest interacts with) are always
         // created directly under the model root (the Context tab has no nesting/view picker of its
         // own), so unlike containerFor's generic root-vs-nested-package handling, this always goes
-        // to "Kontext" — a package nested under "Operational" (see kontextPackage), not a
+        // to "Context" — a package nested under "Operational" (see kontextPackage), not a
         // standalone top-level one (tried first, corrected).
         IRPPackage kontext = kontextPackage();
         // Find-or-create by name — same reasoning as createArchitectureElement/createPort/
@@ -819,7 +827,9 @@ public class RhapsodyModelStore implements ModelStore {
     }
 
     /** Parses LINKED_OWNERS_TAG's comma-separated value back into a set of element GUIDs — empty
-     * (never null) when the Capability has no links yet. */
+     * (never null) when the Capability has no links yet. Reused as-is for Context Views too (see
+     * that section below) — same Tag, same mechanism, just stamped on a different kind of
+     * IRPPackage; the tag name itself is generic ("linked owners"), not Capability-specific. */
     private Set<String> linkedOwners(IRPModelElement cap) {
         Set<String> out = new LinkedHashSet<>();
         String v = tagValue(cap, LINKED_OWNERS_TAG);
@@ -829,6 +839,192 @@ public class RhapsodyModelStore implements ModelStore {
             }
         }
         return out;
+    }
+
+    // ── Context Views (user-defined; each is a real Block whose own IBD/BDD show the
+    // system-of-interest and every linked Actor as Composition PARTS — not a Package-based tag
+    // reference the way Capabilities are) ────────────────────────────────────────────────
+
+    /** A Context View is an IRPClass ("Block") living directly under "Operational/Context" (see
+     * kontextPackage — a FLAT structure, no separate sub-package: "das Package ContextViews
+     * brauchen wir nicht eine flache Struktur ist ausreichend!", told apart from a real Actor or
+     * architecture element via CONTEXT_VIEW_STEREOTYPE, not by location) — corrected live from an
+     * earlier Package-based design (mirroring Capabilities) after the user built a live reference
+     * example (Context_Operaional) showing the REAL intended shape: "context ist ein block der
+     * alle externen und SoI beinhaltet (parts)".
+     * Both the system-of-interest AND every linked Actor become genuine Composition parts
+     * (itsFlexis, itsHEU, ...) of this Block, exactly the same addRelationTo/"its"+Name mechanism
+     * already used for the System-of-Systems architecture tree (see addAggregationPart) — just
+     * generalized here (addContextViewPart) to accept an Actor (IRPClassifier, not IRPClass) as
+     * well as the system-of-interest itself. Its own IBD is where the actual interface connectors
+     * get drawn (see getPendingConnectors' Context View section) — "in Rhapsody sind context views
+     * ibds in denen auch die schnittstellen verbunden werden. aber nur die high-level ohne nested
+     * ports!" */
+    @Override
+    public synchronized List<Object> getContextViews() {
+        List<Object> out = new ArrayList<>();
+        IRPCollection nested = kontextPackage().getClasses();
+        for (int i = 1; i <= nested.getCount(); i++) {
+            IRPClass c = (IRPClass) nested.getItem(i);
+            if (hasStereotype(c, CONTEXT_VIEW_STEREOTYPE)) out.add(elementRef((IRPModelElement) c, "ContextView"));
+        }
+        return out;
+    }
+
+    @Override
+    public synchronized Map<String, Object> createContextView(String name, String sourceGuid) {
+        requireNonEmpty(name, "name");
+        if (sourceGuid != null) {
+            IRPModelElement existing = findBySourceGuid(sourceGuid);
+            if (existing instanceof IRPClass) {
+                existing.setName(sanitizePackageName(name));
+                setDisplayName(existing, name);
+                ensureStereotype(existing, CONTEXT_VIEW_STEREOTYPE, levelMetaType);
+                save();
+                return elementRef(existing, "ContextView");
+            }
+        }
+        IRPClass created = findOrCreateContextViewClass(sanitizePackageName(name));
+        setDisplayName((IRPModelElement) created, name);
+        ensureBlockStereotype((IRPModelElement) created);
+        ensureStereotype((IRPModelElement) created, CONTEXT_VIEW_STEREOTYPE, levelMetaType);
+        ensureOwnDiagrams(created);
+        // The system-of-interest is ALWAYS a part of every Context View, from the moment it's
+        // created — "der Systemblock muss immer in jeder view automatisch eingefügt werden."
+        IRPClass soi = systemOfInterest();
+        if (soi != null) addContextViewPart(created, soi);
+        stampSourceGuid((IRPModelElement) created, sourceGuid);
+        save();
+        return elementRef((IRPModelElement) created, "ContextView");
+    }
+
+    @Override
+    public synchronized List<Object> getContextViewsOf(String actorGuid) {
+        List<Object> out = new ArrayList<>();
+        IRPModelElement actorEl = findElement(actorGuid);
+        if (!(actorEl instanceof IRPClassifier)) return out;
+        IRPCollection nested = kontextPackage().getClasses();
+        for (int i = 1; i <= nested.getCount(); i++) {
+            IRPClass cv = (IRPClass) nested.getItem(i);
+            if (hasStereotype(cv, CONTEXT_VIEW_STEREOTYPE) && hasCompositionTo(cv, (IRPClassifier) actorEl)) out.add(elementRef(cv, "ContextView"));
+        }
+        return out;
+    }
+
+    @Override
+    public synchronized void linkContextView(String actorGuid, String contextViewGuid) {
+        IRPModelElement cv = findElement(contextViewGuid);
+        if (!(cv instanceof IRPClass)) {
+            throw new IllegalArgumentException("No Context View found with GUID '" + contextViewGuid + "'");
+        }
+        IRPModelElement actorEl = findElement(actorGuid);
+        if (!(actorEl instanceof IRPClassifier)) {
+            throw new IllegalArgumentException("No element found with GUID '" + actorGuid + "'");
+        }
+        addContextViewPart((IRPClass) cv, (IRPClassifier) actorEl);
+        save();
+    }
+
+    @Override
+    public synchronized void unlinkContextView(String actorGuid, String contextViewGuid) {
+        IRPModelElement cv = findElement(contextViewGuid);
+        IRPModelElement actorEl = findElement(actorGuid);
+        if (!(cv instanceof IRPClass) || !(actorEl instanceof IRPClassifier)) return;
+        removeContextViewPart((IRPClass) cv, (IRPClassifier) actorEl);
+        save();
+    }
+
+    /** The system-of-interest — the sole root-level, non-aspect architecture element directly
+     * under the "Operational" view package (see viewPackage) — mirrors the frontend's own
+     * `systemOfInterest` useMemo (App.tsx) exactly: the first root-level Structure-family Class.
+     * Every root-level Class under "Operational" already IS Structure-family by construction (a
+     * FunctionalNode/LogicalNode/PhysicalNode lives in its OWN separate view package instead — see
+     * containerForKind), so no extra kind filtering is needed here. Null if no architecture element
+     * has been created yet. */
+    private IRPClass systemOfInterest() {
+        IRPCollection classes = viewPackage("Operational").getClasses();
+        for (int i = 1; i <= classes.getCount(); i++) {
+            return (IRPClass) classes.getItem(i);
+        }
+        return null;
+    }
+
+    /** Adds part (the system-of-interest, or an Actor) as a Composition part of contextView — the
+     * same underlying addRelationTo/"its"+Name mechanism as addAggregationPart (used for the
+     * System-of-Systems tree), generalized to accept any IRPClassifier since a Context View
+     * composes BOTH the system-of-interest (an IRPClass) AND external Actors (IRPClassifier, not
+     * IRPClass) as peers. Deliberately NOT reusing addAggregationPart/addBlockToBDD/
+     * scaledFrontendPosition directly — those assume architecture-tree-specific semantics (levelOf,
+     * the System-of-Systems family walk via topLevelAncestor, frontend per-view canvas positions)
+     * that don't apply to a Context View or an Actor. Idempotent (see hasCompositionTo). */
+    private void addContextViewPart(IRPClass contextView, IRPClassifier part) {
+        if (!hasCompositionTo(contextView, part)) {
+            contextView.addRelationTo(part, "", "Composition", "", "", "Association", "", "");
+        }
+        ECADContext context = new ECADContext();
+        IRPStructureDiagram ibd = diagramService.createIBD(contextView, context);
+        IRPInstance instance = modelElementService.getInstance(contextView, itsInstanceName(((IRPModelElement) part).getName()));
+        if (instance != null && !diagramService.isPartInIBD(ibd, instance)) {
+            int offset = countImplementationObjects(ibd) * 150;
+            diagramService.addPartToIBD(ibd, instance, 100 + offset, 100);
+        }
+        revealTopLevelPortsOnly(ibd);
+        IRPObjectModelDiagram bdd = createOrGetBDD(contextView);
+        addElementToBDD(bdd, (IRPModelElement) contextView);
+        addElementToBDD(bdd, (IRPModelElement) part);
+    }
+
+    /** Removes part from contextView — the inverse of addContextViewPart. Deletes the Composition
+     * relation itself (IRPRelation#deleteFromProject); Rhapsody's own auto-created "its"+Name part
+     * instance and its IBD/BDD placement are expected to go with it (same lifecycle a Composition
+     * association's end instance always has), not cleaned up separately here. */
+    private void removeContextViewPart(IRPClass contextView, IRPClassifier part) {
+        String partGuid = ((IRPModelElement) part).getGUID();
+        IRPCollection relations = contextView.getRelations();
+        for (int i = 1; i <= relations.getCount(); i++) {
+            IRPRelation rel = (IRPRelation) relations.getItem(i);
+            IRPClassifier other = rel.getOtherClass();
+            if (other != null && partGuid.equals(((IRPModelElement) other).getGUID())) {
+                ((IRPModelElement) rel).deleteFromProject();
+                break;
+            }
+        }
+    }
+
+    /** Find-or-add el (the Context View itself, the system-of-interest, or an Actor — never
+     * restricted to IRPClass the way addBlockToBDD is, since an Actor needs to appear here too) as
+     * a graph node on bdd — idempotent. Grid-positioned by how many nodes are already on the
+     * diagram; no frontend-position mirroring (unlike addBlockToBDD/scaledFrontendPosition) since
+     * neither a Context View nor an Actor has a per-view canvas position concept to mirror. */
+    private void addElementToBDD(IRPObjectModelDiagram bdd, IRPModelElement el) {
+        IRPCollection elements = bdd.getGraphicalElements();
+        int nodeCount = 0;
+        String elGuid = el.getGUID();
+        for (int i = 1; i <= elements.getCount(); i++) {
+            Object obj = elements.getItem(i);
+            if (obj instanceof IRPGraphNode) {
+                IRPModelElement mo = ((IRPGraphNode) obj).getModelObject();
+                if (mo != null && elGuid.equals(mo.getGUID())) return;
+                nodeCount++;
+            }
+        }
+        int x = 100 + (nodeCount % 5) * 150;
+        int y = 100 + (nodeCount / 5) * 150;
+        bdd.addNewNodeForElement(el, x, y, 100, 100);
+    }
+
+    /** Counts existing "ImplementationObject"-typed (part) graph nodes already on ibd — used only
+     * to space out a newly-added Context View part's own X position; purely cosmetic. */
+    private int countImplementationObjects(IRPStructureDiagram ibd) {
+        int count = 0;
+        IRPCollection elements = ibd.getGraphicalElements();
+        for (int i = 1; i <= elements.getCount(); i++) {
+            Object obj = elements.getItem(i);
+            if (obj instanceof IRPGraphNode && "ImplementationObject".equals(((IRPGraphNode) obj).getGraphicalProperty("Type").getValue())) {
+                count++;
+            }
+        }
+        return count;
     }
 
     // ── Functions (attached to a FunctionalNode, shown only in the Functional view) ─────
@@ -1223,7 +1419,7 @@ public class RhapsodyModelStore implements ModelStore {
         if (!external) return;
         try {
             for (ConnectorCandidate c : findConnectorCandidates(ownerClass, containerPort, newPort, ib, external)) {
-                createConnectorIfAbsent(c.linkOwner, c.fromOwnerClass, c.toOwnerClass, c.fromPart, c.toPart, c.fromPort, c.toPort);
+                createConnectorIfAbsent(c.linkOwner, c.fromOwnerClass, c.toOwnerClass, c.fromPart, c.toPart, c.fromPort, c.toPort, true);
             }
         } catch (Exception ex) {
             System.err.println("[RhapsodyModelStore] connector sync failed: " + ex.getMessage());
@@ -1321,6 +1517,86 @@ public class RhapsodyModelStore implements ModelStore {
         Set<String> seenPairs = new HashSet<>();
         collectPendingConnectors(activeProject(), out, seenPairs);
         collectInternalBroadcastPending(out, seenPairs);
+        collectContextViewPending(out, seenPairs);
+        return out;
+    }
+
+    /** For every Context View: a connector should exist between the system-of-interest's own
+     * top-level port and a linked Actor's own top-level port whenever the two share the same
+     * resolved contract (the "Unikat" mechanism) — and ONLY at that top level, never walking into
+     * either port's own nested decomposition. Requested live: "in Rhapsody sind context views ibds
+     * in denen auch die schnittstellen verbunden werden. aber nur die high-level ohne nested
+     * ports!" fromPart/toPart are the REAL Composition-part instances (itsFlexis/itsActorName —
+     * see addContextViewPart), not a wrapper port the way internal/external delegation candidates
+     * are — a Context View has no such wrapper, the ports being connected genuinely ARE top-level. */
+    private void collectContextViewPending(List<Object> out, Set<String> seenPairs) {
+        IRPClass soi = systemOfInterest();
+        if (soi == null) return;
+        IRPCollection views = kontextPackage().getClasses();
+        for (int i = 1; i <= views.getCount(); i++) {
+            IRPClass cv = (IRPClass) views.getItem(i);
+            if (!hasStereotype(cv, CONTEXT_VIEW_STEREOTYPE)) continue;
+            List<IRPClassifier> parts = contextViewParts(cv);
+            IRPInstance soiInstance = modelElementService.getInstance(cv, itsInstanceName(soi.getName()));
+            if (soiInstance == null) continue;
+            for (IRPClassifier part : parts) {
+                if (((IRPModelElement) part).getGUID().equals(((IRPModelElement) soi).getGUID())) continue;
+                IRPInstance partInstance = modelElementService.getInstance(cv, itsInstanceName(((IRPModelElement) part).getName()));
+                if (partInstance == null) continue;
+                collectContextViewPortPairs(cv, soi, soiInstance, part, partInstance, out, seenPairs);
+            }
+        }
+    }
+
+    /** soi's and part's own DIRECT (top-level, non-recursive — see collectContextViewPending's own
+     * "keine nested ports" requirement) ports, paired up by shared contract. */
+    private void collectContextViewPortPairs(IRPClass cv, IRPClass soi, IRPInstance soiInstance,
+            IRPClassifier part, IRPInstance partInstance, List<Object> out, Set<String> seenPairs) {
+        IRPCollection soiPorts = soi.getPorts();
+        IRPCollection partPorts = part.getPorts();
+        for (int i = 1; i <= soiPorts.getCount(); i++) {
+            IRPModelElement soiPort = (IRPModelElement) soiPorts.getItem(i);
+            IRPClassifier soiContract = getContract(soiPort);
+            if (soiContract == null) continue;
+            String soiContractGuid = ((IRPModelElement) soiContract).getGUID();
+            for (int j = 1; j <= partPorts.getCount(); j++) {
+                IRPModelElement partPort = (IRPModelElement) partPorts.getItem(j);
+                IRPClassifier partContract = getContract(partPort);
+                if (partContract == null || !soiContractGuid.equals(((IRPModelElement) partContract).getGUID())) continue;
+
+                String pairKey = soiPort.getGUID().compareTo(partPort.getGUID()) <= 0
+                        ? soiPort.getGUID() + "|" + partPort.getGUID()
+                        : partPort.getGUID() + "|" + soiPort.getGUID();
+                if (!seenPairs.add(pairKey)) continue;
+                IRPStructureDiagram ibd = diagramService.getIBD(cv);
+                if (ibd != null && connectorExists(ibd, (IRPPort) soiPort, (IRPPort) partPort)) continue;
+
+                Map<String, Object> entry = new LinkedHashMap<>();
+                entry.put("linkOwnerGuid", ((IRPModelElement) cv).getGUID());
+                entry.put("fromPartGuid", ((IRPModelElement) soiInstance).getGUID());
+                entry.put("toPartGuid", ((IRPModelElement) partInstance).getGUID());
+                entry.put("fromPortGuid", soiPort.getGUID());
+                entry.put("toPortGuid", partPort.getGUID());
+                entry.put("fromOwnerGuid", ((IRPModelElement) soi).getGUID());
+                entry.put("toOwnerGuid", ((IRPModelElement) part).getGUID());
+                entry.put("description", soi.getName() + "." + soiPort.getName() + " ↔ " + ((IRPModelElement) part).getName() + "." + partPort.getName()
+                        + " [" + cv.getName() + "]");
+                out.add(entry);
+            }
+        }
+    }
+
+    /** Every Composition part contextView owns (see addContextViewPart) — the system-of-interest
+     * and every linked Actor, found by walking its own Composition relations (the reverse direction
+     * of hasCompositionTo's own single-pair check). */
+    private List<IRPClassifier> contextViewParts(IRPClass contextView) {
+        List<IRPClassifier> out = new ArrayList<>();
+        IRPCollection relations = contextView.getRelations();
+        for (int i = 1; i <= relations.getCount(); i++) {
+            IRPRelation rel = (IRPRelation) relations.getItem(i);
+            IRPClassifier other = rel.getOtherClass();
+            if (other != null) out.add(other);
+        }
         return out;
     }
 
@@ -1506,26 +1782,42 @@ public class RhapsodyModelStore implements ModelStore {
         return owner + "." + port.getName();
     }
 
-    /** Re-resolves the 5 GUIDs a getPendingConnectors entry carries back into live model objects
-     * and creates that one connector — deliberately re-resolving rather than trusting cached
+    /** Re-resolves the GUIDs a getPendingConnectors entry carries back into live model objects and
+     * creates that one connector — deliberately re-resolving rather than trusting cached
      * references, since the scan and this call can happen arbitrarily far apart (the GUI's own
      * "pending connectors" panel is exactly this gap). Silently returns if any GUID no longer
      * resolves to the expected kind (the model changed since the scan — the panel's own next
      * refresh will show the corrected list) rather than throwing and blocking the rest of a
-     * "create all" sweep. */
+     * "create all" sweep.
+     *
+     * fromPart/toPart are either PORTS (the existing internal/external delegation shapes — see
+     * findConnectorCandidates, which reuses a container/boundary port as the "part" argument,
+     * relying on IRPPort extending IRPInstance) or genuine Composition-part INSTANCES (the Context
+     * View shape — see addContextViewPart/collectContextViewPending, e.g. "itsFlexis"). Either way
+     * fromOwnerGuid/toOwnerGuid (the SAME fields getPendingConnectors' own entries already carry
+     * for their description text) are the authoritative source for each end's owning classifier —
+     * NOT re-derived via fromPart.getOwner() (which only means "the port's native owner" for the
+     * Port case; an INSTANCE's own getOwner() returns linkOwner itself, not its classifier, so that
+     * derivation would be wrong for Context View connectors). hubMultiplicity rules (see
+     * createConnectorIfAbsent) only apply when both ends are genuinely Ports — a Context View
+     * connector is a plain 1:1 interface pairing with no broadcast/delegation semantics. */
     @Override
-    public synchronized void createPendingConnector(String linkOwnerGuid, String fromPartGuid, String toPartGuid, String fromPortGuid, String toPortGuid) {
+    public synchronized void createPendingConnector(String linkOwnerGuid, String fromPartGuid, String toPartGuid, String fromPortGuid, String toPortGuid,
+            String fromOwnerGuid, String toOwnerGuid) {
         IRPModelElement linkOwner = findElement(linkOwnerGuid);
         IRPModelElement fromPart = findElement(fromPartGuid);
         IRPModelElement toPart = findElement(toPartGuid);
         IRPModelElement fromPort = findElement(fromPortGuid);
         IRPModelElement toPort = findElement(toPortGuid);
-        if (!(linkOwner instanceof IRPClass) || !(fromPart instanceof IRPPort) || !(toPart instanceof IRPPort)
+        if (!(linkOwner instanceof IRPClass) || !(fromPart instanceof IRPInstance) || !(toPart instanceof IRPInstance)
                 || !(fromPort instanceof IRPPort) || !(toPort instanceof IRPPort)) {
             return;
         }
-        createConnectorIfAbsent((IRPClass) linkOwner, fromPart.getOwner(), toPart.getOwner(),
-                (IRPPort) fromPart, (IRPPort) toPart, (IRPPort) fromPort, (IRPPort) toPort);
+        IRPModelElement fromOwnerClass = fromOwnerGuid != null ? findElement(fromOwnerGuid) : fromPart.getOwner();
+        IRPModelElement toOwnerClass = toOwnerGuid != null ? findElement(toOwnerGuid) : toPart.getOwner();
+        boolean applyHubMultiplicity = fromPart instanceof IRPPort && toPart instanceof IRPPort;
+        createConnectorIfAbsent((IRPClass) linkOwner, fromOwnerClass, toOwnerClass,
+                (IRPInstance) fromPart, (IRPInstance) toPart, (IRPPort) fromPort, (IRPPort) toPort, applyHubMultiplicity);
         save();
     }
 
@@ -1551,12 +1843,25 @@ public class RhapsodyModelStore implements ModelStore {
      * happen — addAggregationPart already gives every composed parent one) just skips the
      * idempotency check rather than failing outright. */
     private void createConnectorIfAbsent(IRPClass linkOwner, IRPModelElement fromOwnerClass, IRPModelElement toOwnerClass,
-            IRPPort fromPart, IRPPort toPart, IRPPort fromPort, IRPPort toPort) {
+            IRPInstance fromPart, IRPInstance toPart, IRPPort fromPort, IRPPort toPort, boolean applyHubMultiplicity) {
         IRPStructureDiagram ibd = diagramService.getIBD(linkOwner);
         if (ibd != null && connectorExists(ibd, fromPort, toPort)) return;
         IRPLink link = linkOwner.addLink(fromPart, toPart, null, fromPort, toPort);
         link.addSpecificStereotype(stereotypeService.getConnectorStereotype());
         setLinkContextTags(link, linkOwner, fromOwnerClass, toOwnerClass, fromPart, toPart, fromPort, toPort);
+        if (!applyHubMultiplicity) {
+            // Context View connectors only — see revealTopLevelPortsOnly's own javadoc for why this
+            // (not the generic refreshPortVisibility) is used here: "im ibd dürfen keine nested
+            // proxyports sichtbar sein!"
+            revealTopLevelPortsOnly(ibd);
+            if (ibd != null) {
+                ECADContext context = new ECADContext();
+                context.getLinkCollection().add(link);
+                diagramService.addConnectorsToIBD(ibd, context);
+                resetDiagramColorsExcept(ibd, link, fromPort, toPort);
+            }
+            return;
+        }
         // The "hub" port is whichever end has (potentially) MULTIPLE distinct connections and so
         // needs its own MULTIPLICITY (a real, native IRPRelation-inherited property — no Tag
         // workaround needed, unlike Direction) kept in sync with the current total count — recomputed
@@ -1600,37 +1905,38 @@ public class RhapsodyModelStore implements ModelStore {
             ECADContext context = new ECADContext();
             context.getLinkCollection().add(link);
             diagramService.addConnectorsToIBD(ibd, context);
-            // ECAD's own createConnector (called by addConnectorsToIBD above) colors the new edge
-            // and both its endpoint nodes green ("indicates new/imported" — its own comment, from
-            // an ICD-import tool's perspective). Requested live: reset every OTHER graphical element
-            // on the diagram back to standard appearance, but the just-created connector (edge +
-            // its two endpoint nodes) should STAY green — "nach create soll der/die neue connector/s
-            // grün werden" (an explicit correction after an earlier version of this reset also wiped
-            // the new one's own color, which wasn't wanted). The new edge is found by matching model
-            // object GUID against link; its endpoint nodes via context's own graphNodeMap (built by
-            // addConnectorsToIBD, keyed by port GUID) for fromPort/toPort specifically.
-            // IRPGraphElement#applyDefaultFormat() is a real native reset (not a manual
-            // ForegroundColor guess), so this doesn't need to know what "standard" actually looks
-            // like for anything else on the diagram.
-            // Compared by underlying model-object GUID, not COM proxy reference (== is unreliable
-            // for COM interop — a fresh wrapper can come back from each getItem(i) call even for
-            // the same underlying object).
-            String linkGuid = ((IRPModelElement) link).getGUID();
-            String fromPortGuid = ((IRPModelElement) fromPort).getGUID();
-            String toPortGuid = ((IRPModelElement) toPort).getGUID();
-            IRPCollection elems = ibd.getGraphicalElements();
-            for (int i = 1; i <= elems.getCount(); i++) {
-                Object o = elems.getItem(i);
-                if (o instanceof IRPGraphNode) {
-                    IRPModelElement mo = ((IRPGraphNode) o).getModelObject();
-                    if (mo != null && (fromPortGuid.equals(mo.getGUID()) || toPortGuid.equals(mo.getGUID()))) continue;
-                } else if (o instanceof IRPGraphEdge) {
-                    IRPModelElement mo = ((IRPGraphEdge) o).getModelObject();
-                    if (mo != null && linkGuid.equals(mo.getGUID())) continue;
-                }
-                if (o instanceof IRPGraphElement) {
-                    ((IRPGraphElement) o).applyDefaultFormat();
-                }
+            resetDiagramColorsExcept(ibd, link, fromPort, toPort);
+        }
+    }
+
+    /** ECAD's own createConnector (called by addConnectorsToIBD) colors the new edge and both its
+     * endpoint nodes green ("indicates new/imported" — its own comment, from an ICD-import tool's
+     * perspective). Requested live: reset every OTHER graphical element on the diagram back to
+     * standard appearance, but the just-created connector (edge + its two endpoint nodes) should
+     * STAY green — "nach create soll der/die neue connector/s grün werden" (an explicit correction
+     * after an earlier version of this reset also wiped the new one's own color, which wasn't
+     * wanted). The new edge is found by matching model object GUID against link; its endpoint nodes
+     * via matching fromPort/toPort's own GUIDs. IRPGraphElement#applyDefaultFormat() is a real
+     * native reset (not a manual ForegroundColor guess), so this doesn't need to know what
+     * "standard" actually looks like for anything else on the diagram. Compared by underlying
+     * model-object GUID, not COM proxy reference (== is unreliable for COM interop — a fresh
+     * wrapper can come back from each getItem(i) call even for the same underlying object). */
+    private void resetDiagramColorsExcept(IRPStructureDiagram ibd, IRPLink link, IRPPort fromPort, IRPPort toPort) {
+        String linkGuid = ((IRPModelElement) link).getGUID();
+        String fromPortGuid = ((IRPModelElement) fromPort).getGUID();
+        String toPortGuid = ((IRPModelElement) toPort).getGUID();
+        IRPCollection elems = ibd.getGraphicalElements();
+        for (int i = 1; i <= elems.getCount(); i++) {
+            Object o = elems.getItem(i);
+            if (o instanceof IRPGraphNode) {
+                IRPModelElement mo = ((IRPGraphNode) o).getModelObject();
+                if (mo != null && (fromPortGuid.equals(mo.getGUID()) || toPortGuid.equals(mo.getGUID()))) continue;
+            } else if (o instanceof IRPGraphEdge) {
+                IRPModelElement mo = ((IRPGraphEdge) o).getModelObject();
+                if (mo != null && linkGuid.equals(mo.getGUID())) continue;
+            }
+            if (o instanceof IRPGraphElement) {
+                ((IRPGraphElement) o).applyDefaultFormat();
             }
         }
     }
@@ -1648,7 +1954,7 @@ public class RhapsodyModelStore implements ModelStore {
      * container's own boundary port, not a part inside it) — mirrors ECAD's own fromInstance/
      * toInstance being null for that same case (processNet's own "no its-instance" branch). */
     private void setLinkContextTags(IRPLink link, IRPClass linkOwner, IRPModelElement fromOwnerClass, IRPModelElement toOwnerClass,
-            IRPPort fromContainerPort, IRPPort toContainerPort, IRPPort fromPort, IRPPort toPort) {
+            IRPInstance fromContainerPort, IRPInstance toContainerPort, IRPPort fromPort, IRPPort toPort) {
         IRPCollection elementCol = application.createNewCollection();
         IRPCollection multiCol = application.createNewCollection();
 
@@ -2550,10 +2856,33 @@ public class RhapsodyModelStore implements ModelStore {
         diagramService.populateIBD(ibd);
     }
 
+    /** Reveals ONLY each part's own DIRECT (top-level) ports on ibd — never their nested
+     * decomposition, no matter how many times this is called over the diagram's lifetime. Unlike
+     * refreshPortVisibility (which deliberately calls ECAD's own populateIBD twice specifically TO
+     * reveal one level of nesting, for the internal/external delegation cases that need it), this
+     * calls showAllPorts() ONLY on "DiagramFrame"-typed nodes, never on already-present "Port"-typed
+     * ones — populateIBD's own OTHER branch is what would otherwise reveal a Port node's nested
+     * children on any call made AFTER that port was already on the diagram (e.g. adding a second
+     * Actor to an already-populated Context View). Used exclusively for Context View IBDs —
+     * requested live: "im ibd dürfen keine nested proxyports sichtbar sein!" */
+    private void revealTopLevelPortsOnly(IRPStructureDiagram ibd) {
+        if (ibd == null) return;
+        IRPCollection elems = ibd.getGraphicalElements();
+        for (int i = 1; i <= elems.getCount(); i++) {
+            Object o = elems.getItem(i);
+            if (o instanceof IRPGraphNode) {
+                IRPGraphNode node = (IRPGraphNode) o;
+                if ("DiagramFrame".equals(node.getGraphicalProperty("Type").getValue())) {
+                    node.showAllPorts();
+                }
+            }
+        }
+    }
+
     /** Whether parent already has a relation (any type — Composition is the only kind this app
      * ever creates via addAggregationPart, so no need to filter by getRelationType) whose other end
      * is child, by GUID. Used to make addAggregationPart idempotent — see its own javadoc. */
-    private boolean hasCompositionTo(IRPClass parent, IRPClass child) {
+    private boolean hasCompositionTo(IRPClass parent, IRPClassifier child) {
         String childGuid = ((IRPModelElement) child).getGUID();
         IRPCollection relations = parent.getRelations();
         for (int i = 1; i <= relations.getCount(); i++) {
@@ -2683,7 +3012,7 @@ public class RhapsodyModelStore implements ModelStore {
      * immediately visible package in Rhapsody's own Model Browser, NOT nested inside the hidden
      * default package (unlike containerFor/findOrCreateInterfaceBlock's fallback). Despite the
      * name, not strictly limited to the four architecture views ("Operational"/"Functional"/
-     * "Logical"/"Physical" — PORT_VIEWS) — also reused as-is for "Kontext" (Actors, see
+     * "Logical"/"Physical" — PORT_VIEWS) — also reused as-is for "Context" (Actors, see
      * createActor), since the underlying find-or-create-by-name mechanism is identical either way.
      * The addClass/addActor/addUseCase restriction that makes the hidden-package workaround
      * necessary for those (see containerFor's javadoc — "Method X not implemented for Project",
@@ -2703,18 +3032,32 @@ public class RhapsodyModelStore implements ModelStore {
         return project.addNestedPackage(viewName);
     }
 
-    /** Find-or-create "Kontext" (Actors — Context tab) as a package nested *under* "Operational"
+    /** Find-or-create "Context" (Actors — Context tab) as a package nested *under* "Operational"
      * (see viewPackage), not a standalone top-level one — corrected after standalone was tried
      * first. Still reached by collectArchitectureChildren's existing unconditional recursion into
-     * every sub-package regardless of nesting depth, same as any other package here. */
+     * every sub-package regardless of nesting depth, same as any other package here.
+     *
+     * Renamed live from the original German "Kontext" — requested: "die Pakete Capabilities und
+     * Kontext müssen auf englisch übersetzt werden!" ("Capabilities" was already English, so only
+     * this one needed changing). A project that already has the legacy "Kontext" package (every
+     * project created before this fix) is migrated IN PLACE — same object/GUID, so every Actor and
+     * Context View already living inside it stays reachable — rather than silently creating a new,
+     * empty "Context" package alongside the old one and stranding all its existing contents. */
     private IRPPackage kontextPackage() {
         IRPPackage operational = viewPackage("Operational");
         IRPCollection nested = operational.getPackages();
         for (int i = 1; i <= nested.getCount(); i++) {
             IRPPackage p = (IRPPackage) nested.getItem(i);
-            if ("Kontext".equals(((IRPModelElement) p).getName())) return p;
+            if ("Context".equals(((IRPModelElement) p).getName())) return p;
         }
-        return operational.addNestedPackage("Kontext");
+        for (int i = 1; i <= nested.getCount(); i++) {
+            IRPPackage p = (IRPPackage) nested.getItem(i);
+            if ("Kontext".equals(((IRPModelElement) p).getName())) {
+                ((IRPModelElement) p).setName("Context");
+                return p;
+            }
+        }
+        return operational.addNestedPackage("Context");
     }
 
     /** Find-or-create "Capabilities" (top-level Capability groupings — Capabilities tab) as a
@@ -2751,6 +3094,25 @@ public class RhapsodyModelStore implements ModelStore {
         return capsPkg.addNestedPackage(sanitizedName);
     }
 
+    /** Find-or-create a single Context View CLASS by its (sanitized) name, directly under
+     * kontextPackage() — a FLAT structure, no separate "ContextViews" sub-package (requested live:
+     * "das Package ContextViews brauchen wir nicht eine flache Struktur ist ausreichend!" — see
+     * CONTEXT_VIEW_STEREOTYPE's own javadoc for how it's told apart from a real architecture
+     * element, now that location alone can't do that). Mirrors findOrCreateCapabilityPackage's own
+     * by-name reasoning exactly (an interactively-created Context View is never Tag-stamped, so
+     * re-importing an XML previously exported from this same already-populated project needs to
+     * match by name, not sourceGuid, or Rhapsody rejects the resulting name clash outright) — except
+     * a Context View is a Class (addClass), not a Package. */
+    private IRPClass findOrCreateContextViewClass(String sanitizedName) {
+        IRPPackage kontext = kontextPackage();
+        IRPCollection nested = kontext.getClasses();
+        for (int i = 1; i <= nested.getCount(); i++) {
+            IRPClass c = (IRPClass) nested.getItem(i);
+            if (sanitizedName.equals(((IRPModelElement) c).getName())) return c;
+        }
+        return kontext.addClass(sanitizedName);
+    }
+
     // ── Tree / node builders ─────────────────────────────────────────────
 
     /** The model root — "kind":"Model" (not "Package": there is no user-facing Package concept).
@@ -2782,7 +3144,12 @@ public class RhapsodyModelStore implements ModelStore {
             // The FUNCTION_STEREOTYPE check is legacy-only now — Functions are native Operations
             // (see createFunction's javadoc), never their own class going forward, but a project
             // may still have Function-as-class elements left over from before that change.
-            if (hasStereotype(cls, INTERFACE_BLOCK_STEREOTYPE) || hasStereotype(cls, FUNCTION_STEREOTYPE)) continue;
+            // CONTEXT_VIEW_STEREOTYPE: Context Views live directly under kontextPackage() (a FLAT
+            // structure — see that constant's own javadoc for why there's no separate sub-package
+            // to exclude by name/location the way this used to work), so without this they'd leak
+            // into the visible Architecture tree as spurious top-level elements, same bug class as
+            // interfaceBlocks needed their own filter for above.
+            if (hasStereotype(cls, INTERFACE_BLOCK_STEREOTYPE) || hasStereotype(cls, FUNCTION_STEREOTYPE) || hasStereotype(cls, CONTEXT_VIEW_STEREOTYPE)) continue;
             childrenOut.add(blockNode(cls));
         }
         IRPCollection nestedPkgs = pkg.getPackages();

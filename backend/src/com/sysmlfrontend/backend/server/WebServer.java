@@ -292,6 +292,8 @@ public class WebServer {
                 handleContext(exchange, method, p); return;
             case "capabilities":
                 handleCapabilities(exchange, method, p); return;
+            case "contextViews":
+                handleContextViews(exchange, method, p); return;
             case "useCases":
                 handleUseCases(exchange, method, p); return;
             case "elements":
@@ -499,6 +501,24 @@ public class WebServer {
         notFound(exchange);
     }
 
+    // ── /api/contextViews[...] — user-defined Context tab groupings of Actors ───────────
+
+    private void handleContextViews(HttpExchange exchange, String method, String[] p) throws IOException {
+        if (p.length == 1 && isGet(method)) {
+            respond(exchange, 200, wrapList(activeStore.getContextViews()));
+            return;
+        } else if (p.length == 1 && isPost(method)) {
+            Map<String, Object> body = readJsonObject(exchange);
+            respond(exchange, 200, activeStore.createContextView(str(body, "name")));
+            return;
+        } else if (p.length == 2 && "DELETE".equalsIgnoreCase(method)) {
+            activeStore.deleteElement(p[1]);
+            respond(exchange, 200, ok("guid", p[1]));
+            return;
+        }
+        notFound(exchange);
+    }
+
     // ── /api/useCases/{guid} ─────────────────────────────────────────────
 
     private void handleUseCases(HttpExchange exchange, String method, String[] p) throws IOException {
@@ -524,7 +544,8 @@ public class WebServer {
         } else if (p.length == 1 && isPost(method)) {
             Map<String, Object> body = readJsonObject(exchange);
             activeStore.createPendingConnector(str(body, "linkOwnerGuid"), str(body, "fromPartGuid"),
-                    str(body, "toPartGuid"), str(body, "fromPortGuid"), str(body, "toPortGuid"));
+                    str(body, "toPartGuid"), str(body, "fromPortGuid"), str(body, "toPortGuid"),
+                    str(body, "fromOwnerGuid"), str(body, "toOwnerGuid"));
             respond(exchange, 200, ok("status", "ok"));
             return;
         }
@@ -559,6 +580,21 @@ public class WebServer {
             }
         } else if (p.length == 4 && "capabilities".equals(p[2]) && "DELETE".equalsIgnoreCase(method)) {
             activeStore.unlinkCapability(p[1], p[3]);
+            respond(exchange, 200, ok("guid", p[3]));
+            return;
+        } else if (p.length == 3 && "contextViews".equals(p[2])) {
+            String guid = p[1];
+            if (isGet(method)) {
+                respond(exchange, 200, wrapList(activeStore.getContextViewsOf(guid)));
+                return;
+            } else if (isPost(method)) {
+                Map<String, Object> body = readJsonObject(exchange);
+                activeStore.linkContextView(guid, str(body, "contextViewGuid"));
+                respond(exchange, 200, wrapList(activeStore.getContextViewsOf(guid)));
+                return;
+            }
+        } else if (p.length == 4 && "contextViews".equals(p[2]) && "DELETE".equalsIgnoreCase(method)) {
+            activeStore.unlinkContextView(p[1], p[3]);
             respond(exchange, 200, ok("guid", p[3]));
             return;
         } else if (p.length == 3 && "functions".equals(p[2])) {

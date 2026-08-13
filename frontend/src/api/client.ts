@@ -118,6 +118,32 @@ export const api = {
 
   deleteActor: (guid: string) => request<{ status: string }>(`/context/actors/${encodeURIComponent(guid)}`, { method: "DELETE" }),
 
+  // ── Context Views (user-defined, top-level groupings of Actors — one tab each) ─────
+
+  getContextViews: () => request<{ items: ElementRef[] }>("/contextViews").then((r) => r.items),
+
+  createContextView: (name: string) =>
+    request<ElementRef>("/contextViews", {
+      method: "POST",
+      body: JSON.stringify({ name }),
+    }),
+
+  deleteContextView: (guid: string) =>
+    request<{ status: string }>(`/contextViews/${encodeURIComponent(guid)}`, { method: "DELETE" }),
+
+  getContextViewsOf: (actorGuid: string) =>
+    request<{ items: ElementRef[] }>(`/elements/${encodeURIComponent(actorGuid)}/contextViews`).then((r) => r.items),
+
+  linkContextView: (actorGuid: string, contextViewGuid: string) =>
+    request<{ items: ElementRef[] }>(`/elements/${encodeURIComponent(actorGuid)}/contextViews`, {
+      method: "POST",
+      body: JSON.stringify({ contextViewGuid }),
+    }),
+
+  // Removes the link — does not delete the Context View itself (use deleteContextView for that).
+  unlinkContextView: (actorGuid: string, contextViewGuid: string) =>
+    request<{ status: string }>(`/elements/${encodeURIComponent(actorGuid)}/contextViews/${encodeURIComponent(contextViewGuid)}`, { method: "DELETE" }),
+
   // ── Capabilities (top-level grouping; each Capability owns a list of UseCases) ─────
 
   getCapabilities: () => request<{ items: ElementRef[] }>("/capabilities").then((r) => r.items),

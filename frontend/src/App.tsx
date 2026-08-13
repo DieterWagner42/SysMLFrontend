@@ -19,9 +19,11 @@ import { Palette, type PaletteItem } from "./components/Palette";
 import { ConfigPanel } from "./components/ConfigPanel";
 import { PendingConnectorsPanel } from "./components/PendingConnectorsPanel";
 import { MoveElementPicker } from "./components/MoveElementPicker";
+import { AddActorPicker } from "./components/AddActorPicker";
 import { ArchitectureNode, type ArchitectureNodeData } from "./components/nodes/ArchitectureNode";
 import { ActorNode, type ActorNodeData } from "./components/nodes/ActorNode";
 import { CapabilityNode, type CapabilityNodeData } from "./components/nodes/CapabilityNode";
+import { SystemOfInterestNode, type SystemOfInterestNodeData } from "./components/nodes/SystemOfInterestNode";
 import type { ArchKind, ArchNode, ElementRef, KnownInterface, PortDirection, PortSpec, PortView } from "./types";
 
 type Tab = "architecture" | "context" | "capabilities";
@@ -34,6 +36,7 @@ const nodeTypes: NodeTypes = {
   architecture: ArchitectureNode,
   actor: ActorNode,
   capability: CapabilityNode,
+  systemOfInterest: SystemOfInterestNode,
 };
 
 // The hierarchy is automatic (System of Systems → System → Subsystem → Equipment, by nesting
@@ -275,8 +278,15 @@ function App() {
   const [tab, setTab] = useState<Tab>("architecture");
   const [archView, setArchView] = useState<ArchView>("Structure");
   const [architecture, setArchitecture] = useState<ArchNode | null>(null);
-  const [actors, setActors] = useState<(ElementRef & { ports: PortSpec[] })[]>([]);
+  const [actors, setActors] = useState<(ElementRef & { ports: PortSpec[]; contextViews: ElementRef[] })[]>([]);
   const [capabilities, setCapabilities] = useState<(ElementRef & { useCases: ElementRef[] })[]>([]);
+  // Every user-defined Context View (e.g. "Operational Context", "Maintenance Context") — each
+  // becomes its own tab in the Context tab's own tab bar, alongside a built-in "All" tab (selected
+  // via contextViewTab === null) — see the tab bar rendering below. Requested live: "im context
+  // gibt es mehrere user defined Views... wir brauchen für jeden neuen kontext einen neuen tab".
+  const [contextViews, setContextViews] = useState<ElementRef[]>([]);
+  const [contextViewTab, setContextViewTab] = useState<string | null>(null);
+  const [actorPickerOpen, setActorPickerOpen] = useState(false);
   const [selectedGuid, setSelectedGuid] = useState<string | null>(null);
   const [menu, setMenu] = useState<PendingMenu | null>(null);
   const [movePickerTarget, setMovePickerTarget] = useState<{ guid: string; name: string } | null>(null);
@@ -464,9 +474,19 @@ function App() {
   const refreshContext = useCallback(() => withErrorHandling(async () => {
     const items = await api.getContext();
     const withPorts = await Promise.all(
-      items.map(async (a) => ({ ...a, ports: await api.getPorts(a.guid).catch(() => []) })),
+      items.map(async (a) => ({
+        ...a,
+        ports: await api.getPorts(a.guid).catch(() => []),
+        contextViews: await api.getContextViewsOf(a.guid).catch(() => []),
+      })),
     );
     setActors(withPorts);
+  }), [withErrorHandling]);
+
+  // Fetched unconditionally, like capabilities: the Context tab's own tab bar needs the full list
+  // even before an Actor's own ContextViewsSection picker has ever been opened.
+  const refreshContextViews = useCallback(() => withErrorHandling(async () => {
+    setContextViews(await api.getContextViews());
   }), [withErrorHandling]);
 
   const refreshCapabilities = useCallback(() => withErrorHandling(async () => {
@@ -540,6 +560,12 @@ function App() {
     refreshCapabilities();
   }, [refreshCapabilities]);
 
+  // Also unconditional: the Context tab's own tab bar needs the full Context View list even
+  // before the Context tab has ever been visited.
+  useEffect(() => {
+    refreshContextViews();
+  }, [refreshContextViews]);
+
   useEffect(() => {
     if (tab === "context") refreshContext();
   }, [tab, refreshContext]);
@@ -600,11 +626,18 @@ function App() {
 
   // ownerGuid may be a Block/Actor guid (top-level port) or an existing port's guid (a nested,
   // decomposed port) — same call either way, see PortRow's "+ Nested Port" action.
+  // Context tab now shows ports for TWO different kinds of node — an Actor (its own `actors`
+  // state) AND the system-of-interest (a real architecture element, its ports living in
+  // `architecture` state instead — see SystemOfInterestNode's own javadoc: "flexis muss auch alle
+  // interfaces haben!"). Refreshing only `refreshContext()` there left the System node's own
+  // ports stale after an edit, since that node's data comes from `architecture`, not `actors`. So
+  // the Context tab refreshes BOTH — cheap (two GETs), and correctness matters more here than
+  // saving one request.
   const onAddPort = useCallback((ownerGuid: string, name: string, direction: PortDirection, type: string, view: PortView) => {
     withErrorHandling(async () => {
       await api.createPort(ownerGuid, name, direction, type, view);
       if (tab === "architecture") await refreshArchitecture();
-      else await refreshContext();
+      else await Promise.all([refreshArchitecture(), refreshContext()]);
     });
   }, [tab, refreshArchitecture, refreshContext, withErrorHandling]);
 
@@ -612,7 +645,7 @@ function App() {
     withErrorHandling(async () => {
       await api.updatePort(portGuid, direction, type, view);
       if (tab === "architecture") await refreshArchitecture();
-      else await refreshContext();
+      else await Promise.all([refreshArchitecture(), refreshContext()]);
     });
   }, [tab, refreshArchitecture, refreshContext, withErrorHandling]);
 
@@ -620,7 +653,7 @@ function App() {
     withErrorHandling(async () => {
       await api.deletePort(portGuid);
       if (tab === "architecture") await refreshArchitecture();
-      else await refreshContext();
+      else await Promise.all([refreshArchitecture(), refreshContext()]);
     });
   }, [tab, refreshArchitecture, refreshContext, withErrorHandling]);
 
@@ -640,6 +673,35 @@ function App() {
       await refreshArchitecture();
     });
   }, [refreshArchitecture, withErrorHandling]);
+
+  const onUnlinkContextView = useCallback((actorGuid: string, contextViewGuid: string) => {
+    withErrorHandling(async () => {
+      await api.unlinkContextView(actorGuid, contextViewGuid);
+      await refreshContext();
+    });
+  }, [refreshContext, withErrorHandling]);
+
+  // AddActorPicker's two actions — see its own javadoc for why this replaced the old unconditional
+  // window.prompt create-only flow on the Context tab. Both link the result to the CURRENTLY
+  // SELECTED Context View tab (contextViewTab) when one is active; on the built-in "All" tab
+  // (contextViewTab === null) a create just creates, with nothing to link to yet.
+  const onCreateActorFromPicker = useCallback((name: string) => {
+    withErrorHandling(async () => {
+      if (!architecture) return;
+      const created = await api.createActor(architecture.guid, name);
+      if (contextViewTab) await api.linkContextView(created.guid, contextViewTab);
+      setActorPickerOpen(false);
+      await refreshContext();
+    });
+  }, [architecture, contextViewTab, refreshContext, withErrorHandling]);
+
+  const onSelectExistingActorFromPicker = useCallback((actorGuid: string) => {
+    withErrorHandling(async () => {
+      if (contextViewTab) await api.linkContextView(actorGuid, contextViewTab);
+      setActorPickerOpen(false);
+      await refreshContext();
+    });
+  }, [contextViewTab, refreshContext, withErrorHandling]);
 
   // UseCases are owned by a Capability (Capabilities tab), not by an architecture element —
   // mirrors onAddFunction/onFunctionDelete, but refreshes the Capabilities tab's own data instead.
@@ -697,9 +759,53 @@ function App() {
 
   // ── Context tab graph ───────────────────────────────────────────────
 
+  // The system-of-interest — the topmost non-aspect root of the Architecture tab's own tree
+  // (SystemOfSystem/System, never a FunctionalNode/LogicalNode/PhysicalNode aspect root) — shown
+  // automatically in every Context tab view as a fixed, read-only anchor. Requested live: "der
+  // Systemblock muss immer in jeder view automatisch eingefügt werden." Only the first one is used
+  // — a model normally has exactly one system-of-interest; if several exist (unusual), the rest
+  // are simply not shown here (they still exist fine in the Architecture tab).
+  const systemOfInterest = useMemo(
+    () => architecture?.children.find((c) => !ASPECT_KINDS.has(c.kind as ArchKind)) ?? null,
+    [architecture],
+  );
+
   useEffect(() => {
     if (tab !== "context") return;
-    const n: Node<ActorNodeData>[] = actors.map((a, i) => ({
+    // contextViewTab === null is the built-in "All" tab (unfiltered) — a user-defined Context
+    // View tab only shows Actors linked to it. An Actor may be linked to several Context Views
+    // at once, so this is a simple membership filter, not a partition.
+    const visibleActors = contextViewTab == null
+      ? actors
+      : actors.filter((a) => a.contextViews.some((cv) => cv.guid === contextViewTab));
+    // Fixed position, non-draggable, and a distinct node id ("system-"+guid, never the bare
+    // architecture guid) — this reuses the SAME element as the Architecture tab's own root node,
+    // and dragging it here would call api.setPosition with that element's real guid and no view,
+    // silently overwriting the Architecture tab's own flat-position fallback. Shown regardless of
+    // which Context View tab is selected, including "All".
+    const systemNode: Node<SystemOfInterestNodeData>[] = systemOfInterest
+      ? [{
+          id: `system-${systemOfInterest.guid}`,
+          type: "systemOfInterest",
+          position: { x: -COL_WIDTH - 40, y: 0 },
+          draggable: false,
+          selectable: false,
+          data: {
+            label: systemOfInterest.name,
+            guid: systemOfInterest.guid,
+            ports: systemOfInterest.ports ?? [],
+            onAddPort,
+            onPortChange,
+            onPortDelete,
+            knownInterfaces,
+            capabilities: systemOfInterest.capabilities ?? [],
+            allCapabilities: capabilities,
+            onLinkCapability,
+            onUnlinkCapability,
+          },
+        }]
+      : [];
+    const n: Node<ActorNodeData>[] = visibleActors.map((a, i) => ({
       id: a.guid,
       type: "actor",
       position: a.x != null && a.y != null
@@ -712,6 +818,12 @@ function App() {
         isSelected: a.guid === selectedGuid,
         onContextMenu: (e, guid) => {
           e.preventDefault();
+          const removeFromContext = contextViewTab
+            ? [{
+                label: "Remove from this Context",
+                onClick: () => onUnlinkContextView(guid, contextViewTab),
+              }]
+            : [];
           setMenu({
             x: e.clientX,
             y: e.clientY,
@@ -725,6 +837,7 @@ function App() {
                   await refreshContext();
                 }),
               },
+              ...removeFromContext,
               {
                 label: "Delete",
                 danger: true,
@@ -743,9 +856,9 @@ function App() {
         knownInterfaces,
       },
     }));
-    setNodes(n.map(applyStoredSize));
+    setNodes([...systemNode.map(applyStoredSize), ...n.map(applyStoredSize)]);
     setEdges([]);
-  }, [tab, actors, selectedGuid, knownInterfaces, onAddPort, onPortChange, onPortDelete, refreshContext, setNodes, setEdges, withErrorHandling]);
+  }, [tab, actors, contextViewTab, systemOfInterest, selectedGuid, knownInterfaces, capabilities, onAddPort, onPortChange, onPortDelete, onLinkCapability, onUnlinkCapability, onUnlinkContextView, refreshContext, setNodes, setEdges, withErrorHandling]);
 
   // ── Capabilities tab graph ──────────────────────────────────────────
 
@@ -835,6 +948,11 @@ function App() {
         if (!name) return;
         await api.createArchitectureElement(parentGuid, name, itemType);
         await refreshArchitecture();
+      } else if (tab === "context" && itemType === "Actor") {
+        // Opens AddActorPicker instead of creating unconditionally — requested live: "beim
+        // drag&drop sollen auch existierende externe Systeme auswählbar sein" (see the picker's
+        // own "onCreateNew"/"onSelectExisting" handlers below for what happens next).
+        setActorPickerOpen(true);
       } else if (itemType === "Actor") {
         const name = window.prompt("External system name:");
         if (!name) return;
@@ -1015,6 +1133,64 @@ function App() {
         </div>
       )}
 
+      {tab === "context" && (
+        <div className="arch-view-tabs">
+          <button className={contextViewTab == null ? "active" : ""} onClick={() => setContextViewTab(null)}>
+            All
+          </button>
+          {contextViews.map((cv) => (
+            <button
+              key={cv.guid}
+              className={contextViewTab === cv.guid ? "active" : ""}
+              onClick={() => setContextViewTab(cv.guid)}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                setMenu({
+                  x: e.clientX,
+                  y: e.clientY,
+                  items: [
+                    {
+                      label: "Rename",
+                      onClick: () => withErrorHandling(async () => {
+                        const name = window.prompt("New name:", cv.name);
+                        if (!name) return;
+                        await api.renameElement(cv.guid, name);
+                        await refreshContextViews();
+                      }),
+                    },
+                    {
+                      label: "Delete",
+                      danger: true,
+                      onClick: () => withErrorHandling(async () => {
+                        if (!window.confirm(`Delete context "${cv.name}"? Actors linked to it are unaffected.`)) return;
+                        await api.deleteContextView(cv.guid);
+                        if (contextViewTab === cv.guid) setContextViewTab(null);
+                        await refreshContextViews();
+                        await refreshContext();
+                      }),
+                    },
+                  ],
+                });
+              }}
+            >
+              {cv.name}
+            </button>
+          ))}
+          <button
+            title="Create a new user-defined context (e.g. Operational Context, Maintenance Context)"
+            onClick={() => withErrorHandling(async () => {
+              const name = window.prompt("New context name:");
+              if (!name) return;
+              const created = await api.createContextView(name);
+              await refreshContextViews();
+              setContextViewTab(created.guid);
+            })}
+          >
+            + New Context
+          </button>
+        </div>
+      )}
+
       {!saveHealthy && (
         <div className="error-banner">
           ⚠ Changes are applying live but NOT saving to disk in Rhapsody right now — check the
@@ -1058,6 +1234,15 @@ function App() {
             onMoveElement(guid, parentGuid);
           }}
           onClose={() => setMovePickerTarget(null)}
+        />
+      )}
+      {actorPickerOpen && (
+        <AddActorPicker
+          existingActors={contextViewTab ? actors.filter((a) => !a.contextViews.some((cv) => cv.guid === contextViewTab)) : []}
+          contextName={contextViewTab ? contextViews.find((cv) => cv.guid === contextViewTab)?.name ?? null : null}
+          onCreateNew={onCreateActorFromPicker}
+          onSelectExisting={onSelectExistingActorFromPicker}
+          onClose={() => setActorPickerOpen(false)}
         />
       )}
     </div>

@@ -36,6 +36,7 @@ public class LocalXmlModelStore implements ModelStore {
     private final List<ActorEntry> actors = new ArrayList<>();
     private final List<CapabilityEntry> capabilities = new ArrayList<>();
     private final List<UseCaseEntry> useCases = new ArrayList<>();
+    private final List<ContextViewEntry> contextViews = new ArrayList<>();
     private final List<FunctionEntry> functions = new ArrayList<>();
     private final String statePath;
     private String rhapsodyPath;
@@ -203,6 +204,12 @@ public class LocalXmlModelStore implements ModelStore {
             persist();
             return;
         }
+        ContextViewEntry cv = findContextView(guid);
+        if (cv != null) {
+            cv.name = name;
+            persist();
+            return;
+        }
         FunctionEntry f = findFunction(guid);
         if (f != null) {
             f.name = name;
@@ -259,6 +266,10 @@ public class LocalXmlModelStore implements ModelStore {
             return;
         }
         if (useCases.removeIf(u -> u.guid.equals(guid))) {
+            persist();
+            return;
+        }
+        if (contextViews.removeIf(c -> c.guid.equals(guid))) {
             persist();
             return;
         }
@@ -384,6 +395,61 @@ public class LocalXmlModelStore implements ModelStore {
     public synchronized void unlinkCapability(String ownerGuid, String capabilityGuid) {
         CapabilityEntry c = findCapability(capabilityGuid);
         if (c != null && c.linkedOwners.remove(ownerGuid)) {
+            persist();
+        }
+    }
+
+    // ── Context Views (user-defined, top-level groupings of Actors) ─────────────────────
+
+    @Override
+    public synchronized List<Object> getContextViews() {
+        List<Object> out = new ArrayList<>();
+        for (ContextViewEntry c : contextViews) out.add(ref(c.guid, c.name, "ContextView", null, null));
+        return out;
+    }
+
+    @Override
+    public synchronized Map<String, Object> createContextView(String name, String sourceGuid) {
+        requireNonEmpty(name, "name");
+        if (sourceGuid != null) {
+            ContextViewEntry existing = findContextView(sourceGuid);
+            if (existing != null) {
+                existing.name = name;
+                persist();
+                return ref(existing.guid, existing.name, "ContextView", null, null);
+            }
+        }
+        ContextViewEntry c = new ContextViewEntry(sourceGuid != null ? sourceGuid : newGuid(), name);
+        contextViews.add(c);
+        persist();
+        return ref(c.guid, c.name, "ContextView", null, null);
+    }
+
+    @Override
+    public synchronized List<Object> getContextViewsOf(String actorGuid) {
+        List<Object> out = new ArrayList<>();
+        for (ContextViewEntry c : contextViews) {
+            if (c.linkedActors.contains(actorGuid)) out.add(ref(c.guid, c.name, "ContextView", null, null));
+        }
+        return out;
+    }
+
+    @Override
+    public synchronized void linkContextView(String actorGuid, String contextViewGuid) {
+        ContextViewEntry c = findContextView(contextViewGuid);
+        if (c == null) {
+            throw new IllegalArgumentException("No Context View found with GUID '" + contextViewGuid + "'");
+        }
+        if (!c.linkedActors.contains(actorGuid)) {
+            c.linkedActors.add(actorGuid);
+            persist();
+        }
+    }
+
+    @Override
+    public synchronized void unlinkContextView(String actorGuid, String contextViewGuid) {
+        ContextViewEntry c = findContextView(contextViewGuid);
+        if (c != null && c.linkedActors.remove(actorGuid)) {
             persist();
         }
     }
@@ -542,6 +608,11 @@ public class LocalXmlModelStore implements ModelStore {
 
     private UseCaseEntry findUseCase(String guid) {
         for (UseCaseEntry u : useCases) if (u.guid.equals(guid)) return u;
+        return null;
+    }
+
+    private ContextViewEntry findContextView(String guid) {
+        for (ContextViewEntry c : contextViews) if (c.guid.equals(guid)) return c;
         return null;
     }
 
@@ -715,6 +786,19 @@ public class LocalXmlModelStore implements ModelStore {
         final List<String> linkedOwners = new ArrayList<>();
 
         CapabilityEntry(String guid, String name) {
+            this.guid = guid;
+            this.name = name;
+        }
+    }
+
+    private static final class ContextViewEntry {
+        final String guid;
+        String name;
+        // Actor GUIDs linked to this Context View — see getContextViewsOf/linkContextView/
+        // unlinkContextView. A reference list; a Context View owns nothing of its own.
+        final List<String> linkedActors = new ArrayList<>();
+
+        ContextViewEntry(String guid, String name) {
             this.guid = guid;
             this.name = name;
         }

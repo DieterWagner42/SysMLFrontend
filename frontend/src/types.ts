@@ -91,7 +91,7 @@ export interface ArchNode {
 export interface ElementRef {
   guid: string;
   name: string;
-  kind: "Actor" | "UseCase" | "Function" | "Capability";
+  kind: "Actor" | "UseCase" | "Function" | "Capability" | "ContextView";
   x?: number | null;
   y?: number | null;
 }
