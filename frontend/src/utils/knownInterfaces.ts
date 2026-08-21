@@ -21,30 +21,40 @@ export function allPortNames(ports: PortSpec[]): string[] {
   return names;
 }
 
-// The two kind-groups external reuse is allowed to widen within — mirrors the backend's own
-// RhapsodyModelStore LOGICAL_PORT_VIEWS/PHYSICAL_PORT_VIEWS split. A Physical connector is a
-// fundamentally different kind of interface than an Operational/Functional/Logical one and the two
-// must never merge, even though a root element's top-level port is "external" (reusable within its
-// own kind-group) regardless of which of the two groups it belongs to — found live: "System_P sind
-// auch externe Schnittstellen, aber nur physikalische! Wir müssen immer zwischen externen und
-// internen Schnittstellen unterscheiden."
-const PHYSICAL_PORT_VIEWS: ReadonlySet<PortView> = new Set(["Physical"]);
-
-function sameKindGroup(a: PortView, b: PortView): boolean {
-  return PHYSICAL_PORT_VIEWS.has(a) === PHYSICAL_PORT_VIEWS.has(b);
-}
-
 /** Scopes a knownInterfaces list to the view actually being edited — mirrors the backend's own
  * per-view interfaceBlock scoping (backend/CLAUDE.md's "Interfaces are scoped per view" section):
  * a suggestion is offered when its own view matches, OR it's `external` (a port on a root-level
- * tree element — Flexis/System_F/System_L/System_P — which the backend allows reusing from any
- * OTHER view in the SAME kind-group, see sameKindGroup) AND that root element's own view is in the
- * same kind-group as the view being edited. `view` is the view currently being edited (the locked
- * Architecture-tab view, or whatever the view <select> is currently set to when there's no locked
- * view); `undefined`/`null` leaves the list unscoped (no view context to filter by at all). */
-export function forView(knownInterfaces: KnownInterface[], view: PortView | null | undefined): KnownInterface[] {
+ * tree element — Flexis/System_F/System_L/System_P), regardless of which view it was originally
+ * established in or how deep in a decomposition it sits — "Truck ist wie jedes ander toplevel
+ * Interface ein container für alle arten von interface typen. Also muss ein kontainer interface
+ * immer slectierbar sein." Logical/Physical are no exception (an earlier version kept a
+ * Physical-vs-everything-else "kind-group" wall for nested names specifically — removed per "die
+ * logische und physicalische architectur muss genau so funktionieren wie die funktionale
+ * architectur", matching the backend's own findExternalInterfaceBlockAcrossAllViews unification).
+ *
+ * `allowTopLevelExternal` (default true) additionally gates a BARE top-level external name (e.g.
+ * "HEU" itself, `parentName === null`) — set to false when creating a brand-new TOP-LEVEL interface
+ * on a non-root child (a Subsystem/Equipment/FunctionalNode/...): "bei den childs z.B. subsysteme
+ * darf keine externe toplevel interfaces beim interface anlegen auswählbar (kein HEU) sein nur die
+ * nested interface (aber HEU.Voice und HEU.Data)" — a child element should never mint its own flat
+ * top-level "HEU" (that identity belongs to the tree roots alone; every new child interface already
+ * routes into that child's own internal/external collector — see classifyDelegationGroup), it should
+ * only reuse one of HEU's own individually-reusable NESTED interfaces (`parentName !== null`).
+ * Nested external suggestions stay offered either way; only the bare container name is affected. */
+export function forView(
+  knownInterfaces: KnownInterface[],
+  view: PortView | null | undefined,
+  allowTopLevelExternal: boolean = true,
+): KnownInterface[] {
   if (!view) return knownInterfaces;
-  return knownInterfaces.filter((k) => k.view === view || (k.external && !!k.view && sameKindGroup(k.view, view)));
+  return knownInterfaces.filter((k) => {
+    // Checked FIRST, unconditionally — a bare external container name must stay excluded even when
+    // it would otherwise also match via k.view === view (the common case: a child is usually edited
+    // in the same view its external ancestor's own top-level port was created in).
+    if (!allowTopLevelExternal && k.external && k.parentName === null) return false;
+    if (k.view === view) return true;
+    return k.external;
+  });
 }
 
 /** Drops any suggestion whose OWN qualifiedValue (the exact name it would actually create if

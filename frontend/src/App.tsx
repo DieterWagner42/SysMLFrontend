@@ -20,11 +20,14 @@ import { ConfigPanel } from "./components/ConfigPanel";
 import { PendingConnectorsPanel } from "./components/PendingConnectorsPanel";
 import { MoveElementPicker } from "./components/MoveElementPicker";
 import { AddActorPicker } from "./components/AddActorPicker";
+import { UseCaseEditorModal } from "./components/UseCaseEditorModal";
+import { DocumentationModal } from "./components/DocumentationModal";
 import { ArchitectureNode, type ArchitectureNodeData } from "./components/nodes/ArchitectureNode";
 import { ActorNode, type ActorNodeData } from "./components/nodes/ActorNode";
 import { CapabilityNode, type CapabilityNodeData } from "./components/nodes/CapabilityNode";
 import { SystemOfInterestNode, type SystemOfInterestNodeData } from "./components/nodes/SystemOfInterestNode";
-import type { ArchKind, ArchNode, ElementRef, KnownInterface, PortDirection, PortSpec, PortView } from "./types";
+import type { ArchKind, ArchNode, ElementRef, KnownInterface, PortDirection, PortSpec, PortView, UseCaseDetail } from "./types";
+import { contextViewKey } from "./utils/contextViewKey";
 
 type Tab = "architecture" | "context" | "capabilities";
 
@@ -100,11 +103,18 @@ const ASPECT_KINDS = new Set(Object.values(ASPECT_KIND_BY_VIEW));
  * top-level. Previously this fully flattened every match to a single top-level list regardless of
  * original nesting, losing same-view decomposition structure. */
 function filterPortsByView(ports: PortSpec[], view: PortView): PortSpec[] {
+  return filterPortsByViews(ports, new Set([view]));
+}
+
+/** Same walk-and-splice-up shape as filterPortsByView, generalized to a SET of allowed views
+ * instead of a single exact one — needed for aspect nodes (see ASPECT_PORT_VIEWS below), where
+ * "belongs to this aspect" isn't a single exact view match. */
+function filterPortsByViews(ports: PortSpec[], allowed: ReadonlySet<PortView>): PortSpec[] {
   function walk(list: PortSpec[]): PortSpec[] {
     const out: PortSpec[] = [];
     for (const p of list) {
       const filteredChildren = walk(p.children);
-      if (p.view === view) {
+      if (p.view != null && allowed.has(p.view)) {
         out.push({ ...p, children: filteredChildren });
       } else {
         // p itself isn't in this view — splice its matching descendants up to this level instead
@@ -115,6 +125,31 @@ function filterPortsByView(ports: PortSpec[], view: PortView): PortSpec[] {
     return out;
   }
   return walk(ports);
+}
+
+/** Which port views an aspect node's own tab shows NESTED decomposition for — requested live,
+ * correcting the earlier "aspect ports aren't filtered at all" assumption below: "warum werden in
+ * system_f ... die physicalische nested ports übernommen? ... System_F nested funcional und
+ * operational interface. System_L nested logical interface. System_P nested physical interface."
+ * An external interface's top-level occurrence (e.g. "Truck") is shared via one interfaceBlock
+ * contract across every root that reuses it (see backend/CLAUDE.md's "Interfaces are kept in sync
+ * as a single Unikat" section), so its OWN nested children (Mechanical/Power, Physical; mechanic/
+ * power, Operational) are the exact same objects everywhere Truck appears — including under
+ * System_F, even though System_F is a Functional-only context. Functional gets BOTH Operational
+ * and Functional (not just Functional): Operational has no aaspect tree of its own to be shown
+ * under instead (unlike Logical/Physical, which each own a dedicated System_L/System_P tree), so
+ * its nested content is folded into the next step of the decomposition chain rather than having
+ * nowhere to appear at all. Logical/Physical each stay scoped to their own single exact view —
+ * they DO have their own dedicated aspect tree, so nothing needs folding in for them. */
+const ASPECT_PORT_VIEWS: Partial<Record<ArchView, PortView[]>> = {
+  Functional: ["Operational", "Functional"],
+  Logical: ["Logical"],
+  Physical: ["Physical"],
+};
+
+function filterAspectPorts(ports: PortSpec[], archView: ArchView): PortSpec[] {
+  const allowed = ASPECT_PORT_VIEWS[archView];
+  return allowed ? filterPortsByViews(ports, new Set(allowed)) : ports;
 }
 
 function findArchNodeByGuid(node: ArchNode, guid: string): ArchNode | null {
@@ -129,12 +164,25 @@ function findArchNodeByGuid(node: ArchNode, guid: string): ArchNode | null {
 /** Immutable update of guid's own positions[view] within the tree rooted at root — used to
  * optimistically reflect a just-completed drag in the SOURCE architecture state (see
  * onNodesChange), not just React Flow's own transient node array. */
-function updateArchNodePosition(root: ArchNode, guid: string, view: ArchView, pos: { x: number; y: number }): ArchNode {
+function updateArchNodePosition(root: ArchNode, guid: string, view: string, pos: { x: number; y: number }): ArchNode {
   if (root.guid === guid) {
     return { ...root, positions: { ...root.positions, [view]: pos } };
   }
   if (root.children.length === 0) return root;
   return { ...root, children: root.children.map((c) => updateArchNodePosition(c, guid, view, pos)) };
+}
+
+// Mirrors updateArchNodePosition exactly — see onNodesChange's own "reflect in SOURCE state"
+// comment for why this is needed (otherwise a later rebuild triggered by an unrelated state change
+// reverts to the last-FETCHED size). Size is keyed per view the same way position is (see
+// ArchNode.sizes in types.ts) — was flat until that let a resize in one view silently overwrite the
+// size shown in every other one.
+function updateArchNodeSize(root: ArchNode, guid: string, view: string, size: { width: number; height: number }): ArchNode {
+  if (root.guid === guid) {
+    return { ...root, sizes: { ...root.sizes, [view]: size } };
+  }
+  if (root.children.length === 0) return root;
+  return { ...root, children: root.children.map((c) => updateArchNodeSize(c, guid, view, size)) };
 }
 
 // Rough box-height estimate from a node's OWN (unfiltered) port/capability/function counts — used
@@ -168,11 +216,17 @@ function layoutArchitectureTree(
     onLinkCapability: (ownerGuid: string, capabilityGuid: string) => void;
     onUnlinkCapability: (ownerGuid: string, capabilityGuid: string) => void;
     allCapabilities: ElementRef[];
+    onLinkLogicalNode: (functionalNodeGuid: string, logicalNodeGuid: string) => void;
+    onUnlinkLogicalNode: (functionalNodeGuid: string, logicalNodeGuid: string) => void;
+    allLogicalNodes: ElementRef[];
+    onLinkPhysicalNode: (logicalNodeGuid: string, physicalNodeGuid: string) => void;
+    onUnlinkPhysicalNode: (logicalNodeGuid: string, physicalNodeGuid: string) => void;
+    allPhysicalNodes: ElementRef[];
     onAddFunction: (ownerGuid: string, name: string) => void;
     onFunctionDelete: (guid: string) => void;
+    onEditDocumentation: (guid: string, name: string) => void;
     selectedGuid: string | null;
     archView: ArchView;
-    physicalInterfaceTypes: string[];
     knownInterfaces: KnownInterface[];
   },
 ): { nodes: Node<ArchitectureNodeData>[]; edges: Edge[] } {
@@ -238,20 +292,28 @@ function layoutArchitectureTree(
         // kind) never reaches here, see the doc comment above.
         kind: archNode.kind as ArchKind,
         guid: archNode.guid,
-        // Aspect-node (FunctionalNode/LogicalNode/PhysicalNode) ports aren't view-classified/
-        // filtered — being inside one already scopes them to that perspective, unlike System-tree
-        // ports which carry an explicit Operational/Functional/Logical/Physical view of their own.
-        ports: ASPECT_KINDS.has(archNode.kind as ArchKind) || callbacks.archView === "Structure"
+        // A top-level aspect-node port itself is already scoped to its own aspect by construction
+        // (created there, in that view) — but its NESTED decomposition can still diverge (a shared
+        // external interface's children span multiple views — see ASPECT_PORT_VIEWS/
+        // filterAspectPorts), so aspect nodes still need filtering, just a different rule than the
+        // System-tree's single-exact-view one.
+        ports: callbacks.archView === "Structure"
           ? (archNode.ports ?? [])
-          : filterPortsByView(archNode.ports ?? [], callbacks.archView),
+          : ASPECT_KINDS.has(archNode.kind as ArchKind)
+            ? filterAspectPorts(archNode.ports ?? [], callbacks.archView)
+            : filterPortsByView(archNode.ports ?? [], callbacks.archView),
         capabilities: archNode.capabilities ?? [],
         allCapabilities: callbacks.allCapabilities,
+        allocatedLogicalNodes: archNode.allocatedLogicalNodes ?? [],
+        allLogicalNodes: callbacks.allLogicalNodes,
+        allocatedPhysicalNodes: archNode.allocatedPhysicalNodes ?? [],
+        allPhysicalNodes: callbacks.allPhysicalNodes,
         functions: archNode.functions ?? [],
         // System Structure is a pure containment hierarchy — no interfaces/capabilities shown
         // there (see ArchitectureNodeData's doc comment); doesn't apply to FunctionalNodes.
         hideInterfacesAndCapabilities: callbacks.archView === "Structure",
         lockedView,
-        physicalTypes: callbacks.physicalInterfaceTypes,
+        isRootOwner: depth === 0,
         knownInterfaces: callbacks.knownInterfaces,
         isDropTarget: archNode.guid === callbacks.selectedGuid,
         onContextMenu: callbacks.onContextMenu,
@@ -260,8 +322,13 @@ function layoutArchitectureTree(
         onPortDelete: callbacks.onPortDelete,
         onLinkCapability: callbacks.onLinkCapability,
         onUnlinkCapability: callbacks.onUnlinkCapability,
+        onLinkLogicalNode: callbacks.onLinkLogicalNode,
+        onUnlinkLogicalNode: callbacks.onUnlinkLogicalNode,
+        onLinkPhysicalNode: callbacks.onLinkPhysicalNode,
+        onUnlinkPhysicalNode: callbacks.onUnlinkPhysicalNode,
         onAddFunction: callbacks.onAddFunction,
         onFunctionDelete: callbacks.onFunctionDelete,
+        onEditDocumentation: callbacks.onEditDocumentation,
       },
     });
     if (parentId) {
@@ -304,6 +371,15 @@ function App() {
   const [physicalInterfaceTypes, setPhysicalInterfaceTypes] = useState<string[]>([]);
   const [configOpen, setConfigOpen] = useState(false);
   const [connectorsOpen, setConnectorsOpen] = useState(false);
+  const [useCaseEditorOpen, setUseCaseEditorOpen] = useState(false);
+  const [useCaseEditorDetail, setUseCaseEditorDetail] = useState<UseCaseDetail | null>(null);
+  // "Edit Documentation..." modal-in-modal — one generic instance shared by every element kind
+  // (context menu entry for Architecture/Actor/Capability nodes, icon button for Function/UseCase
+  // rows, entry in PortRow's own retype popover for Ports — see DocumentationModal's own javadoc).
+  const [documentationTarget, setDocumentationTarget] = useState<{ guid: string; name: string } | null>(null);
+  const onEditDocumentation = useCallback((guid: string, name: string) => {
+    setDocumentationTarget({ guid, name });
+  }, []);
 
   // Every distinct {name, direction, type, view} combination seen among ALL ports anywhere in the
   // current model — any architecture element (any depth, any nesting/decomposition) plus every
@@ -323,11 +399,10 @@ function App() {
       for (const p of ports ?? []) {
         // A root element's own top-level port is external regardless of its view — INCLUDING
         // Physical (System_P's own ports): "System_P sind auch externe Schnittstellen, aber nur
-        // physikalische!" What matters is that external suggestions stay confined to their own
-        // KIND-GROUP when actually offered — see utils/knownInterfaces.ts' forView/sameKindGroup,
-        // mirroring the backend's own findOrCreateInterfaceBlock/findInterfaceBlockAcrossAllViews
-        // kind-group split (a physical connector is a fundamentally different kind of interface than
-        // an Operational/Functional/Logical one, and the two must never merge).
+        // physikalische!" An external suggestion is offered in every view once found — no
+        // kind-group restriction (see utils/knownInterfaces.ts' forView) — Logical/Physical resolve
+        // exactly like Functional/Operational here, mirroring the backend's own unified
+        // findOrCreateInterfaceBlock/findExternalInterfaceBlockAcrossAllViews.
         //
         // A port's own decomposition INHERITS externality from its parent — mirrors the backend's
         // isWithinExternalTree ("HEU ist der Container ... JMessages/Voice sind selbst externe
@@ -383,6 +458,35 @@ function App() {
     return Array.from(seen.values());
   }, [architecture, actors]);
 
+  // Every LogicalNode anywhere in the model (the System_L tree can nest to arbitrary depth — see
+  // HierarchyLevels.java), for AllocationsSection's own picker (see App.tsx's `allLogicalNodes`
+  // usage below) — mirrors `capabilities`, but LogicalNodes aren't their own top-level fetched
+  // list, they're architecture elements, so this walks the already-fetched tree instead of a
+  // separate endpoint.
+  const allLogicalNodes = useMemo<ElementRef[]>(() => {
+    const out: ElementRef[] = [];
+    function walk(node: ArchNode | null | undefined) {
+      if (!node) return;
+      if (node.kind === "LogicalNode") out.push({ guid: node.guid, name: node.name, kind: "LogicalNode" });
+      node.children.forEach(walk);
+    }
+    architecture?.children.forEach(walk);
+    return out;
+  }, [architecture]);
+
+  // Every PhysicalNode anywhere in the model — mirrors allLogicalNodes exactly, one aspect tree
+  // down (System_P instead of System_L), for AllocationsSection's own picker on a LogicalNode.
+  const allPhysicalNodes = useMemo<ElementRef[]>(() => {
+    const out: ElementRef[] = [];
+    function walk(node: ArchNode | null | undefined) {
+      if (!node) return;
+      if (node.kind === "PhysicalNode") out.push({ guid: node.guid, name: node.name, kind: "PhysicalNode" });
+      node.children.forEach(walk);
+    }
+    architecture?.children.forEach(walk);
+    return out;
+  }, [architecture]);
+
   const [nodes, setNodes, onNodesChangeRaw] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
@@ -404,6 +508,12 @@ function App() {
   // the final dragging:false event can fall back to it.
   const lastDragPositionRef = useRef<Record<string, { x: number; y: number }>>({});
 
+  // Same event-shape quirk as lastDragPositionRef above, for resize instead of drag: react-flow's
+  // final resizing:false event carries no `dimensions` field either — only the preceding
+  // resizing:true events do. Tracks the latest size seen per node id across the whole resize so the
+  // final resizing:false event can fall back to it (see onNodesChange).
+  const lastDragSizeRef = useRef<Record<string, { width: number; height: number }>>({});
+
   const onNodesChange = useCallback((changes: NodeChange[]) => {
     for (const c of changes) {
       // React Flow's own auto-measurement (ResizeObserver tracking a node's natural content size)
@@ -413,19 +523,74 @@ function App() {
       // its first-ever measured size (see the has-custom-size CSS comment in App.css).
       if (c.type === "dimensions" && c.dimensions && typeof c.resizing === "boolean") {
         nodeSizesRef.current[c.id] = { width: c.dimensions.width, height: c.dimensions.height };
+        lastDragSizeRef.current[c.id] = { width: c.dimensions.width, height: c.dimensions.height };
+      }
+      // resizing:false fires once at resize end (continuously with resizing:true while dragging the
+      // handle) — only persist then, mirroring position's own dragging:false handling below. Found
+      // live (via a console.log dump of the raw `changes` array — the resize never fired ANY
+      // network request, not even for a plain ArchitectureNode, contradicting the "verified live"
+      // claim from when this was first built): unlike every resizing:true event, react-flow's FINAL
+      // resizing:false event does NOT carry a `dimensions` field at all — only `{type, id,
+      // resizing:false}`. The original condition required `c.dimensions` on this SAME event, so
+      // `c.resizing === false` was never even reached, and NOTHING was ever persisted, for ANY node,
+      // not just the system-of-interest — the box visually resized (react-flow's own internal state)
+      // but reverted the instant anything else triggered a rebuild (e.g. clicking another node),
+      // reported live as "die Größe wird nach Klicke auf eine andere Box sofort wieder
+      // zurückgesetzt." This is the exact same event-shape quirk already documented and worked
+      // around for position's own dragging:false (see lastDragPositionRef below) — now mirrored here
+      // via lastDragSizeRef, falling back to the last dimensions seen during the drag when this
+      // specific event omits them.
+      if (c.type === "dimensions" && c.resizing === false) {
+        const finalSize = c.dimensions ?? lastDragSizeRef.current[c.id];
+        if (finalSize) {
+          // Requested live: "kann ich alle boxen auch in der breite/höhe ändern? wenn ja müssen wir
+          // das auch in der xml datei speichern." The system-of-interest's own Context-tab node uses
+          // a "system-"-prefixed id (see its own builder in the Context tab effect — kept distinct
+          // from the real element guid so a plain drag there could never collide with the Architecture
+          // tab's own position tracking); strip that prefix back off before persisting, since the
+          // backend only knows the real guid.
+          const isSystemNode = c.id.startsWith("system-");
+          const guid = isSystemNode ? c.id.slice("system-".length) : c.id;
+          const { width, height } = finalSize;
+          if (isSystemNode || tab === "architecture") {
+            // A dedicated size slot per Context View (contextViewKey), distinct from every
+            // Architecture-tab view AND from every other Context View — the system-of-interest's
+            // Context-tab node shares its guid with the Architecture tab's own root element but is
+            // rendered very differently there (surrounded by a different set of Actors per Context
+            // View tab), so it needs its own per-tab size instead of colliding with whichever
+            // Architecture view — or, in an earlier round of this same bug, whichever OTHER Context
+            // View — was resized last (see ArchNode.sizes in types.ts).
+            const view = isSystemNode ? contextViewKey(contextViewTab) : archView;
+            api.setSize(guid, width, height, view).catch((e) => setError(e instanceof Error ? e.message : String(e)));
+            // The system-of-interest's Context-tab node is derived from `architecture` (see its own
+            // useMemo), not `actors` — even though it's shown while tab === "context".
+            setArchitecture((prev) => prev && updateArchNodeSize(prev, guid, view, { width, height }));
+          } else if (tab === "context") {
+            api.setSize(guid, width, height).catch((e) => setError(e instanceof Error ? e.message : String(e)));
+            setActors((prev) => prev.map((a) => (a.guid === guid ? { ...a, width, height } : a)));
+          } else if (tab === "capabilities") {
+            api.setSize(guid, width, height).catch((e) => setError(e instanceof Error ? e.message : String(e)));
+            setCapabilities((prev) => prev.map((cap) => (cap.guid === guid ? { ...cap, width, height } : cap)));
+          }
+        }
       }
       if (c.type === "position" && c.position) {
         lastDragPositionRef.current[c.id] = c.position;
       }
       // dragging:false fires once at drag end (continuously with dragging:true while moving) — only
       // persist then, not on every mousemove. Only the Architecture tab has a "view" to scope the
-      // position to (see ArchNode.positions in types.ts) — Context/Capabilities nodes (Actors/
-      // UseCases) pass view=undefined, which api.setPosition treats as "no view" server-side.
+      // position to (see ArchNode.positions in types.ts) — plain Actors/Capabilities pass
+      // view=undefined, which api.setPosition treats as "no view" server-side. The system-of-
+      // interest's own Context-tab node is a THIRD case (mirrors its own size handling above) — was
+      // fixed-position/non-draggable entirely until requested live right after size got its
+      // per-Context-View fix: "die Größe geht jetzt, aber die Position noch nicht."
       if (c.type === "position" && c.dragging === false) {
         const finalPosition = c.position ?? lastDragPositionRef.current[c.id];
         if (finalPosition) {
-          const view = tab === "architecture" ? archView : undefined;
-          api.setPosition(c.id, finalPosition.x, finalPosition.y, view).catch((e) => setError(e instanceof Error ? e.message : String(e)));
+          const isSystemNode = c.id.startsWith("system-");
+          const guid = isSystemNode ? c.id.slice("system-".length) : c.id;
+          const view = isSystemNode ? contextViewKey(contextViewTab) : tab === "architecture" ? archView : undefined;
+          api.setPosition(guid, finalPosition.x, finalPosition.y, view).catch((e) => setError(e instanceof Error ? e.message : String(e)));
           // Also reflect the new position in the SOURCE state (architecture/actors/capabilities),
           // not just React Flow's own transient node array (updated below via onNodesChangeRaw) —
           // otherwise the next rebuild triggered by ANY other state change (e.g. selecting a
@@ -434,18 +599,20 @@ function App() {
           // Context+Capabilities builders always derive a node's position fresh from this source
           // state — reported live as "I move Missile, Rhapsody keeps the new position, but the
           // frontend snaps it back when I select something else."
-          if (tab === "architecture" && view) {
-            setArchitecture((prev) => prev && updateArchNodePosition(prev, c.id, view, finalPosition));
+          if (isSystemNode || (tab === "architecture" && view)) {
+            // The system-of-interest's Context-tab node is derived from `architecture` (see its own
+            // useMemo), not `actors` — even though it's shown while tab === "context".
+            setArchitecture((prev) => prev && updateArchNodePosition(prev, guid, view!, finalPosition));
           } else if (tab === "context") {
-            setActors((prev) => prev.map((a) => (a.guid === c.id ? { ...a, x: finalPosition.x, y: finalPosition.y } : a)));
+            setActors((prev) => prev.map((a) => (a.guid === guid ? { ...a, x: finalPosition.x, y: finalPosition.y } : a)));
           } else if (tab === "capabilities") {
-            setCapabilities((prev) => prev.map((cap) => (cap.guid === c.id ? { ...cap, x: finalPosition.x, y: finalPosition.y } : cap)));
+            setCapabilities((prev) => prev.map((cap) => (cap.guid === guid ? { ...cap, x: finalPosition.x, y: finalPosition.y } : cap)));
           }
         }
       }
     }
     onNodesChangeRaw(changes);
-  }, [onNodesChangeRaw, tab, archView]);
+  }, [onNodesChangeRaw, tab, archView, contextViewTab]);
 
   function applyStoredSize<T extends { hasCustomSize?: boolean }>(node: Node<T>): Node<T> {
     const size = nodeSizesRef.current[node.id];
@@ -455,6 +622,33 @@ function App() {
       style: { ...node.style, width: size.width, height: size.height },
       data: { ...node.data, hasCustomSize: true },
     };
+  }
+
+  // Seeds nodeSizesRef from a persisted width/height BEFORE the node array is (re)built, so a
+  // size saved in an earlier session (or by another client) shows up correctly on first render —
+  // not just after this session's own resize. MUST clear (not skip) when width/height are null:
+  // now that size is per-view (see ArchNode.sizes), the same guid is reseeded with a DIFFERENT
+  // view's value on every rebuild (e.g. switching the Architecture tab from "Operational" — where
+  // Flexis was resized — to "Functional" — where it never was). Leaving the old entry in place on a
+  // null seed (the pre-per-view behavior, when a guid only ever had ONE flat size that couldn't
+  // toggle between "set" and "unset" across rebuilds) made the previous view's size silently bleed
+  // into every other view — reported live as "die Größenänderung bei Flexis ist immer noch nicht
+  // per view", even after per-view storage landed on the backend.
+  function seedNodeSize(guid: string, width: number | null | undefined, height: number | null | undefined) {
+    if (width != null && height != null) {
+      nodeSizesRef.current[guid] = { width, height };
+    } else {
+      delete nodeSizesRef.current[guid];
+    }
+  }
+
+  // view is one of the 5 Architecture-tab views (mirrors archView) — a node's size is now keyed the
+  // same way its position already is (see ArchNode.sizes in types.ts), so seeding has to pick the
+  // one slot that matches whichever view is currently being rendered.
+  function seedArchTreeSizes(node: ArchNode, view: string) {
+    const size = node.sizes?.[view];
+    seedNodeSize(node.guid, size?.width, size?.height);
+    node.children.forEach((c) => seedArchTreeSizes(c, view));
   }
 
   const withErrorHandling = useCallback(async (fn: () => Promise<void>) => {
@@ -583,6 +777,13 @@ function App() {
           await refreshArchitecture();
         }),
       },
+      {
+        label: "Edit Documentation...",
+        onClick: () => {
+          const target = architecture ? findArchNodeByGuid(architecture, guid) : null;
+          setDocumentationTarget({ guid, name: target?.name ?? "" });
+        },
+      },
     ];
     // Equipment is the leaf level — no further nesting. Everywhere else the level of the new
     // child is automatic (System → Subsystem → Equipment), so there's only ever one quick-add.
@@ -674,6 +875,37 @@ function App() {
     });
   }, [refreshArchitecture, withErrorHandling]);
 
+  // LogicalNode allocation links are embedded inline in the architecture tree (see
+  // ModelStore#getAllocatedLogicalNodesOf), same as Capability links above.
+  const onLinkLogicalNode = useCallback((functionalNodeGuid: string, logicalNodeGuid: string) => {
+    withErrorHandling(async () => {
+      await api.linkLogicalNode(functionalNodeGuid, logicalNodeGuid);
+      await refreshArchitecture();
+    });
+  }, [refreshArchitecture, withErrorHandling]);
+
+  const onUnlinkLogicalNode = useCallback((functionalNodeGuid: string, logicalNodeGuid: string) => {
+    withErrorHandling(async () => {
+      await api.unlinkLogicalNode(functionalNodeGuid, logicalNodeGuid);
+      await refreshArchitecture();
+    });
+  }, [refreshArchitecture, withErrorHandling]);
+
+  // Logical→Physical allocation links — same mechanism as Functional→Logical above, one level down.
+  const onLinkPhysicalNode = useCallback((logicalNodeGuid: string, physicalNodeGuid: string) => {
+    withErrorHandling(async () => {
+      await api.linkPhysicalNode(logicalNodeGuid, physicalNodeGuid);
+      await refreshArchitecture();
+    });
+  }, [refreshArchitecture, withErrorHandling]);
+
+  const onUnlinkPhysicalNode = useCallback((logicalNodeGuid: string, physicalNodeGuid: string) => {
+    withErrorHandling(async () => {
+      await api.unlinkPhysicalNode(logicalNodeGuid, physicalNodeGuid);
+      await refreshArchitecture();
+    });
+  }, [refreshArchitecture, withErrorHandling]);
+
   const onUnlinkContextView = useCallback((actorGuid: string, contextViewGuid: string) => {
     withErrorHandling(async () => {
       await api.unlinkContextView(actorGuid, contextViewGuid);
@@ -694,6 +926,28 @@ function App() {
       await refreshContext();
     });
   }, [architecture, contextViewTab, refreshContext, withErrorHandling]);
+
+  // UseCaseEditorModal's "+ New Actor" — same create-and-optionally-link-to-a-Context-View shape
+  // as onCreateActorFromPicker above, but the Context View is explicitly picked in that dialog
+  // (NewActorPicker) rather than implied by the currently active Context tab, and the created
+  // actor is returned so the modal can select it into the UseCase's own actor list right away.
+  // Can't route through withErrorHandling (it discards its callback's return value) since the
+  // caller needs the created ElementRef back — surfaces errors the same way, then rethrows so
+  // UseCaseEditorModal's own picker doesn't silently close on failure.
+  const onCreateActorForUseCase = useCallback(async (name: string, contextViewGuid: string | null) => {
+    setInfo(null);
+    try {
+      if (!architecture) throw new Error("No model loaded");
+      const created = await api.createActor(architecture.guid, name);
+      if (contextViewGuid) await api.linkContextView(created.guid, contextViewGuid);
+      await refreshContext();
+      setError(null);
+      return created;
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+      throw e;
+    }
+  }, [architecture, refreshContext]);
 
   const onSelectExistingActorFromPicker = useCallback((actorGuid: string) => {
     withErrorHandling(async () => {
@@ -719,6 +973,25 @@ function App() {
     });
   }, [refreshCapabilities, withErrorHandling]);
 
+  // Open the full UseCase editor modal — fetches the complete detail (goal/actors/paths/...)
+  // for the clicked UseCase and shows the editor over the Capabilities tab canvas.
+  const onOpenUseCase = useCallback((guid: string) => {
+    withErrorHandling(async () => {
+      const detail = await api.getUseCaseDetail(guid);
+      // The backend's getUseCaseDetail JSON resolves actors to {guid,name} refs (for display
+      // convenience — see ModelStore#getUseCaseDetail's own javadoc), but UseCaseDetail.actors
+      // (and the editor's own <select value={actorGuid}> binding) is a plain guid string[] —
+      // without normalizing here, each dropdown's value was an object matching no <option>, so a
+      // saved UseCase's actors silently reset to "— Select Actor —" on every re-edit even though
+      // the rows themselves round-tripped correctly.
+      const actors = (detail.actors as unknown as Array<{ guid: string } | string>).map((a) =>
+        typeof a === "string" ? a : a.guid
+      );
+      setUseCaseEditorDetail({ ...detail, actors });
+      setUseCaseEditorOpen(true);
+    });
+  }, [withErrorHandling]);
+
   // Functions are only attached to FunctionalNodes, embedded inline in the architecture tree —
   // mirrors onAddUseCase/onUseCaseDelete, but refreshes the architecture tree instead of
   // Capabilities (Functions are natively owned by their FunctionalNode, unlike UseCases).
@@ -738,6 +1011,7 @@ function App() {
 
   useEffect(() => {
     if (tab !== "architecture" || !architecture) return;
+    seedArchTreeSizes(architecture, archView);
     const { nodes: n, edges: e } = layoutArchitectureTree(architecture, {
       onContextMenu: onArchContextMenu,
       onAddPort,
@@ -746,16 +1020,22 @@ function App() {
       onLinkCapability,
       onUnlinkCapability,
       allCapabilities: capabilities,
+      onLinkLogicalNode,
+      onUnlinkLogicalNode,
+      allLogicalNodes,
+      onLinkPhysicalNode,
+      onUnlinkPhysicalNode,
+      allPhysicalNodes,
       onAddFunction,
       onFunctionDelete,
+      onEditDocumentation,
       selectedGuid,
       archView,
-      physicalInterfaceTypes,
       knownInterfaces,
     });
     setNodes(n.map(applyStoredSize));
     setEdges(e);
-  }, [tab, architecture, selectedGuid, archView, physicalInterfaceTypes, knownInterfaces, capabilities, onArchContextMenu, onAddPort, onPortChange, onPortDelete, onLinkCapability, onUnlinkCapability, onAddFunction, onFunctionDelete, setNodes, setEdges]);
+  }, [tab, architecture, selectedGuid, archView, knownInterfaces, capabilities, allLogicalNodes, allPhysicalNodes, onArchContextMenu, onAddPort, onPortChange, onPortDelete, onLinkCapability, onUnlinkCapability, onLinkLogicalNode, onUnlinkLogicalNode, onLinkPhysicalNode, onUnlinkPhysicalNode, onAddFunction, onFunctionDelete, onEditDocumentation, setNodes, setEdges]);
 
   // ── Context tab graph ───────────────────────────────────────────────
 
@@ -772,23 +1052,36 @@ function App() {
 
   useEffect(() => {
     if (tab !== "context") return;
+    actors.forEach((a) => seedNodeSize(a.guid, a.width, a.height));
+    // The system-of-interest's own Context-tab node id is "system-"+guid (see below), not the
+    // bare guid seedArchTreeSizes already covers via the Architecture tab effect — seed that
+    // specific key too so its size shows up correctly here without ever having visited Architecture
+    // first.
+    if (systemOfInterest) {
+      const key = contextViewKey(contextViewTab);
+      const size = systemOfInterest.sizes?.[key];
+      seedNodeSize(`system-${systemOfInterest.guid}`, size?.width, size?.height);
+    }
     // contextViewTab === null is the built-in "All" tab (unfiltered) — a user-defined Context
     // View tab only shows Actors linked to it. An Actor may be linked to several Context Views
     // at once, so this is a simple membership filter, not a partition.
     const visibleActors = contextViewTab == null
       ? actors
       : actors.filter((a) => a.contextViews.some((cv) => cv.guid === contextViewTab));
-    // Fixed position, non-draggable, and a distinct node id ("system-"+guid, never the bare
-    // architecture guid) — this reuses the SAME element as the Architecture tab's own root node,
-    // and dragging it here would call api.setPosition with that element's real guid and no view,
-    // silently overwriting the Architecture tab's own flat-position fallback. Shown regardless of
-    // which Context View tab is selected, including "All".
+    // A distinct node id ("system-"+guid, never the bare architecture guid) — this reuses the SAME
+    // element as the Architecture tab's own root node, and dragging it here calls api.setPosition
+    // with a dedicated "Context:<contextViewGuid>" view (contextViewKey), never the bare guid/no
+    // view, so it can never collide with the Architecture tab's own per-view positions. Position was
+    // originally fixed/non-draggable entirely (falling back to the same hardcoded offset now used
+    // only when nothing's been dragged yet in this Context View) — requested live right after size
+    // got the same treatment: "die Größe geht jetzt, aber die Position noch nicht." Shown regardless
+    // of which Context View tab is selected, including "All", each with its own saved position.
     const systemNode: Node<SystemOfInterestNodeData>[] = systemOfInterest
       ? [{
           id: `system-${systemOfInterest.guid}`,
           type: "systemOfInterest",
-          position: { x: -COL_WIDTH - 40, y: 0 },
-          draggable: false,
+          position: systemOfInterest.positions?.[contextViewKey(contextViewTab)] ?? { x: -COL_WIDTH - 40, y: 0 },
+          draggable: true,
           selectable: false,
           data: {
             label: systemOfInterest.name,
@@ -797,6 +1090,7 @@ function App() {
             onAddPort,
             onPortChange,
             onPortDelete,
+            onEditDocumentation,
             knownInterfaces,
             capabilities: systemOfInterest.capabilities ?? [],
             allCapabilities: capabilities,
@@ -837,6 +1131,10 @@ function App() {
                   await refreshContext();
                 }),
               },
+              {
+                label: "Edit Documentation...",
+                onClick: () => setDocumentationTarget({ guid, name: a.name }),
+              },
               ...removeFromContext,
               {
                 label: "Delete",
@@ -853,17 +1151,19 @@ function App() {
         onAddPort,
         onPortChange,
         onPortDelete,
+        onEditDocumentation,
         knownInterfaces,
       },
     }));
     setNodes([...systemNode.map(applyStoredSize), ...n.map(applyStoredSize)]);
     setEdges([]);
-  }, [tab, actors, contextViewTab, systemOfInterest, selectedGuid, knownInterfaces, capabilities, onAddPort, onPortChange, onPortDelete, onLinkCapability, onUnlinkCapability, onUnlinkContextView, refreshContext, setNodes, setEdges, withErrorHandling]);
+  }, [tab, actors, contextViewTab, systemOfInterest, selectedGuid, knownInterfaces, capabilities, onAddPort, onPortChange, onPortDelete, onEditDocumentation, onLinkCapability, onUnlinkCapability, onUnlinkContextView, refreshContext, setNodes, setEdges, withErrorHandling]);
 
   // ── Capabilities tab graph ──────────────────────────────────────────
 
   useEffect(() => {
     if (tab !== "capabilities") return;
+    capabilities.forEach((c) => seedNodeSize(c.guid, c.width, c.height));
     const n: Node<CapabilityNodeData>[] = capabilities.map((c, i) => ({
       id: c.guid,
       type: "capability",
@@ -891,6 +1191,10 @@ function App() {
                 }),
               },
               {
+                label: "Edit Documentation...",
+                onClick: () => setDocumentationTarget({ guid, name: c.name }),
+              },
+              {
                 label: "Delete",
                 danger: true,
                 onClick: () => withErrorHandling(async () => {
@@ -905,11 +1209,12 @@ function App() {
         },
         onAddUseCase,
         onUseCaseDelete,
+        onOpenUseCase,
       },
     }));
     setNodes(n.map(applyStoredSize));
     setEdges([]);
-  }, [tab, capabilities, selectedGuid, onAddUseCase, onUseCaseDelete, refreshCapabilities, refreshArchitecture, setNodes, setEdges, withErrorHandling]);
+  }, [tab, capabilities, selectedGuid, onAddUseCase, onUseCaseDelete, onOpenUseCase, refreshCapabilities, refreshArchitecture, setNodes, setEdges, withErrorHandling]);
 
   // ── Drag & drop from palette ─────────────────────────────────────────
 
@@ -1243,6 +1548,30 @@ function App() {
           onCreateNew={onCreateActorFromPicker}
           onSelectExisting={onSelectExistingActorFromPicker}
           onClose={() => setActorPickerOpen(false)}
+        />
+      )}
+      {useCaseEditorOpen && useCaseEditorDetail && (
+        <UseCaseEditorModal
+          useCase={useCaseEditorDetail}
+          actors={actors}
+          contextViews={contextViews}
+          onCreateActor={onCreateActorForUseCase}
+          onSave={async (detail) => {
+            await api.updateUseCase(useCaseEditorDetail.guid, detail);
+            setUseCaseEditorOpen(false);
+            setUseCaseEditorDetail(null);
+          }}
+          onClose={() => {
+            setUseCaseEditorOpen(false);
+            setUseCaseEditorDetail(null);
+          }}
+        />
+      )}
+      {documentationTarget && (
+        <DocumentationModal
+          guid={documentationTarget.guid}
+          name={documentationTarget.name}
+          onClose={() => setDocumentationTarget(null)}
         />
       )}
     </div>

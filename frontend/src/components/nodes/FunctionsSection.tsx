@@ -6,13 +6,14 @@ interface FunctionsSectionProps {
   functions: ElementRef[];
   onAdd: (ownerGuid: string, name: string) => void;
   onDelete: (guid: string) => void;
+  onEditDocumentation: (guid: string, name: string) => void;
 }
 
 /** Function list for a FunctionalNode's own node — mirrors CapabilitiesSection (just a name, no
  * direction/type/view/nesting), but a distinct domain concept: the functions a FunctionalNode
  * performs, shown only in the Functional architecture view, not capabilities of a System-tree
  * element. */
-export function FunctionsSection({ ownerGuid, functions, onAdd, onDelete }: FunctionsSectionProps) {
+export function FunctionsSection({ ownerGuid, functions, onAdd, onDelete, onEditDocumentation }: FunctionsSectionProps) {
   const [adding, setAdding] = useState(false);
   const [name, setName] = useState("");
 
@@ -28,6 +29,9 @@ export function FunctionsSection({ ownerGuid, functions, onAdd, onDelete }: Func
       {functions.map((f) => (
         <div key={f.guid} className="capability-row">
           <span className="capability-name">{f.name}</span>
+          <button className="capability-doc" title="Edit documentation" onClick={() => onEditDocumentation(f.guid, f.name)}>
+            📄
+          </button>
           <button className="capability-delete" title="Delete function" onClick={() => onDelete(f.guid)}>
             ×
           </button>

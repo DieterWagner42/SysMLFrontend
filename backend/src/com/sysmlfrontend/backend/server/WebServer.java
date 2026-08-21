@@ -111,6 +111,29 @@ import com.sysmlfrontend.backend.AppConfig;
  *   POST   /api/elements/{guid}/functions               {"name"} — {guid} is the owning FunctionalNode
  *   DELETE /api/functions/{guid}
  *
+ *   GET    /api/elements/{guid}/logicalNodes             LogicalNodes ALLOCATED from this
+ *                                                        FunctionalNode (Rhapsody: an "Allocate"
+ *                                                        Dependency) — a reference, not ownership —
+ *                                                        mirrors GET .../capabilities; also embedded
+ *                                                        inline on each node from GET /api/architecture
+ *   POST   /api/elements/{guid}/logicalNodes             {"logicalNodeGuid"} — links an existing
+ *                                                        LogicalNode to this FunctionalNode
+ *   DELETE /api/elements/{guid}/logicalNodes/{logicalNodeGuid}   unlinks (does not delete the
+ *                                                        LogicalNode itself)
+ *
+ *   GET    /api/elements/{guid}/physicalNodes             PhysicalNodes ALLOCATED from this
+ *                                                        LogicalNode — mirrors .../logicalNodes
+ *   POST   /api/elements/{guid}/physicalNodes             {"physicalNodeGuid"} — links an existing
+ *                                                        PhysicalNode to this LogicalNode
+ *   DELETE /api/elements/{guid}/physicalNodes/{physicalNodeGuid}   unlinks (does not delete the
+ *                                                        PhysicalNode itself)
+ *
+ *   GET    /api/elements/{guid}/documentation           {"documentation"} free-text notes — {guid}
+ *                                                        may be ANY element kind (architecture
+ *                                                        element, actor, capability, useCase, port,
+ *                                                        function, contextView); "" if never set
+ *   PATCH  /api/elements/{guid}/documentation           {"documentation"}
+ *
  *   GET    /api/elements/{guid}/ports                  top-level ProxyPorts of a Block/Actor (each
  *                                                        with its own decomposition in "children")
  *   POST   /api/elements/{guid}/ports                  {"name","direction","type","view"} — {guid}
@@ -304,6 +327,8 @@ public class WebServer {
                 handleFunctions(exchange, method, p); return;
             case "positions":
                 handlePositions(exchange, method, p); return;
+            case "sizes":
+                handleSizes(exchange, method, p); return;
             case "connectors":
                 handleConnectors(exchange, method, p); return;
             case "export":
@@ -526,6 +551,14 @@ public class WebServer {
             activeStore.deleteElement(p[1]);
             respond(exchange, 200, ok("guid", p[1]));
             return;
+        } else if (p.length == 3 && "detail".equals(p[2]) && "GET".equalsIgnoreCase(method)) {
+            respond(exchange, 200, activeStore.getUseCaseDetail(p[1]));
+            return;
+        } else if (p.length == 3 && "detail".equals(p[2]) && "PATCH".equalsIgnoreCase(method)) {
+            Map<String, Object> body = readJsonObject(exchange);
+            activeStore.updateUseCase(p[1], body);
+            respond(exchange, 200, ok("guid", p[1]));
+            return;
         }
         notFound(exchange);
     }
@@ -608,6 +641,50 @@ public class WebServer {
                 respond(exchange, 200, activeStore.createFunction(guid, str(body, "name")));
                 return;
             }
+        } else if (p.length == 3 && "logicalNodes".equals(p[2])) {
+            String guid = p[1];
+            if (isGet(method)) {
+                respond(exchange, 200, wrapList(activeStore.getAllocatedLogicalNodesOf(guid)));
+                return;
+            } else if (isPost(method)) {
+                Map<String, Object> body = readJsonObject(exchange);
+                activeStore.linkLogicalNode(guid, str(body, "logicalNodeGuid"));
+                respond(exchange, 200, wrapList(activeStore.getAllocatedLogicalNodesOf(guid)));
+                return;
+            }
+        } else if (p.length == 4 && "logicalNodes".equals(p[2]) && "DELETE".equalsIgnoreCase(method)) {
+            activeStore.unlinkLogicalNode(p[1], p[3]);
+            respond(exchange, 200, ok("guid", p[3]));
+            return;
+        } else if (p.length == 3 && "physicalNodes".equals(p[2])) {
+            String guid = p[1];
+            if (isGet(method)) {
+                respond(exchange, 200, wrapList(activeStore.getAllocatedPhysicalNodesOf(guid)));
+                return;
+            } else if (isPost(method)) {
+                Map<String, Object> body = readJsonObject(exchange);
+                activeStore.linkPhysicalNode(guid, str(body, "physicalNodeGuid"));
+                respond(exchange, 200, wrapList(activeStore.getAllocatedPhysicalNodesOf(guid)));
+                return;
+            }
+        } else if (p.length == 4 && "physicalNodes".equals(p[2]) && "DELETE".equalsIgnoreCase(method)) {
+            activeStore.unlinkPhysicalNode(p[1], p[3]);
+            respond(exchange, 200, ok("guid", p[3]));
+            return;
+        } else if (p.length == 3 && "documentation".equals(p[2])) {
+            // Generic across every element kind (architecture element, actor, capability, useCase,
+            // port, function, contextView) — activeStore.getDocumentation/setDocumentation dispatch
+            // internally, so {guid} alone is enough regardless of what kind it belongs to.
+            String guid = p[1];
+            if (isGet(method)) {
+                respond(exchange, 200, ok("documentation", activeStore.getDocumentation(guid)));
+                return;
+            } else if ("PATCH".equalsIgnoreCase(method)) {
+                Map<String, Object> body = readJsonObject(exchange);
+                activeStore.setDocumentation(guid, str(body, "documentation"));
+                respond(exchange, 200, ok("guid", guid));
+                return;
+            }
         }
         notFound(exchange);
     }
@@ -653,6 +730,24 @@ public class WebServer {
             }
             String view = str(body, "view");
             activeStore.setPosition(p[1], view, ((Number) x).doubleValue(), ((Number) y).doubleValue());
+            respond(exchange, 200, ok("guid", p[1]));
+            return;
+        }
+        notFound(exchange);
+    }
+
+    // ── /api/sizes/{guid} — manually-resized box width/height (see ModelStore#setSize) ──
+
+    private void handleSizes(HttpExchange exchange, String method, String[] p) throws IOException {
+        if (p.length == 2 && "PATCH".equalsIgnoreCase(method)) {
+            Map<String, Object> body = readJsonObject(exchange);
+            Object width = body.get("width");
+            Object height = body.get("height");
+            if (!(width instanceof Number) || !(height instanceof Number)) {
+                throw new IllegalArgumentException("width and height must be numbers");
+            }
+            String view = str(body, "view");
+            activeStore.setSize(p[1], ((Number) width).doubleValue(), ((Number) height).doubleValue(), view);
             respond(exchange, 200, ok("guid", p[1]));
             return;
         }

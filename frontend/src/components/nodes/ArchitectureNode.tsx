@@ -2,6 +2,7 @@ import { Handle, NodeResizer, Position, type NodeProps } from "reactflow";
 import { PortsSection } from "./PortsSection";
 import { CapabilitiesSection } from "./CapabilitiesSection";
 import { FunctionsSection } from "./FunctionsSection";
+import { AllocationsSection } from "./AllocationsSection";
 import type { ArchKind, ElementRef, KnownInterface, PortDirection, PortSpec, PortView } from "../../types";
 
 export interface ArchitectureNodeData {
@@ -14,6 +15,20 @@ export interface ArchitectureNodeData {
   // Every top-level Capability in the model, passed through for CapabilitiesSection's picker.
   allCapabilities: ElementRef[];
   functions: ElementRef[];
+  // LogicalNodes THIS FunctionalNode allocates to (Rhapsody: an "Allocate" Dependency — see
+  // AllocationsSection). Only meaningful when kind === "FunctionalNode".
+  allocatedLogicalNodes: ElementRef[];
+  // Every LogicalNode in the whole model, for AllocationsSection's own picker — see App.tsx's
+  // `allLogicalNodes` useMemo, mirrors allCapabilities below.
+  allLogicalNodes: ElementRef[];
+  onLinkLogicalNode: (functionalNodeGuid: string, logicalNodeGuid: string) => void;
+  onUnlinkLogicalNode: (functionalNodeGuid: string, logicalNodeGuid: string) => void;
+  // PhysicalNodes THIS LogicalNode allocates to — same mechanism, one level down (Logical→
+  // Physical instead of Functional→Logical). Only meaningful when kind === "LogicalNode".
+  allocatedPhysicalNodes: ElementRef[];
+  allPhysicalNodes: ElementRef[];
+  onLinkPhysicalNode: (logicalNodeGuid: string, physicalNodeGuid: string) => void;
+  onUnlinkPhysicalNode: (logicalNodeGuid: string, physicalNodeGuid: string) => void;
   // The System Structure view is a pure containment hierarchy — no interfaces (ports) or
   // capabilities shown there, only the element tree itself. They only appear in the
   // Operational/Logical/Physical aspect views. Doesn't apply to FunctionalNodes (ports+functions
@@ -22,7 +37,9 @@ export interface ArchitectureNodeData {
   // See PortsSectionProps — computed from the currently-selected architecture view (undefined for
   // System Structure, where interfaces aren't shown at all anyway).
   lockedView?: PortView;
-  physicalTypes?: string[];
+  // Whether this node is itself one of the four tree roots (Flexis/System_F/System_L/System_P) —
+  // see PortsSectionProps#isRootOwner.
+  isRootOwner: boolean;
   // Reuse suggestions for the "+ Interface"/"+ Nested Port" forms — see App.tsx's knownInterfaces.
   knownInterfaces: KnownInterface[];
   isDropTarget: boolean;
@@ -34,6 +51,7 @@ export interface ArchitectureNodeData {
   onUnlinkCapability: (ownerGuid: string, capabilityGuid: string) => void;
   onAddFunction: (ownerGuid: string, name: string) => void;
   onFunctionDelete: (guid: string) => void;
+  onEditDocumentation: (guid: string, name: string) => void;
   // Set once the user has manually dragged this node's NodeResizer handle — see applyStoredSize
   // in App.tsx for why the fill/scroll CSS only kicks in after that point.
   hasCustomSize?: boolean;
@@ -52,6 +70,7 @@ const ASPECT_KINDS = new Set(["FunctionalNode", "LogicalNode", "PhysicalNode"]);
 export function ArchitectureNode({ data, selected }: NodeProps<ArchitectureNodeData>) {
   const isAspectNode = ASPECT_KINDS.has(data.kind);
   const isFunctionalNode = data.kind === "FunctionalNode";
+  const isLogicalNode = data.kind === "LogicalNode";
   return (
     <div
       className={`arch-node level-${data.kind} ${selected ? "selected" : ""} ${data.isDropTarget ? "drop-target" : ""} ${data.hasCustomSize ? "has-custom-size" : ""}`}
@@ -77,17 +96,38 @@ export function ArchitectureNode({ data, selected }: NodeProps<ArchitectureNodeD
           onAddPort={data.onAddPort}
           onPortChange={data.onPortChange}
           onPortDelete={data.onPortDelete}
+          onEditDocumentation={data.onEditDocumentation}
           lockedView={data.lockedView}
-          physicalTypes={data.physicalTypes}
+          isRootOwner={data.isRootOwner}
           knownInterfaces={data.knownInterfaces}
         />
       )}
       {isFunctionalNode ? (
-        <FunctionsSection
+        <>
+          <FunctionsSection
+            ownerGuid={data.guid}
+            functions={data.functions}
+            onAdd={data.onAddFunction}
+            onDelete={data.onFunctionDelete}
+            onEditDocumentation={data.onEditDocumentation}
+          />
+          <AllocationsSection
+            ownerGuid={data.guid}
+            linked={data.allocatedLogicalNodes}
+            allTargets={data.allLogicalNodes}
+            onLink={data.onLinkLogicalNode}
+            onUnlink={data.onUnlinkLogicalNode}
+            targetKindLabel="LogicalNode"
+          />
+        </>
+      ) : isLogicalNode ? (
+        <AllocationsSection
           ownerGuid={data.guid}
-          functions={data.functions}
-          onAdd={data.onAddFunction}
-          onDelete={data.onFunctionDelete}
+          linked={data.allocatedPhysicalNodes}
+          allTargets={data.allPhysicalNodes}
+          onLink={data.onLinkPhysicalNode}
+          onUnlink={data.onUnlinkPhysicalNode}
+          targetKindLabel="PhysicalNode"
         />
       ) : !isAspectNode && !data.hideInterfacesAndCapabilities ? (
         <CapabilitiesSection

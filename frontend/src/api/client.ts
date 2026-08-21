@@ -1,4 +1,4 @@
-import type { ArchLevel, ArchNode, ElementRef, PendingConnector, PortSpec, PortView } from "../types";
+import type { ArchLevel, ArchNode, ElementRef, PendingConnector, PortSpec, PortView, UseCaseDetail } from "../types";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:4567/api";
 
@@ -106,6 +106,16 @@ export const api = {
       body: JSON.stringify(view ? { x, y, view } : { x, y }),
     }),
 
+  // view mirrors setPosition's own — required for an architecture element (one of the 5
+  // Architecture-tab views, or "Context" for the system-of-interest's own Context-tab box, see
+  // ArchNode.sizes in types.ts); omit it for an Actor/Capability/Context View, which have no view
+  // concept and keep a single flat size.
+  setSize: (guid: string, width: number, height: number, view?: string) =>
+    request<{ status: string }>(`/sizes/${encodeURIComponent(guid)}`, {
+      method: "PATCH",
+      body: JSON.stringify(view ? { width, height, view } : { width, height }),
+    }),
+
   // ── Context ───────────────────────────────────────────────────────────
 
   getContext: () => request<{ items: ElementRef[] }>("/context").then((r) => r.items),
@@ -168,6 +178,18 @@ export const api = {
       body: JSON.stringify({ name }),
     }),
 
+  // ── Documentation — free-text notes for ANY element kind (architecture element, actor,
+  // capability, useCase, port, function, contextView), addressed purely by guid. ──
+
+  getDocumentation: (guid: string) =>
+    request<{ documentation: string }>(`/elements/${encodeURIComponent(guid)}/documentation`).then((r) => r.documentation),
+
+  setDocumentation: (guid: string, documentation: string) =>
+    request<{ status: string }>(`/elements/${encodeURIComponent(guid)}/documentation`, {
+      method: "PATCH",
+      body: JSON.stringify({ documentation }),
+    }),
+
   // ── Pending connectors (Rhapsody mode only — see ModelStore#getPendingConnectors) ──
 
   getPendingConnectors: () => request<{ items: PendingConnector[] }>("/connectors").then((r) => r.items),
@@ -217,6 +239,38 @@ export const api = {
   getElementFunctions: (ownerGuid: string) =>
     request<{ items: ElementRef[] }>(`/elements/${encodeURIComponent(ownerGuid)}/functions`).then((r) => r.items),
 
+  // ── Functional→Logical allocation (Rhapsody: an "Allocate" Dependency; reference, not
+  // ownership — same shape as Capability links) ──────────────────────────
+
+  // Not needed for the Architecture tab (already embedded inline on each node from
+  // getArchitecture), but kept for symmetry/direct use, same as getElementCapabilities.
+  getAllocatedLogicalNodes: (functionalNodeGuid: string) =>
+    request<{ items: ElementRef[] }>(`/elements/${encodeURIComponent(functionalNodeGuid)}/logicalNodes`).then((r) => r.items),
+
+  linkLogicalNode: (functionalNodeGuid: string, logicalNodeGuid: string) =>
+    request<{ items: ElementRef[] }>(`/elements/${encodeURIComponent(functionalNodeGuid)}/logicalNodes`, {
+      method: "POST",
+      body: JSON.stringify({ logicalNodeGuid }),
+    }),
+
+  // Removes the link — does not delete the LogicalNode itself.
+  unlinkLogicalNode: (functionalNodeGuid: string, logicalNodeGuid: string) =>
+    request<{ status: string }>(`/elements/${encodeURIComponent(functionalNodeGuid)}/logicalNodes/${encodeURIComponent(logicalNodeGuid)}`, { method: "DELETE" }),
+
+  // ── Logical→Physical allocation (same mechanism as Functional→Logical above) ────────
+
+  getAllocatedPhysicalNodes: (logicalNodeGuid: string) =>
+    request<{ items: ElementRef[] }>(`/elements/${encodeURIComponent(logicalNodeGuid)}/physicalNodes`).then((r) => r.items),
+
+  linkPhysicalNode: (logicalNodeGuid: string, physicalNodeGuid: string) =>
+    request<{ items: ElementRef[] }>(`/elements/${encodeURIComponent(logicalNodeGuid)}/physicalNodes`, {
+      method: "POST",
+      body: JSON.stringify({ physicalNodeGuid }),
+    }),
+
+  unlinkPhysicalNode: (logicalNodeGuid: string, physicalNodeGuid: string) =>
+    request<{ status: string }>(`/elements/${encodeURIComponent(logicalNodeGuid)}/physicalNodes/${encodeURIComponent(physicalNodeGuid)}`, { method: "DELETE" }),
+
   // ── Ports / interfaces ───────────────────────────────────────────────
   // Rhapsody GUIDs can contain spaces (e.g. "GUID 4303db76-...") — always encodeURIComponent
   // any guid used as a URL path segment, or the request silently 404s / breaks mid-URL.
@@ -251,4 +305,15 @@ export const api = {
     method: "POST",
     body: JSON.stringify({ path }),
   }),
+
+  // ── UseCase Detail ───────────────────────────────────────────────────
+
+  getUseCaseDetail: (guid: string) =>
+    request<UseCaseDetail>(`/useCases/${encodeURIComponent(guid)}/detail`),
+
+  updateUseCase: (guid: string, detail: Partial<UseCaseDetail>) =>
+    request<{ status: string }>(`/useCases/${encodeURIComponent(guid)}/detail`, {
+      method: "PATCH",
+      body: JSON.stringify(detail),
+    }),
 };

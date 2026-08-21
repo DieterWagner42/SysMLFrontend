@@ -10,6 +10,7 @@ export interface ActorNodeData {
   onAddPort: (ownerGuid: string, name: string, direction: PortDirection, type: string, view: PortView) => void;
   onPortChange: (portGuid: string, direction: PortDirection, type: string, view: PortView) => void;
   onPortDelete: (portGuid: string) => void;
+  onEditDocumentation: (guid: string, name: string) => void;
   // Reuse suggestions for the "+ Interface"/"+ Nested Port" forms — see App.tsx's knownInterfaces.
   knownInterfaces: KnownInterface[];
   hasCustomSize?: boolean;
@@ -46,7 +47,9 @@ export function ActorNode({ data, selected }: NodeProps<ActorNodeData>) {
         onAddPort={data.onAddPort}
         onPortChange={data.onPortChange}
         onPortDelete={data.onPortDelete}
+        onEditDocumentation={data.onEditDocumentation}
         knownInterfaces={data.knownInterfaces}
+        defaultExpanded={false}
       />
       <Handle type="source" position={Position.Bottom} style={{ visibility: "hidden" }} />
     </div>

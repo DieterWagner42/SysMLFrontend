@@ -9,21 +9,27 @@ interface PortsSectionProps {
   onAddPort: (ownerGuid: string, name: string, direction: PortDirection, type: string, view: PortView) => void;
   onPortChange: (portGuid: string, direction: PortDirection, type: string, view: PortView) => void;
   onPortDelete: (portGuid: string) => void;
+  onEditDocumentation: (guid: string, name: string) => void;
   // When set, the view the currently-selected architecture view implies (Operational/Functional/
   // Logical/Physical) — the "View" picker is hidden and every new port here is created with this
   // view directly, instead of asking the user to redundantly pick what's already implied by
   // "you're adding an interface while looking at the X view". Undefined for the Context tab's
   // Actors, which have no such view context, so they keep the full manual picker.
   lockedView?: PortView;
-  // Only meaningful when lockedView === "Physical": the open, configurable list of physical
-  // interface types (see App.tsx's config fetch) — when non-empty, replaces the free-text "Type"
-  // field with a dropdown of these, so physical ports are typed consistently instead of free text.
-  physicalTypes?: string[];
+  // Whether ownerGuid is itself one of the four tree roots (Flexis/System_F/System_L/System_P) —
+  // see utils/knownInterfaces.ts' forView `allowTopLevelExternal` param. Defaults to true (every
+  // existing caller except a non-root ArchitectureNode keeps today's behavior — Actors/
+  // SystemOfInterest included, since they're never routed through the internal/external delegation
+  // collectors on the backend and picking a bare external name there still makes sense).
+  isRootOwner?: boolean;
   // Every distinct interface (name/direction/type) seen anywhere else in the model — offered as
   // <datalist> suggestions on the name/type fields below so e.g. an Operational "HEU" port already
   // used on the System can be reused on a Subsystem or FunctionalNode instead of retyping it. See
   // App.tsx's knownInterfaces and utils/knownInterfaces.ts.
   knownInterfaces: KnownInterface[];
+  // See PortRow's own javadoc — whether a port's own decomposition starts expanded or collapsed.
+  // Defaults to true (unchanged Architecture-tab behavior); Context tab nodes pass false.
+  defaultExpanded?: boolean;
 }
 
 const VIEWS: PortView[] = ["Operational", "Functional", "Logical", "Physical"];
@@ -32,13 +38,11 @@ const VIEWS: PortView[] = ["Operational", "Functional", "Logical", "Physical"];
  * ArchitectureNode (Block) and ActorNode since both are classifiers that can own typed ProxyPorts.
  * onAddPort is passed down unbound (not pre-closed over ownerGuid) so PortRow can reuse it to add
  * nested/decomposed ports under an existing port instead of a new top-level one. */
-export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPortDelete, lockedView, physicalTypes, knownInterfaces }: PortsSectionProps) {
+export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPortDelete, onEditDocumentation, lockedView, isRootOwner = true, knownInterfaces, defaultExpanded = true }: PortsSectionProps) {
   const [adding, setAdding] = useState(false);
   const [name, setName] = useState("");
-  const [direction, setDirection] = useState<PortDirection>("InOut");
   const [type, setType] = useState("");
   const [view, setView] = useState<PortView>("Operational");
-  const usePhysicalTypeDropdown = lockedView === "Physical" && !!physicalTypes && physicalTypes.length > 0;
   const namesListId = `known-iface-names-${ownerGuid}`;
   const typesListId = `known-iface-types-${ownerGuid}`;
   // Suggestions offered while adding THIS interface, scoped to the view it's actually being added
@@ -46,12 +50,17 @@ export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPort
   // utils/knownInterfaces.ts' forView — and excluding every name this owner already uses, INCLUDING
   // nested/decomposed descendants (allPortNames/excludeOwnNames) so an already-used interface isn't
   // suggested back as if it were a fresh reuse candidate. Recomputed on every render so it stays in
-  // sync with `view` when the user changes the <select> before typing a name.
-  const scopedKnownInterfaces = excludeOwnNames(forView(knownInterfaces, lockedView ?? view), allPortNames(ports));
+  // sync with `view` when the user changes the <select> before typing a name. isRootOwner gates bare
+  // top-level external names (e.g. "HEU" itself) out of this list for a non-root child — only its
+  // nested interfaces (e.g. "HEU.Voice") stay offered; see forView's own javadoc.
+  const scopedKnownInterfaces = excludeOwnNames(forView(knownInterfaces, lockedView ?? view, isRootOwner), allPortNames(ports));
 
   function submit() {
     if (!name.trim()) return;
-    onAddPort(ownerGuid, name.trim(), direction, type.trim(), lockedView ?? view);
+    // No direction — a top-level interface (the only kind this form ever creates, see its own doc
+    // comment) is purely a grouping container, never itself directional; see applyPortSpec's own
+    // matching backend check. "InOut" here is a harmless, unused placeholder the backend ignores.
+    onAddPort(ownerGuid, name.trim(), "InOut", type.trim(), lockedView ?? view);
     setName("");
     setType("");
     setAdding(false);
@@ -74,10 +83,7 @@ export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPort
     const finalName = matched?.parentName ? qualifiedValue(matched) : resolved;
     setName(finalName);
     const match = matched ?? matchKnownInterface(scopedKnownInterfaces, resolved);
-    if (match) {
-      if (match.direction) setDirection(match.direction);
-      if (match.type && !usePhysicalTypeDropdown) setType(match.type);
-    }
+    if (match?.type) setType(match.type);
   }
 
   return (
@@ -89,9 +95,10 @@ export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPort
           onAddPort={onAddPort}
           onChange={onPortChange}
           onDelete={onPortDelete}
+          onEditDocumentation={onEditDocumentation}
           lockedView={lockedView}
-          physicalTypes={physicalTypes}
           knownInterfaces={knownInterfaces}
+          defaultExpanded={defaultExpanded}
         />
       ))}
       {adding ? (
@@ -116,34 +123,18 @@ export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPort
               ))}
             </select>
           )}
-          <select value={direction} onChange={(e) => setDirection(e.target.value as PortDirection)}>
-            <option value="In">In</option>
-            <option value="Out">Out</option>
-            <option value="InOut">InOut</option>
-          </select>
-          {usePhysicalTypeDropdown ? (
-            <select value={type} onChange={(e) => setType(e.target.value)}>
-              <option value="">Type (optional)</option>
-              {physicalTypes!.map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
-          ) : (
-            <>
-              <input
-                placeholder="Type (optional)"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && submit()}
-                list={typesListId}
-              />
-              <datalist id={typesListId}>
-                {knownTypes(scopedKnownInterfaces).map((t) => (
-                  <option key={t} value={t} />
-                ))}
-              </datalist>
-            </>
-          )}
+          <input
+            placeholder="Type (optional)"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && submit()}
+            list={typesListId}
+          />
+          <datalist id={typesListId}>
+            {knownTypes(scopedKnownInterfaces).map((t) => (
+              <option key={t} value={t} />
+            ))}
+          </datalist>
           <button onClick={submit}>Add</button>
           <button onClick={() => setAdding(false)}>Cancel</button>
         </div>

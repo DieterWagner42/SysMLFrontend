@@ -10,6 +10,7 @@ export interface CapabilityNodeData {
   onContextMenu: (e: React.MouseEvent, guid: string) => void;
   onAddUseCase: (capabilityGuid: string, name: string) => void;
   onUseCaseDelete: (guid: string) => void;
+  onOpenUseCase: (guid: string) => void;
   hasCustomSize?: boolean;
 }
 
@@ -34,6 +35,7 @@ export function CapabilityNode({ data, selected }: NodeProps<CapabilityNodeData>
         useCases={data.useCases}
         onAdd={data.onAddUseCase}
         onDelete={data.onUseCaseDelete}
+        onOpen={data.onOpenUseCase}
       />
     </div>
   );

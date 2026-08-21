@@ -173,7 +173,7 @@ public class DiagramService {
 	/**
 	 * Create connector between two ports
 	 */
-	private void createConnector(IRPStructureDiagram ibd, IRPLink link, IRPGraphNode fromNode, IRPGraphNode toNode) {
+	public void createConnector(IRPStructureDiagram ibd, IRPLink link, IRPGraphNode fromNode, IRPGraphNode toNode) {
 		try {
 			// Get positions
 			int[] fromPos = getNodePosition(fromNode);

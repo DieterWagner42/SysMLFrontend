@@ -80,20 +80,50 @@ export interface ArchNode {
   // Functions attached to a FunctionalNode (see ModelStore#getFunctionsOf) — same shape as
   // capabilities (just a name), but a distinct concept only FunctionalNodes carry.
   functions?: ElementRef[];
+  // LogicalNodes this element (a FunctionalNode) allocates to — Rhapsody: an "Allocate"-
+  // stereotyped Dependency (see ModelStore#getAllocatedLogicalNodesOf/linkLogicalNode). A
+  // reference, not ownership — same shape/reasoning as `capabilities`, just Functional→Logical
+  // instead of element→Capability. Only meaningful for a FunctionalNode, same as `functions`
+  // existing generically on ArchNode without every kind using it.
+  allocatedLogicalNodes?: ElementRef[];
+  // PhysicalNodes this element (a LogicalNode) allocates to — same mechanism/reasoning as
+  // allocatedLogicalNodes, just Logical→Physical instead of Functional→Logical. Only meaningful
+  // for a LogicalNode.
+  allocatedPhysicalNodes?: ElementRef[];
   // Canvas position, keyed by Architecture-tab view — an architecture element needs one per view
   // (not a single x/y) because "Structure" and "Operational" both render the exact same tree/
   // guids, so a manual drag in one view must not move the node in the other (see
   // ModelStore#setPosition). A view missing from this map means "not yet positioned in that
-  // view", so the frontend falls back to its own tidy-tree auto-layout for it.
-  positions?: Partial<Record<"Structure" | PortView, { x: number; y: number }>>;
+  // view", so the frontend falls back to its own tidy-tree auto-layout for it. PLUS a dynamic
+  // "Context:<contextViewGuid>" (or "Context:All") key for the system-of-interest's own box in the
+  // Context tab — see the matching comment on `sizes` below (position needed the exact same
+  // treatment, requested live right after: "die Größe geht jetzt, aber die Position noch nicht").
+  // Kept as a plain string-indexed map for the same open-ended-Context-View reason as `sizes`.
+  positions?: Record<string, { x: number; y: number }>;
+  // Manually-resized box size (see ModelStore#setSize), keyed the same way as positions above for
+  // the 5 Architecture-tab views — PLUS a dynamic "Context:<contextViewGuid>" (or "Context:All" for
+  // the built-in unfiltered tab) key for the system-of-interest's own box in the Context tab (see
+  // SystemOfInterestNode/App.tsx's contextViewKey) — one slot per Context View, not a single shared
+  // "Context" slot, since Context Views are user-created and open-ended rather than a fixed set like
+  // the 5 Architecture views. Originally a single flat width/height shared across literally
+  // everything, then a single shared "Context" slot across every Context View — both meant resizing
+  // in one place silently overwrote the size shown everywhere else (reported live, twice: "wenn ich
+  // flexis in einer der Context Views verändere springt die Größe immer wieder zurück", then "egal
+  // in welcher view ich die größe von flexis ändere werden dia anderen views mit geändert!"). A view
+  // missing from this map means "never resized in that view, use the default". Kept as a plain
+  // string-indexed map (not a closed union) specifically because of the open-ended Context View
+  // case — see utils/contextViewKey.ts.
+  sizes?: Record<string, { width: number; height: number }>;
 }
 
 export interface ElementRef {
   guid: string;
   name: string;
-  kind: "Actor" | "UseCase" | "Function" | "Capability" | "ContextView";
+  kind: "Actor" | "UseCase" | "Function" | "Capability" | "ContextView" | "LogicalNode" | "PhysicalNode";
   x?: number | null;
   y?: number | null;
+  width?: number | null;
+  height?: number | null;
 }
 
 /** One connector (Rhapsody IRPLink) that should exist but doesn't yet — see the backend's
@@ -114,4 +144,41 @@ export interface PendingConnector {
   toOwnerGuid?: string | null;
   description?: string;
   warning?: string;
+}
+
+/** One alternative path (A1, A1.1, ...) in a UseCase — a branch off a specific step (or set of
+ * steps) in the Basic Path. stepRefs identifies which step(s) it branches from ("always" = any
+ * step); whatHappens is the human description; subSteps are the A1.1, A1.2... detail steps; and
+ * postCondition is the state after the alternative completes. */
+export interface AlternativePathGroup {
+  title: string;
+  stepRefs: string[];
+  whatHappens: string;
+  subSteps: string[];
+  postCondition: string;
+}
+
+/** One extension path (E1, E1.1, ...) in a UseCase — a trigger that can happen at any point;
+ * triggerText is the condition that fires it; subSteps are the E1.1, E1.2... detail steps. */
+export interface ExtensionGroup {
+  title: string;
+  triggerText: string;
+  subSteps: string[];
+}
+
+/** Full detail of a UseCase — the rich narrative beyond just its name (Goal, Actors, Preconditions,
+ * Basic Path with B1 trigger, Alternative Paths, Extension Paths, Post Condition). Persisted to XML
+ * and editable via the UseCase editor modal. actors are actor GUIDs (resolved to names for display).
+ */
+export interface UseCaseDetail {
+  guid: string;
+  name: string;
+  capabilityGuid: string;
+  goal: string;
+  actors: string[];
+  preconditions: string[];
+  basicPath: string[];
+  alternatives: AlternativePathGroup[];
+  extensions: ExtensionGroup[];
+  postCondition: string;
 }

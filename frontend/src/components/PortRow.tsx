@@ -8,17 +8,23 @@ interface PortRowProps {
   onAddPort: (ownerGuid: string, name: string, direction: PortDirection, type: string, view: PortView) => void;
   onChange: (portGuid: string, direction: PortDirection, type: string, view: PortView) => void;
   onDelete: (portGuid: string) => void;
+  onEditDocumentation: (guid: string, name: string) => void;
   depth?: number;
-  // See PortsSectionProps for both — same context-aware "+ Nested Port" behavior as the top-level
-  // "+ Interface" form, threaded down through recursive nesting. The retype popover (View/
-  // Direction/Type buttons on an EXISTING port, below) is deliberately left fully manual regardless
-  // of these — reclassifying a port you already have is a different action from creating a new one
-  // while looking at a specific view.
+  // See PortsSectionProps — same context-aware "+ Nested Port" behavior as the top-level
+  // "+ Interface" form, threaded down through recursive nesting. The retype popover's View/Direction
+  // buttons are deliberately left fully manual regardless of this — reclassifying a port you
+  // already have is a different action from creating a new one while looking at a specific view.
   lockedView?: PortView;
-  physicalTypes?: string[];
   // See PortsSectionProps#knownInterfaces — same reuse suggestions, offered on the nested-port form
   // below too.
   knownInterfaces: KnownInterface[];
+  // Whether a port WITH its own decomposition (port.children) starts expanded or collapsed —
+  // defaults to true (existing Architecture-tab behavior, unchanged). Context tab nodes (Actor,
+  // SystemOfInterest) pass false — requested live: "kannst Du in den context views alle interfaces
+  // als default einklappen!" — since the Context tab is about which interfaces exist/connect, not
+  // editing their own internal decomposition. Purely the INITIAL state; the user can still expand
+  // any row by hand either way.
+  defaultExpanded?: boolean;
 }
 
 const DIRECTIONS: PortDirection[] = ["In", "Out", "InOut"];
@@ -37,7 +43,7 @@ const PROTECTED_PORT_NAMES = new Set(["external", "internal"]);
  * of its own decomposition (port.children — see types.ts: these are ports owned by this port's
  * interfaceBlock, i.e. Operational → Functional → Logical → Physical refinement, not literal
  * sub-elements of the port). Reused recursively for arbitrary decomposition depth. */
-export function PortRow({ port, onAddPort, onChange, onDelete, depth = 0, lockedView, physicalTypes, knownInterfaces }: PortRowProps) {
+export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentation, depth = 0, lockedView, knownInterfaces, defaultExpanded = true }: PortRowProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState<{ top: number; right: number } | null>(null);
   const [type, setType] = useState(port.type ?? "");
@@ -46,11 +52,20 @@ export function PortRow({ port, onAddPort, onChange, onDelete, depth = 0, locked
   const [nestedDirection, setNestedDirection] = useState<PortDirection>("InOut");
   const [nestedType, setNestedType] = useState("");
   const [nestedView, setNestedView] = useState<PortView>("Functional");
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(defaultExpanded);
   const hasChildren = port.children.length > 0;
   const isProtected = depth === 0 && PROTECTED_PORT_NAMES.has(port.name);
+  // A top-level port (depth 0) with a PLAIN, unqualified name (e.g. "Power", "Truck", "HEU") is a
+  // genuine grouping container with no direction of its own. A top-level port with a QUALIFIED
+  // "Parent.Name" name (e.g. "Communication.CNNetwork", picked directly from the top-level
+  // "+ Interface" form rather than via "+ Nested Port") is structurally flat but semantically a
+  // leaf borrowed from an established container elsewhere — it still needs its own direction, same
+  // as an ordinary nested one. Requested live, correcting an earlier version that hid Direction for
+  // ANY depth-0 port: "Du hast nicht berücksichtigt dass in CN Commication.CNNetwork und in SN
+  // communication.SensorNetwork keine Toplevel interfaces sind!" Mirrors the backend's own
+  // isDirectionlessContainer exactly.
+  const isDirectionlessContainer = depth === 0 && !port.name.includes(".");
   const rowRef = useRef<HTMLDivElement>(null);
-  const usePhysicalTypeDropdown = lockedView === "Physical" && !!physicalTypes && physicalTypes.length > 0;
   const namesListId = `known-iface-names-${port.guid}`;
   const typesListId = `known-iface-types-${port.guid}`;
   // See PortsSection's scopedKnownInterfaces — same view-scoped + already-used-name-excluded
@@ -63,17 +78,23 @@ export function PortRow({ port, onAddPort, onChange, onDelete, depth = 0, locked
   );
 
   // See PortsSection's handleNameChange — same "exact name match auto-fills direction/type" reuse
-  // behavior, applied to the nested-port form: a qualified pick ALWAYS keeps its "Parent.Name" form
-  // as the actual port name (requested live: "ich möchte dass immer der Prefix HEU oder HEU1 bei
-  // den nested ports eingefügt wird"), not just on a name collision.
+  // behavior, applied to the nested-port form: a qualified pick keeps its "Parent.Name" form as the
+  // actual port name (requested live: "ich möchte dass immer der Prefix HEU oder HEU1 bei den
+  // nested ports eingefügt wird"), not just on a name collision — EXCEPT when that parent name is
+  // THIS row's own port name (matched.parentName === port.name): the prefix is then redundant, since
+  // we're already inside that exact port's own nested-port form — reported live: picking
+  // "Power.HighVolt" while adding a nested port under PowerUnit's own "Power" produced the port name
+  // "Power.HighVolt" nested one level under ANOTHER "Power", instead of plain "HighVolt". The
+  // qualifier only earns its keep when it disambiguates a DIFFERENT container than the one you're
+  // already inside (e.g. picking "HEU1.Voice" while adding to "Planning").
   function handleNestedNameChange(value: string) {
     const { name: resolved, matched } = resolveQualifiedInput(scopedKnownInterfaces, value);
-    const finalName = matched?.parentName ? qualifiedValue(matched) : resolved;
+    const finalName = matched?.parentName && matched.parentName !== port.name ? qualifiedValue(matched) : resolved;
     setNestedName(finalName);
     const match = matched ?? matchKnownInterface(scopedKnownInterfaces, resolved);
     if (match) {
       if (match.direction) setNestedDirection(match.direction);
-      if (match.type && !usePhysicalTypeDropdown) setNestedType(match.type);
+      if (match.type) setNestedType(match.type);
     }
   }
 
@@ -134,7 +155,13 @@ export function PortRow({ port, onAddPort, onChange, onDelete, depth = 0, locked
             title="Type this interface"
             onClick={toggleMenu}
           >
-            {port.view ?? "?"} · {port.direction ?? "?"} / {port.type ?? "untyped"} ⋮
+            {/* A genuine grouping container has no direction of its own ("Top-level Interface ist
+             * eine Collection von nested Interfaces") — but a QUALIFIED top-level port (e.g.
+             * "Communication.CNNetwork") is a leaf borrowed from an established container
+             * elsewhere and still shows its own direction — see isDirectionlessContainer above. */}
+            {isDirectionlessContainer
+              ? <>{port.view ?? "?"} / {port.type ?? "untyped"} ⋮</>
+              : <>{port.view ?? "?"} · {port.direction ?? "?"} / {port.type ?? "untyped"} ⋮</>}
           </button>
         )}
         {!isProtected && menuOpen && menuPos && createPortal(
@@ -143,6 +170,16 @@ export function PortRow({ port, onAddPort, onChange, onDelete, depth = 0, locked
             style={{ position: "fixed", top: menuPos.top, right: menuPos.right }}
             onClick={(e) => e.stopPropagation()}
           >
+            {/* "Port" vs "Interface Block" are deliberately labeled as two distinct groups here —
+             * requested live: "in dem Frontend müssen wir port und interface block klar tennen!"
+             * View/Direction belong to THIS specific port (this occurrence, this row) — Type names
+             * the shared interfaceBlock spec it's typed with, which today's Rhapsody-side storage
+             * still resolves to one shared object across every reuse (Rhapsody-side independence
+             * per occurrence is a separate, later step — "Rhapsody machen wir im zweiten Schritt").
+             * This section header split is the frontend groundwork for that: making the two
+             * concepts visually and structurally distinct now, even before the backend can persist
+             * them independently. */}
+            <div className="context-menu-group-label">Port</div>
             <div className="port-context-row">
               <div className="port-context-column">
                 <div className="context-menu-section">View</div>
@@ -156,19 +193,24 @@ export function PortRow({ port, onAddPort, onChange, onDelete, depth = 0, locked
                   </button>
                 ))}
               </div>
-              <div className="port-context-column">
-                <div className="context-menu-section">Direction</div>
-                {DIRECTIONS.map((d) => (
-                  <button
-                    key={d}
-                    className={d === port.direction ? "active" : ""}
-                    onClick={() => onChange(port.guid, d, type, port.view ?? "Functional")}
-                  >
-                    {d}
-                  </button>
-                ))}
-              </div>
+              {/* No Direction column for a genuine grouping container — see the port-menu-trigger
+               * label's own comment just above for why. */}
+              {!isDirectionlessContainer && (
+                <div className="port-context-column">
+                  <div className="context-menu-section">Direction</div>
+                  {DIRECTIONS.map((d) => (
+                    <button
+                      key={d}
+                      className={d === port.direction ? "active" : ""}
+                      onClick={() => onChange(port.guid, d, type, port.view ?? "Functional")}
+                    >
+                      {d}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
+            <div className="context-menu-group-label">Interface Block</div>
             <div className="context-menu-section">Type</div>
             <input
               value={type}
@@ -186,6 +228,14 @@ export function PortRow({ port, onAddPort, onChange, onDelete, depth = 0, locked
               }}
             >
               + Nested Port (Decomposition)
+            </button>
+            <button
+              onClick={() => {
+                onEditDocumentation(port.guid, port.name);
+                setMenuOpen(false);
+              }}
+            >
+              Edit Documentation...
             </button>
             <div className="port-context-actions">
               <button className="danger" onClick={() => onDelete(port.guid)}>
@@ -225,29 +275,18 @@ export function PortRow({ port, onAddPort, onChange, onDelete, depth = 0, locked
               <option key={d} value={d}>{d}</option>
             ))}
           </select>
-          {usePhysicalTypeDropdown ? (
-            <select value={nestedType} onChange={(e) => setNestedType(e.target.value)}>
-              <option value="">Type (optional)</option>
-              {physicalTypes!.map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
-          ) : (
-            <>
-              <input
-                placeholder="Type (optional)"
-                value={nestedType}
-                onChange={(e) => setNestedType(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && submitNested()}
-                list={typesListId}
-              />
-              <datalist id={typesListId}>
-                {knownTypes(scopedKnownInterfaces).map((t) => (
-                  <option key={t} value={t} />
-                ))}
-              </datalist>
-            </>
-          )}
+          <input
+            placeholder="Type (optional)"
+            value={nestedType}
+            onChange={(e) => setNestedType(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && submitNested()}
+            list={typesListId}
+          />
+          <datalist id={typesListId}>
+            {knownTypes(scopedKnownInterfaces).map((t) => (
+              <option key={t} value={t} />
+            ))}
+          </datalist>
           <button onClick={submitNested}>Add</button>
           <button onClick={() => setAddingNested(false)}>Cancel</button>
         </div>
@@ -260,10 +299,11 @@ export function PortRow({ port, onAddPort, onChange, onDelete, depth = 0, locked
           onAddPort={onAddPort}
           onChange={onChange}
           onDelete={onDelete}
+          onEditDocumentation={onEditDocumentation}
           depth={depth + 1}
           lockedView={lockedView}
-          physicalTypes={physicalTypes}
           knownInterfaces={knownInterfaces}
+          defaultExpanded={defaultExpanded}
         />
       ))}
     </div>

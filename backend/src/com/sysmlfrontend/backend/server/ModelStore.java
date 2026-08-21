@@ -27,6 +27,7 @@ public interface ModelStore {
      * union (App.tsx) exactly. */
     String[] ARCHITECTURE_VIEWS = {"Structure", "Operational", "Functional", "Logical", "Physical"};
 
+
     /** A short label for /api/status — "rhapsody" or "local". */
     String mode();
 
@@ -96,6 +97,18 @@ public interface ModelStore {
 
     void deleteElement(String guid);
 
+    /** Free-text documentation/notes for ANY element with a guid — architecture element (any
+     * kind, any nesting depth, including the model root), Actor, Capability, UseCase, Port (any
+     * nesting depth), Function, or Context View. Returns "" if never set, never null. Requested
+     * live: "alle elemente des frontends benötigen noch ein dokumentationsfeld" — a single
+     * generic mechanism covering every element kind, mirroring renameElement's own
+     * try-every-kind dispatch (each store's own javadoc on its implementation covers how it
+     * finds the target). */
+    String getDocumentation(String guid);
+
+    /** Sets the free-text documentation/notes for ANY element (see {@link #getDocumentation}). */
+    void setDocumentation(String guid, String documentation);
+
     /** Moves an existing architecture element (guid) to become a child of newParentGuid (or the
      * model root's own guid) — a true move, keeping the element's own guid/kind/children/ports
      * intact, not a copy or a new element. newParentGuid must be compatible with guid's own kind
@@ -110,12 +123,44 @@ public interface ModelStore {
      * box). The frontend calls this once a drag ends, so manual layout survives reloads instead of
      * always being recomputed by the tidy-tree auto-layout.
      *
-     * view is one of {@link #ARCHITECTURE_VIEWS} for an architecture element — required there,
-     * since System Structure and Operational both render the exact same tree/guids, so a position
-     * has to be scoped per view or dragging a node in one view would silently move it in the other
-     * too. Pass null for an actor/useCase (the Context/Capabilities tabs have no view concept —
-     * those keep a single, view-independent position). */
+     * view is one of {@link #ARCHITECTURE_VIEWS} for an architecture element being dragged in the
+     * Architecture tab — required there, since System Structure and Operational both render the
+     * exact same tree/guids, so a position has to be scoped per view or dragging a node in one view
+     * would silently move it in the other too. The system-of-interest's own box in the Context tab
+     * is a THIRD case, exactly mirroring {@link #setSize}'s own javadoc: {@code view} there is
+     * {@code "Context:" + contextViewGuid} (or {@code "Context:All"}), one slot per Context View —
+     * originally fixed-position/non-draggable entirely, made draggable+per-view together with size,
+     * requested live right after size shipped: "die Größe geht jetzt, aber die Position noch nicht."
+     * Pass null for a plain actor/useCase (the Context/Capabilities tabs have no view concept for
+     * those — a single, view-independent position). */
     void setPosition(String guid, String view, double x, double y);
+
+    /** Persists a manually-resized box size (via the frontend's NodeResizer) for guid — any node
+     * kind (architecture element, actor, capability, context view, or the system-of-interest).
+     * Previously session-only (the frontend's own in-memory nodeSizesRef, wiped on reload) —
+     * requested live: "kann ich alle boxen auch in der breite/höhe ändern? wenn ja müssen wir das
+     * auch in der xml datei speichern." Originally FLAT (one size per element, no view), on the
+     * assumption a chosen box size wouldn't need to differ per view the way position does — wrong in
+     * practice: an architecture element's own content differs per Architecture-tab view (each view
+     * filters which ports are shown) and, for the system-of-interest specifically, ALSO differs
+     * again per Context View tab (a different set of surrounding Actors each time) — a single flat
+     * size shared across all of those meant resizing in one view silently overwrote whichever size
+     * the element had in every other view, reported live as "wenn ich flexis in einer der Context
+     * Views verändere springt die Größe immer wieder zurück." Now mirrors setPosition: view is one of
+     * {@link #ARCHITECTURE_VIEWS} for an architecture element being resized in the Architecture tab.
+     * The system-of-interest's own box in the Context tab is a THIRD case, distinct from both of
+     * those — {@code view} there is {@code "Context:" + contextViewGuid} (or {@code "Context:All"}
+     * for the built-in unfiltered tab), one slot per Context View rather than a fixed enum, since
+     * Context Views are user-created and open-ended, not a closed set like the 5 Architecture views.
+     * Found live right after per-Architecture-view sizing shipped: "ich habe im context 3 view All
+     * test und new! egal in welcher view ich die größe von flexis ändere werden dia anderen views mit
+     * geändert!" — every Context View was still sharing one "Context" slot. Implementations don't
+     * need to know this "Context:" convention is anything special — it's just an arbitrary view
+     * string like any Architecture one, stored/read the same way (RhapsodyModelStore discovers
+     * whatever view suffixes actually have tags rather than enumerating a fixed list, specifically so
+     * this open-ended case works without the store needing to know how many Context Views exist).
+     * Pass null for an actor/capability/context view itself (no view concept, single flat size). */
+    void setSize(String guid, double width, double height, String view);
 
     // ── Context (external systems) ──────────────────────────────────────
 
@@ -154,6 +199,12 @@ public interface ModelStore {
     /** See createArchitectureElement's sourceGuid javadoc — same upsert-by-identity semantics.
      * capabilityGuid is the owning Capability — see getUseCasesOf. */
     Map<String, Object> createUseCase(String capabilityGuid, String name, String sourceGuid);
+
+    /** Returns the full detail of a UseCase (goal, actors, preconditions, basicPath, alternatives, extensions, postCondition). */
+    Map<String, Object> getUseCaseDetail(String guid);
+
+    /** Updates the full detail of a UseCase. Keys not present in the map are left unchanged. */
+    void updateUseCase(String guid, Map<String, Object> detail);
 
     // ── Capabilities linked to an architecture element (reference, not ownership) ───────
 
@@ -236,4 +287,38 @@ public interface ModelStore {
     /** See createArchitectureElement's sourceGuid javadoc — same upsert-by-identity semantics.
      * parentGuid is the owning FunctionalNode — see getFunctionsOf. */
     Map<String, Object> createFunction(String parentGuid, String name, String sourceGuid);
+
+    // ── Functional→Logical allocation (Rhapsody: an "Allocate"-stereotyped Dependency; frontend:
+    // a hyperlink-style picker on the FunctionalNode's own node, same UX as a Capability link —
+    // see getCapabilitiesOf/linkCapability) ─────────────────────────────────────────
+
+    /** LogicalNodes allocated FROM functionalNodeGuid (a FunctionalNode) — rendered inside that
+     * FunctionalNode's own node, mirroring getCapabilitiesOf(ownerGuid). A link is a reference
+     * (Rhapsody: a Dependency owned by the FunctionalNode, stereotyped "Allocate"), not ownership —
+     * the same LogicalNode may be allocated from more than one FunctionalNode. */
+    List<Object> getAllocatedLogicalNodesOf(String functionalNodeGuid);
+
+    /** Links logicalNodeGuid (an existing LogicalNode) to functionalNodeGuid. No-op if already
+     * linked. */
+    void linkLogicalNode(String functionalNodeGuid, String logicalNodeGuid);
+
+    /** Removes the allocation link between functionalNodeGuid and logicalNodeGuid — does not
+     * delete the LogicalNode itself. */
+    void unlinkLogicalNode(String functionalNodeGuid, String logicalNodeGuid);
+
+    // ── Logical→Physical allocation (same mechanism as Functional→Logical above — requested
+    // live: "nun müssen noch die Logical Nodes mit PhysicalNodes auf gleiche weise allokiert
+    // werden") ─────────────────────────────────────────────────────────
+
+    /** PhysicalNodes allocated FROM logicalNodeGuid (a LogicalNode) — rendered inside that
+     * LogicalNode's own node, mirroring getAllocatedLogicalNodesOf(functionalNodeGuid). */
+    List<Object> getAllocatedPhysicalNodesOf(String logicalNodeGuid);
+
+    /** Links physicalNodeGuid (an existing PhysicalNode) to logicalNodeGuid. No-op if already
+     * linked. */
+    void linkPhysicalNode(String logicalNodeGuid, String physicalNodeGuid);
+
+    /** Removes the allocation link between logicalNodeGuid and physicalNodeGuid — does not delete
+     * the PhysicalNode itself. */
+    void unlinkPhysicalNode(String logicalNodeGuid, String physicalNodeGuid);
 }

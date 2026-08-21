@@ -392,7 +392,6 @@
 .arch-node.system-of-interest {
   border: 2px solid #4c8dff;
   background: var(--accent-bg);
-  cursor: default;
 }
 
 .arch-node.capability {
@@ -462,6 +461,20 @@
 }
 
 .capability-delete:hover {
+  opacity: 1;
+}
+
+.capability-doc {
+  border: none;
+  background: transparent;
+  opacity: 0.55;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  padding: 0 2px;
+}
+
+.capability-doc:hover {
   opacity: 1;
 }
 
@@ -605,6 +618,26 @@
   padding: 6px 10px 2px;
 }
 
+/* Groups a port popover into clearly distinct "Port" (View/Direction — this one occurrence's own
+ * properties) vs "Interface Block" (Type — the shared spec name) sections — requested live: "in
+ * dem Frontend müssen wir port und interface block klar tennen!". Bolder/larger than
+ * .context-menu-section (a sub-label within a group) and bordered on top to visually separate
+ * consecutive groups, except the very first one in the popover. */
+.context-menu-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 10px 10px 2px;
+  border-top: 1px solid var(--border);
+  margin-top: 4px;
+}
+
+.context-menu-group-label:first-child {
+  border-top: none;
+  margin-top: 0;
+}
+
 .port-context-menu {
   /* position/top/right are set inline (see PortRow.tsx) — computed from the port row's own
    * on-screen rect each time it opens, since this is portaled to document.body to escape the
@@ -656,4 +689,528 @@
 
 .port-context-actions button:hover {
   background: var(--accent-bg);
+}
+
+/* ── UseCase editor modal ─────────────────────────────────────────────── */
+
+.modal.use-case-editor {
+  --uc-c-goal: var(--accent);
+  --uc-c-actors: #2f7fe0;
+  --uc-c-pre: #17a673;
+  --uc-c-basic: var(--accent);
+  --uc-c-alt: #d98c00;
+  --uc-c-ext: var(--danger);
+  --uc-c-post: #0f9c9c;
+  width: 700px;
+  max-width: 92vw;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.modal.use-case-editor .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 70%, #1a0033) 100%);
+}
+
+.modal.use-case-editor .modal-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.modal.use-case-editor .modal-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.modal.use-case-editor .modal-header h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modal.use-case-editor .modal-close {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.modal.use-case-editor .modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.modal.use-case-editor .modal-body {
+  overflow-y: auto;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--bg-canvas);
+}
+
+.modal.use-case-editor .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+  padding: 14px 24px;
+  background: var(--panel-bg);
+}
+
+.modal.use-case-editor .uc-section {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.modal.use-case-editor .uc-section h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-h);
+}
+
+.modal.use-case-editor .uc-icon {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1;
+}
+
+.modal.use-case-editor .uc-icon-goal { color: var(--uc-c-goal); background: color-mix(in srgb, var(--uc-c-goal) 15%, transparent); }
+.modal.use-case-editor .uc-icon-actors { color: var(--uc-c-actors); background: color-mix(in srgb, var(--uc-c-actors) 15%, transparent); }
+.modal.use-case-editor .uc-icon-pre { color: var(--uc-c-pre); background: color-mix(in srgb, var(--uc-c-pre) 15%, transparent); }
+.modal.use-case-editor .uc-icon-basic { color: var(--uc-c-basic); background: color-mix(in srgb, var(--uc-c-basic) 15%, transparent); }
+.modal.use-case-editor .uc-icon-alt { color: var(--uc-c-alt); background: color-mix(in srgb, var(--uc-c-alt) 15%, transparent); }
+.modal.use-case-editor .uc-icon-ext { color: var(--uc-c-ext); background: color-mix(in srgb, var(--uc-c-ext) 15%, transparent); }
+.modal.use-case-editor .uc-icon-post { color: var(--uc-c-post); background: color-mix(in srgb, var(--uc-c-post) 15%, transparent); }
+
+.modal.use-case-editor .uc-section > textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+.modal.use-case-editor .uc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal.use-case-editor .uc-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal.use-case-editor .uc-step .step-index {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  min-width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--uc-c-basic);
+  font-family: var(--mono, monospace);
+}
+
+.modal.use-case-editor .uc-step input,
+.modal.use-case-editor .uc-step textarea {
+  flex: 1;
+}
+
+.modal.use-case-editor .uc-step .basic-trigger {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.modal.use-case-editor .trigger-tag {
+  flex: 0 0 auto;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+/* Basic Path timeline: connecting line behind the numbered badges */
+.modal.use-case-editor .uc-timeline {
+  position: relative;
+}
+
+.modal.use-case-editor .uc-timeline .uc-step:not(:last-child) .step-index::after {
+  content: "";
+  position: absolute;
+  top: 26px;
+  left: 50%;
+  width: 2px;
+  height: 12px;
+  transform: translateX(-50%);
+  background: color-mix(in srgb, var(--uc-c-basic) 35%, transparent);
+}
+
+.modal.use-case-editor .uc-checklist .step-index {
+  background: var(--uc-c-pre);
+  font-size: 10px;
+}
+
+.modal.use-case-editor .uc-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal.use-case-editor .uc-group {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--panel-bg);
+}
+
+.modal.use-case-editor .uc-group.alternative {
+  border-left: 4px solid var(--uc-c-alt);
+}
+
+.modal.use-case-editor .uc-group.extension {
+  border-left: 4px solid var(--uc-c-ext);
+}
+
+.modal.use-case-editor .group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: var(--bg-canvas);
+}
+
+.modal.use-case-editor .group-badge.trigger {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-family: var(--mono, monospace);
+  background: var(--uc-c-alt);
+}
+
+.modal.use-case-editor .uc-group.extension .group-badge.trigger {
+  background: var(--uc-c-ext);
+}
+
+.modal.use-case-editor .group-title-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--text-h);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 2px;
+}
+
+.modal.use-case-editor .group-title-input::placeholder {
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+.modal.use-case-editor .expand-toggle,
+.modal.use-case-editor .delete-group-btn {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 50%;
+}
+
+.modal.use-case-editor .delete-group-btn {
+  margin-left: auto;
+  font-size: 15px;
+}
+
+.modal.use-case-editor .expand-toggle:hover,
+.modal.use-case-editor .delete-group-btn:hover {
+  background: var(--accent-bg);
+  color: var(--danger);
+}
+
+.modal.use-case-editor .group-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.modal.use-case-editor .field-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.modal.use-case-editor .field-row label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  opacity: 0.75;
+}
+
+.modal.use-case-editor .step-ref-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.modal.use-case-editor .step-ref-summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.modal.use-case-editor .step-ref-summary-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.modal.use-case-editor .step-ref-chip-static {
+  cursor: default;
+}
+
+.modal.use-case-editor .step-ref-edit-btn,
+.modal.use-case-editor .step-ref-done-btn {
+  flex: 0 0 auto;
+  border: 1px dashed var(--accent-border);
+  background: transparent;
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.modal.use-case-editor .step-ref-edit-btn:hover,
+.modal.use-case-editor .step-ref-done-btn:hover {
+  background: var(--accent-bg);
+}
+
+.modal.use-case-editor .step-ref-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.modal.use-case-editor .step-ref-group-label {
+  flex: 0 0 auto;
+  min-width: 64px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  opacity: 0.55;
+}
+
+.modal.use-case-editor .step-ref-chip {
+  border: 1px solid var(--border);
+  background: var(--bg-canvas);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--mono, monospace);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.modal.use-case-editor .step-ref-chip:hover {
+  border-color: var(--accent-border);
+}
+
+.modal.use-case-editor .step-ref-chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.modal.use-case-editor .step-ref-chip-always {
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.modal.use-case-editor .step-ref-empty {
+  font-size: 11px;
+  color: var(--text);
+  opacity: 0.6;
+  font-style: italic;
+}
+
+.modal.use-case-editor .add-step-btn,
+.modal.use-case-editor .add-group-btn,
+.modal.use-case-editor .add-actor-btn {
+  align-self: flex-start;
+  border: 1px dashed var(--accent-border);
+  background: transparent;
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.modal.use-case-editor .add-step-btn:hover,
+.modal.use-case-editor .add-group-btn:hover,
+.modal.use-case-editor .add-actor-btn:hover {
+  background: var(--accent-bg);
+}
+
+.modal.use-case-editor .actor-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal.use-case-editor .actor-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 6px 3px 12px;
+}
+
+.modal.use-case-editor .actor-row::before {
+  content: "◈";
+  flex: 0 0 auto;
+  color: var(--uc-c-actors);
+  font-size: 11px;
+}
+
+.modal.use-case-editor .actor-row select {
+  flex: 1;
+  border: none;
+  background: transparent;
+}
+
+.modal.use-case-editor .delete-actor-btn,
+.modal.use-case-editor .delete-step-btn {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 50%;
+}
+
+.modal.use-case-editor .delete-actor-btn:hover,
+.modal.use-case-editor .delete-step-btn:hover {
+  color: var(--danger);
+  background: var(--accent-bg);
+}
+
+.modal.use-case-editor .btn-cancel {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  border-radius: 999px;
+  padding: 8px 18px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
+.modal.use-case-editor .btn-cancel:hover {
+  background: var(--bg-canvas);
+}
+
+.modal.use-case-editor .btn-save {
+  border: none;
+  background: linear-gradient(135deg, var(--accent) 0%, color-mix(in srgb, var(--accent) 70%, #1a0033) 100%);
+  color: #fff;
+  border-radius: 999px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 45%, transparent);
+  transition: filter 0.15s ease;
+}
+
+.modal.use-case-editor .btn-save:hover {
+  filter: brightness(1.08);
 }
