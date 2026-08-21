@@ -152,6 +152,45 @@
   font-weight: 600;
 }
 
+.connectors-table-wrap {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+}
+
+.connectors-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--panel-bg);
+}
+
+.connectors-table th,
+.connectors-table td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.connectors-table th {
+  background: var(--bg);
+  color: var(--text-h);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+.connectors-table tbody tr:nth-child(even) {
+  background: var(--bg);
+}
+
+.connectors-table-empty {
+  text-align: center;
+  color: var(--text);
+  opacity: 0.6;
+}
+
 .arch-view-tabs {
   display: flex;
   gap: 4px;

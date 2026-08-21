@@ -30,6 +30,13 @@ interface PortsSectionProps {
   // See PortRow's own javadoc — whether a port's own decomposition starts expanded or collapsed.
   // Defaults to true (unchanged Architecture-tab behavior); Context tab nodes pass false.
   defaultExpanded?: boolean;
+  // The configurable [Physical] interfaceTypes list (mechanic/electric/radiofrequency/... — see
+  // config.ini, editable via the gear-icon ConfigPanel) — offered as the "Type" field's own picker
+  // instead of the free-text interfaceBlock-name datalist whenever the effective view is Physical.
+  // A Physical port's type is a physical REALIZATION PROPERTY of that specific interface, not a
+  // shared identity ("der Punkt ist wir müssen physicalische properties zu jedem interface
+  // zuweisen... HEU.Link16 kann dann RF sein") — see RhapsodyModelStore#setPhysicalTypeStereotype.
+  physicalInterfaceTypes: string[];
 }
 
 const VIEWS: PortView[] = ["Operational", "Functional", "Logical", "Physical"];
@@ -38,11 +45,13 @@ const VIEWS: PortView[] = ["Operational", "Functional", "Logical", "Physical"];
  * ArchitectureNode (Block) and ActorNode since both are classifiers that can own typed ProxyPorts.
  * onAddPort is passed down unbound (not pre-closed over ownerGuid) so PortRow can reuse it to add
  * nested/decomposed ports under an existing port instead of a new top-level one. */
-export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPortDelete, onEditDocumentation, lockedView, isRootOwner = true, knownInterfaces, defaultExpanded = true }: PortsSectionProps) {
+export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPortDelete, onEditDocumentation, lockedView, isRootOwner = true, knownInterfaces, defaultExpanded = true, physicalInterfaceTypes }: PortsSectionProps) {
   const [adding, setAdding] = useState(false);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [view, setView] = useState<PortView>("Operational");
+  const effectiveView = lockedView ?? view;
+  const isPhysical = effectiveView === "Physical";
   const namesListId = `known-iface-names-${ownerGuid}`;
   const typesListId = `known-iface-types-${ownerGuid}`;
   // Suggestions offered while adding THIS interface, scoped to the view it's actually being added
@@ -53,14 +62,14 @@ export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPort
   // sync with `view` when the user changes the <select> before typing a name. isRootOwner gates bare
   // top-level external names (e.g. "HEU" itself) out of this list for a non-root child — only its
   // nested interfaces (e.g. "HEU.Voice") stay offered; see forView's own javadoc.
-  const scopedKnownInterfaces = excludeOwnNames(forView(knownInterfaces, lockedView ?? view, isRootOwner), allPortNames(ports));
+  const scopedKnownInterfaces = excludeOwnNames(forView(knownInterfaces, effectiveView, isRootOwner), allPortNames(ports));
 
   function submit() {
     if (!name.trim()) return;
     // No direction — a top-level interface (the only kind this form ever creates, see its own doc
     // comment) is purely a grouping container, never itself directional; see applyPortSpec's own
     // matching backend check. "InOut" here is a harmless, unused placeholder the backend ignores.
-    onAddPort(ownerGuid, name.trim(), "InOut", type.trim(), lockedView ?? view);
+    onAddPort(ownerGuid, name.trim(), "InOut", type.trim(), effectiveView);
     setName("");
     setType("");
     setAdding(false);
@@ -68,8 +77,9 @@ export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPort
 
   // Selecting (or typing exactly) an existing interface's name auto-fills direction/type from it —
   // still creates an independent new port, just pre-filled from the matching known one instead of
-  // starting blank. Only autofills type when the physical-dropdown isn't in play (that field is
-  // already constrained to the configured list, not free text). A qualified pick (e.g. "HEU.Voice",
+  // starting blank (works the same whether the Type field below is the free-text/datalist form or
+  // the Physical-only picker — either way `type` just needs to end up holding one of the values
+  // that field's own options accept). A qualified pick (e.g. "HEU.Voice",
   // see qualifiedValue) ALWAYS keeps that "Parent.Name" form as the actual port name — requested
   // live: "ich möchte dass immer der Prefix HEU oder HEU1 bei den nested ports eingefügt wird. das
   // hilft alles besser zu identifizieren" — not just when it happens to collide with an existing
@@ -98,6 +108,7 @@ export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPort
           onEditDocumentation={onEditDocumentation}
           lockedView={lockedView}
           knownInterfaces={knownInterfaces}
+          physicalInterfaceTypes={physicalInterfaceTypes}
           defaultExpanded={defaultExpanded}
         />
       ))}
@@ -123,18 +134,29 @@ export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPort
               ))}
             </select>
           )}
-          <input
-            placeholder="Type (optional)"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && submit()}
-            list={typesListId}
-          />
-          <datalist id={typesListId}>
-            {knownTypes(scopedKnownInterfaces).map((t) => (
-              <option key={t} value={t} />
-            ))}
-          </datalist>
+          {isPhysical ? (
+            <select value={type} onChange={(e) => setType(e.target.value)}>
+              <option value="">Type...</option>
+              {physicalInterfaceTypes.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+          ) : (
+            <>
+              <input
+                placeholder="Type (optional)"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && submit()}
+                list={typesListId}
+              />
+              <datalist id={typesListId}>
+                {knownTypes(scopedKnownInterfaces).map((t) => (
+                  <option key={t} value={t} />
+                ))}
+              </datalist>
+            </>
+          )}
           <button onClick={submit}>Add</button>
           <button onClick={() => setAdding(false)}>Cancel</button>
         </div>

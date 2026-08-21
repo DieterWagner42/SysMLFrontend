@@ -1,4 +1,4 @@
-import type { ArchLevel, ArchNode, ElementRef, PendingConnector, PortSpec, PortView, UseCaseDetail } from "../types";
+import type { ArchLevel, ArchNode, ConnectorRow, ElementRef, PendingConnector, PortSpec, PortView, UseCaseDetail } from "../types";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:4567/api";
 
@@ -199,6 +199,10 @@ export const api = {
       method: "POST",
       body: JSON.stringify(c),
     }),
+
+  // ── Connectors tab table (Rhapsody mode only — empty list in local mode, see
+  // ModelStore#getConnectorTable) — existing AND pending connectors both included. ──
+  getConnectorTable: () => request<{ items: ConnectorRow[] }>("/connectors/table").then((r) => r.items),
 
   deleteUseCase: (guid: string) =>
     request<{ status: string }>(`/useCases/${encodeURIComponent(guid)}`, { method: "DELETE" }),

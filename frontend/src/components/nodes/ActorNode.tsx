@@ -13,6 +13,8 @@ export interface ActorNodeData {
   onEditDocumentation: (guid: string, name: string) => void;
   // Reuse suggestions for the "+ Interface"/"+ Nested Port" forms — see App.tsx's knownInterfaces.
   knownInterfaces: KnownInterface[];
+  // The configurable [Physical] interfaceTypes list — see PortsSectionProps#physicalInterfaceTypes.
+  physicalInterfaceTypes: string[];
   hasCustomSize?: boolean;
   // Drives NodeResizer visibility — see the comment on the same field in ArchitectureNode.tsx for
   // why this (App.tsx's own selectedGuid) is used instead of React Flow's native `selected`.
@@ -49,6 +51,7 @@ export function ActorNode({ data, selected }: NodeProps<ActorNodeData>) {
         onPortDelete={data.onPortDelete}
         onEditDocumentation={data.onEditDocumentation}
         knownInterfaces={data.knownInterfaces}
+        physicalInterfaceTypes={data.physicalInterfaceTypes}
         defaultExpanded={false}
       />
       <Handle type="source" position={Position.Bottom} style={{ visibility: "hidden" }} />

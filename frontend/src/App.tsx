@@ -22,14 +22,15 @@ import { MoveElementPicker } from "./components/MoveElementPicker";
 import { AddActorPicker } from "./components/AddActorPicker";
 import { UseCaseEditorModal } from "./components/UseCaseEditorModal";
 import { DocumentationModal } from "./components/DocumentationModal";
+import { ConnectorsTable } from "./components/ConnectorsTable";
 import { ArchitectureNode, type ArchitectureNodeData } from "./components/nodes/ArchitectureNode";
 import { ActorNode, type ActorNodeData } from "./components/nodes/ActorNode";
 import { CapabilityNode, type CapabilityNodeData } from "./components/nodes/CapabilityNode";
 import { SystemOfInterestNode, type SystemOfInterestNodeData } from "./components/nodes/SystemOfInterestNode";
-import type { ArchKind, ArchNode, ElementRef, KnownInterface, PortDirection, PortSpec, PortView, UseCaseDetail } from "./types";
+import type { ArchKind, ArchNode, ConnectorRow, ElementRef, KnownInterface, PortDirection, PortSpec, PortView, UseCaseDetail } from "./types";
 import { contextViewKey } from "./utils/contextViewKey";
 
-type Tab = "architecture" | "context" | "capabilities";
+type Tab = "architecture" | "context" | "capabilities" | "connectors";
 
 const COL_WIDTH = 260;
 const ROW_HEIGHT = 170; // Context/Capabilities tabs' simple grid layout only
@@ -228,6 +229,7 @@ function layoutArchitectureTree(
     selectedGuid: string | null;
     archView: ArchView;
     knownInterfaces: KnownInterface[];
+    physicalInterfaceTypes: string[];
   },
 ): { nodes: Node<ArchitectureNodeData>[]; edges: Edge[] } {
   const nodes: Node<ArchitectureNodeData>[] = [];
@@ -315,6 +317,7 @@ function layoutArchitectureTree(
         lockedView,
         isRootOwner: depth === 0,
         knownInterfaces: callbacks.knownInterfaces,
+        physicalInterfaceTypes: callbacks.physicalInterfaceTypes,
         isDropTarget: archNode.guid === callbacks.selectedGuid,
         onContextMenu: callbacks.onContextMenu,
         onAddPort: callbacks.onAddPort,
@@ -347,6 +350,7 @@ function App() {
   const [architecture, setArchitecture] = useState<ArchNode | null>(null);
   const [actors, setActors] = useState<(ElementRef & { ports: PortSpec[]; contextViews: ElementRef[] })[]>([]);
   const [capabilities, setCapabilities] = useState<(ElementRef & { useCases: ElementRef[] })[]>([]);
+  const [connectorRows, setConnectorRows] = useState<ConnectorRow[]>([]);
   // Every user-defined Context View (e.g. "Operational Context", "Maintenance Context") — each
   // becomes its own tab in the Context tab's own tab bar, alongside a built-in "All" tab (selected
   // via contextViewTab === null) — see the tab bar rendering below. Requested live: "im context
@@ -691,6 +695,14 @@ function App() {
     setCapabilities(withUseCases);
   }), [withErrorHandling]);
 
+  // Fetched lazily (only once the Connectors tab is actually opened, see the useEffect keyed on
+  // `tab` below) rather than unconditionally on mount like architecture/capabilities — a
+  // project-wide connector scan is heavier than those, and this tab's data isn't needed by any
+  // other tab the way architecture's own guid is.
+  const refreshConnectorTable = useCallback(() => withErrorHandling(async () => {
+    setConnectorRows(await api.getConnectorTable());
+  }), [withErrorHandling]);
+
   // Used by the Load Model / Save XML / Load XML buttons: if the corresponding path field is
   // empty, pop a native file dialog (the backend runs on the same machine as the browser) and
   // fill the field with what the user picked; returns null (caller should abort, no error shown)
@@ -763,6 +775,10 @@ function App() {
   useEffect(() => {
     if (tab === "context") refreshContext();
   }, [tab, refreshContext]);
+
+  useEffect(() => {
+    if (tab === "connectors") refreshConnectorTable();
+  }, [tab, refreshConnectorTable]);
 
   // ── Architecture tab: build React Flow graph from the fetched tree ────
 
@@ -1032,10 +1048,11 @@ function App() {
       selectedGuid,
       archView,
       knownInterfaces,
+      physicalInterfaceTypes,
     });
     setNodes(n.map(applyStoredSize));
     setEdges(e);
-  }, [tab, architecture, selectedGuid, archView, knownInterfaces, capabilities, allLogicalNodes, allPhysicalNodes, onArchContextMenu, onAddPort, onPortChange, onPortDelete, onLinkCapability, onUnlinkCapability, onLinkLogicalNode, onUnlinkLogicalNode, onLinkPhysicalNode, onUnlinkPhysicalNode, onAddFunction, onFunctionDelete, onEditDocumentation, setNodes, setEdges]);
+  }, [tab, architecture, selectedGuid, archView, knownInterfaces, physicalInterfaceTypes, capabilities, allLogicalNodes, allPhysicalNodes, onArchContextMenu, onAddPort, onPortChange, onPortDelete, onLinkCapability, onUnlinkCapability, onLinkLogicalNode, onUnlinkLogicalNode, onLinkPhysicalNode, onUnlinkPhysicalNode, onAddFunction, onFunctionDelete, onEditDocumentation, setNodes, setEdges]);
 
   // ── Context tab graph ───────────────────────────────────────────────
 
@@ -1092,6 +1109,7 @@ function App() {
             onPortDelete,
             onEditDocumentation,
             knownInterfaces,
+            physicalInterfaceTypes,
             capabilities: systemOfInterest.capabilities ?? [],
             allCapabilities: capabilities,
             onLinkCapability,
@@ -1153,11 +1171,12 @@ function App() {
         onPortDelete,
         onEditDocumentation,
         knownInterfaces,
+        physicalInterfaceTypes,
       },
     }));
     setNodes([...systemNode.map(applyStoredSize), ...n.map(applyStoredSize)]);
     setEdges([]);
-  }, [tab, actors, contextViewTab, systemOfInterest, selectedGuid, knownInterfaces, capabilities, onAddPort, onPortChange, onPortDelete, onEditDocumentation, onLinkCapability, onUnlinkCapability, onUnlinkContextView, refreshContext, setNodes, setEdges, withErrorHandling]);
+  }, [tab, actors, contextViewTab, systemOfInterest, selectedGuid, knownInterfaces, physicalInterfaceTypes, capabilities, onAddPort, onPortChange, onPortDelete, onEditDocumentation, onLinkCapability, onUnlinkCapability, onUnlinkContextView, refreshContext, setNodes, setEdges, withErrorHandling]);
 
   // ── Capabilities tab graph ──────────────────────────────────────────
 
@@ -1296,6 +1315,9 @@ function App() {
           </button>
           <button className={tab === "capabilities" ? "active" : ""} onClick={() => setTab("capabilities")}>
             Capabilities
+          </button>
+          <button className={tab === "connectors" ? "active" : ""} onClick={() => setTab("connectors")}>
+            Connectors
           </button>
         </div>
         <button
@@ -1506,6 +1528,11 @@ function App() {
       {error && <div className="error-banner">{error}</div>}
       {info && !error && <div className="info-banner">{info}</div>}
 
+      {tab === "connectors" ? (
+        <div className="app-body">
+          <ConnectorsTable rows={connectorRows} />
+        </div>
+      ) : (
       <div className="app-body">
         <Palette items={palette} />
         <div className="canvas" onDrop={onDrop} onDragOver={(e) => e.preventDefault()}>
@@ -1526,6 +1553,7 @@ function App() {
           </ReactFlowProvider>
         </div>
       </div>
+      )}
 
       {menu && <ContextMenu x={menu.x} y={menu.y} items={menu.items} onClose={() => setMenu(null)} />}
       {movePickerTarget && architecture && (

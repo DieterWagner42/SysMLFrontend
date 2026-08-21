@@ -25,6 +25,9 @@ interface PortRowProps {
   // editing their own internal decomposition. Purely the INITIAL state; the user can still expand
   // any row by hand either way.
   defaultExpanded?: boolean;
+  // See PortsSectionProps#physicalInterfaceTypes — same config-driven Type picker, used both for
+  // retyping an existing Physical port (this row's own popover) and for the "+ Nested Port" form.
+  physicalInterfaceTypes: string[];
 }
 
 const DIRECTIONS: PortDirection[] = ["In", "Out", "InOut"];
@@ -43,7 +46,7 @@ const PROTECTED_PORT_NAMES = new Set(["external", "internal"]);
  * of its own decomposition (port.children — see types.ts: these are ports owned by this port's
  * interfaceBlock, i.e. Operational → Functional → Logical → Physical refinement, not literal
  * sub-elements of the port). Reused recursively for arbitrary decomposition depth. */
-export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentation, depth = 0, lockedView, knownInterfaces, defaultExpanded = true }: PortRowProps) {
+export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentation, depth = 0, lockedView, knownInterfaces, defaultExpanded = true, physicalInterfaceTypes }: PortRowProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState<{ top: number; right: number } | null>(null);
   const [type, setType] = useState(port.type ?? "");
@@ -55,6 +58,9 @@ export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentati
   const [expanded, setExpanded] = useState(defaultExpanded);
   const hasChildren = port.children.length > 0;
   const isProtected = depth === 0 && PROTECTED_PORT_NAMES.has(port.name);
+  const effectiveNestedView = lockedView ?? nestedView;
+  const isNestedPhysical = effectiveNestedView === "Physical";
+  const isRetypingPhysical = port.view === "Physical";
   // A top-level port (depth 0) with a PLAIN, unqualified name (e.g. "Power", "Truck", "HEU") is a
   // genuine grouping container with no direction of its own. A top-level port with a QUALIFIED
   // "Parent.Name" name (e.g. "Communication.CNNetwork", picked directly from the top-level
@@ -73,7 +79,7 @@ export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentati
   // nestedView when there's no lock; "already used" here means this port's own existing
   // decomposition, at any depth — allPortNames — not the top-level element's own ports).
   const scopedKnownInterfaces = excludeOwnNames(
-    forView(knownInterfaces, lockedView ?? nestedView),
+    forView(knownInterfaces, effectiveNestedView),
     allPortNames(port.children),
   );
 
@@ -114,7 +120,7 @@ export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentati
 
   function submitNested() {
     if (!nestedName.trim()) return;
-    onAddPort(port.guid, nestedName.trim(), nestedDirection, nestedType.trim(), lockedView ?? nestedView);
+    onAddPort(port.guid, nestedName.trim(), nestedDirection, nestedType.trim(), effectiveNestedView);
     setNestedName("");
     setNestedType("");
     setAddingNested(false);
@@ -212,15 +218,34 @@ export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentati
             </div>
             <div className="context-menu-group-label">Interface Block</div>
             <div className="context-menu-section">Type</div>
-            <input
-              value={type}
-              placeholder="Interface block name"
-              onChange={(e) => setType(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") onChange(port.guid, port.direction ?? "InOut", type, port.view ?? "Functional");
-              }}
-              onBlur={() => onChange(port.guid, port.direction ?? "InOut", type, port.view ?? "Functional")}
-            />
+            {isRetypingPhysical ? (
+              // A Physical port's type is a physical realization property (mechanic/electric/
+              // radiofrequency/...), not a shared interfaceBlock name — see
+              // RhapsodyModelStore#setPhysicalTypeStereotype's own javadoc — so it's picked from the
+              // configured list, not typed as free text, and commits immediately on selection.
+              <select
+                value={type}
+                onChange={(e) => {
+                  setType(e.target.value);
+                  onChange(port.guid, port.direction ?? "InOut", e.target.value, port.view ?? "Physical");
+                }}
+              >
+                <option value="">Type...</option>
+                {physicalInterfaceTypes.map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            ) : (
+              <input
+                value={type}
+                placeholder="Interface block name"
+                onChange={(e) => setType(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") onChange(port.guid, port.direction ?? "InOut", type, port.view ?? "Functional");
+                }}
+                onBlur={() => onChange(port.guid, port.direction ?? "InOut", type, port.view ?? "Functional")}
+              />
+            )}
             <button
               onClick={() => {
                 setAddingNested(true);
@@ -275,18 +300,29 @@ export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentati
               <option key={d} value={d}>{d}</option>
             ))}
           </select>
-          <input
-            placeholder="Type (optional)"
-            value={nestedType}
-            onChange={(e) => setNestedType(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && submitNested()}
-            list={typesListId}
-          />
-          <datalist id={typesListId}>
-            {knownTypes(scopedKnownInterfaces).map((t) => (
-              <option key={t} value={t} />
-            ))}
-          </datalist>
+          {isNestedPhysical ? (
+            <select value={nestedType} onChange={(e) => setNestedType(e.target.value)}>
+              <option value="">Type...</option>
+              {physicalInterfaceTypes.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+          ) : (
+            <>
+              <input
+                placeholder="Type (optional)"
+                value={nestedType}
+                onChange={(e) => setNestedType(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && submitNested()}
+                list={typesListId}
+              />
+              <datalist id={typesListId}>
+                {knownTypes(scopedKnownInterfaces).map((t) => (
+                  <option key={t} value={t} />
+                ))}
+              </datalist>
+            </>
+          )}
           <button onClick={submitNested}>Add</button>
           <button onClick={() => setAddingNested(false)}>Cancel</button>
         </div>
@@ -304,6 +340,7 @@ export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentati
           lockedView={lockedView}
           knownInterfaces={knownInterfaces}
           defaultExpanded={defaultExpanded}
+          physicalInterfaceTypes={physicalInterfaceTypes}
         />
       ))}
     </div>

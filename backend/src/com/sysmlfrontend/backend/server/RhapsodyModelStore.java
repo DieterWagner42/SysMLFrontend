@@ -1791,6 +1791,19 @@ public class RhapsodyModelStore implements ModelStore {
                 return portNode(existing, new HashSet<>());
             }
         }
+        // ownerGuid may itself be a NESTED port's own composite guid ("immediateParent|nativeGuid" —
+        // see portNode's own construction, and updatePort's matching split) when nesting a port under
+        // an already-nested one (depth 2+) — e.g. "internal|internalPower". Found live: without this,
+        // IRPProject#findElementByGUID silently resolves a pipe-joined string to just its FIRST
+        // segment (confirmed live: passing "internal|internalPower" resolved to "internal" itself,
+        // no error) — so a "+ Nested Port" submitted against internalPower's own row was silently
+        // nesting the new port under "internal" instead, one level too shallow. "ich habe in
+        // powerUnit unter internalPower ein nested port V12 angelegt, aber es ist kein child von
+        // internalPower." Only the part AFTER the first "|" is ever the actual port being nested
+        // under — a plain (non-composite) ownerGuid is unaffected (indexOf returns -1, substring
+        // from 0 is a no-op).
+        int ownerSep = ownerGuid.indexOf('|');
+        if (ownerSep >= 0) ownerGuid = ownerGuid.substring(ownerSep + 1);
         IRPModelElement owner = findElement(ownerGuid);
         IRPModelElement created;
         // A port is always a DIRECT, natively-owned member of its owner classifier (Block/Actor, or
@@ -1800,6 +1813,17 @@ public class RhapsodyModelStore implements ModelStore {
         // interfaceBlock it's given) turned out to misread that method: it creates the port ON
         // parentClass and only uses the interfaceBlock as the port's contract — same shape as here.
         if (owner instanceof IRPPort || owner instanceof IRPSysMLPort) {
+            // MUST run before container resolution/creation below, not after — Rhapsody only
+            // supports ONE level of nested ProxyPorts, so owner itself can't stay nested inside
+            // "internal"/"external" (already one level) while also gaining its OWN nested child
+            // (a second level) without exceeding that limit. An earlier version ran the equivalent
+            // of this call AFTER creating the new child, which deleted `owner` itself (mid-creation
+            // of that very child) via the migration's own delete+recreate — confirmed live: "ich
+            // habe in powerUnit unter internalPower ein nested port V12 angelegt, aber es ist kein
+            // child von internalPower" (the fallout of this exact ordering bug once the composite-
+            // guid resolution above was fixed and owner started correctly resolving to a genuinely
+            // nested port like internalPower for the first time). See the helper's own javadoc.
+            owner = migrateOutOfDelegationCollectorIfNeeded(owner);
             IRPClassifier container = resolvePortContainer(owner);
             // A nested port under an ORDINARY shared top-level port (e.g. "Boardnet" under "Power",
             // reused verbatim by ComSuite/PowerUnit/CN/SN) needs TWO genuinely separate native
@@ -1859,12 +1883,6 @@ public class RhapsodyModelStore implements ModelStore {
                 setContract((IRPModelElement) created, findOrCreateInterfaceBlock(contractName, view, nestedExternal, false));
             }
             if (!technicalName.equals(name)) setDisplayName(created, name);
-            // owner (the port we just nested `created` under) may have JUST gained its own first
-            // nested child — if owner itself currently sits directly inside a private
-            // "ibinternal_<cls>"/"ibexternal_<cls>" delegation collector, it must be migrated OUT to
-            // become its own standalone, parallel top-level ProxyPort right now — see the helper's
-            // own javadoc for why this can't be caught at owner's OWN creation time alone.
-            migrateOutOfDelegationCollectorIfNowDecomposed(owner);
             // Only THIS occurrence's own resolved variant (Out/In) should ever be visible under
             // owner's (e.g. ComSuite's own "Power") graph node — see roleSplit's own javadoc above.
             if (roleSplit) {
@@ -2071,41 +2089,54 @@ public class RhapsodyModelStore implements ModelStore {
         return ib;
     }
 
-    /** After owner (an existing TOP-LEVEL port) gains a nested child — possibly its own FIRST one,
-     * making it a decomposition container for the first time — checks whether owner currently sits
-     * directly inside a private "ibinternal_<cls>"/"ibexternal_<cls>" delegation collector (see
+    /** Before owner is about to gain a nested child — possibly its own FIRST one, making it a
+     * decomposition container for the first time — checks whether owner currently sits directly
+     * inside a private "ibinternal_<cls>"/"ibexternal_<cls>" delegation collector (see
      * portGroupContainer) and, if so, migrates it OUT to become its own standalone, parallel
-     * top-level ProxyPort. findOrCreateInterfaceBlock's own "hasOwnDecomposition" check (see its
-     * javadoc) only ever runs at a TOP-LEVEL port's own CREATION time — it can't catch a port that
-     * was legitimately still a leaf back then (so correctly landed inside "internal"/"external") and
-     * only gains its first nested child LATER, via an ordinary "+Nested Port" — requested live after
-     * that exact gap: "ich habe in logical view eine ComSuite angelegt. darin habe ich ein PowerPort
-     * (toplevel) mit einem Unterport 'Boardnet' angelegt. der proxyport ist aber nicht aus
-     * ibinternal_ComSuite verschoben worden. das sollte doch automatisch geschen wenn ich ein
-     * netedProxypoer anlege!"
-     *
+     * top-level ProxyPort BEFORE the new child is created. findOrCreateInterfaceBlock's own
+     * "hasOwnDecomposition" check (see its javadoc) only ever runs at a TOP-LEVEL port's own
+     * CREATION time — it can't catch a port that was legitimately still a leaf back then (so
+     * correctly landed inside "internal"/"external") and only gains its first nested child LATER,
+     * via an ordinary "+Nested Port" — requested live after that exact gap: "ich habe in logical
+     * view eine ComSuite angelegt. darin habe ich ein PowerPort (toplevel) mit einem Unterport
+     * 'Boardnet' angelegt. der proxyport ist aber nicht aus ibinternal_ComSuite verschoben worden.
+     * das sollte doch automatisch geschen wenn ich ein netedProxypoer anlege!"
+     * <p>
+     * MUST be called BEFORE the new nested child is created, and the caller MUST continue using
+     * this method's own RETURN VALUE as the owner from then on — an earlier version ran the
+     * equivalent of this check AFTER the child was already created, on the theory that "owner's own
+     * decomposition contract, which the just-created child is already a member of, is never
+     * touched, only the wrapper port object, so the decomposition survives under owner's new GUID."
+     * That was wrong in practice: Rhapsody only supports ONE level of nested ProxyPorts, so a port
+     * that's ALREADY one level deep (inside "internal"/"external") can't validly host its OWN
+     * nested child (a second level) without first being promoted out — creating the child before
+     * promoting made the create-then-migrate sequence delete `owner` (the child's own new native
+     * parent) while the child was still transiently attached to it, corrupting the whole operation
+     * (confirmed live: "Rhapsody object deleted" — see createPort's own call site for the exact
+     * report: "ich habe in powerUnit unter internalPower ein nested port V12 angelegt, aber es ist
+     * kein child von internalPower").
+     * <p>
      * Same delete+recreate migration as the earlier MissileLink/HMI/Plans cleanup (Rhapsody has no
-     * port "move") — owner's own decomposition contract (e.g. "ibPowerPort", which the just-created
-     * nested child is already a member of) is never touched, only the wrapper port object, so the
-     * decomposition survives under owner's new GUID. Idempotent/safe to call unconditionally on
-     * every nested-port creation (including one that just reused an EXISTING nested port by name) —
-     * a no-op once owner is already outside any delegation collector, and self-healing for any
-     * legacy port left over from before this fix existed. */
-    private void migrateOutOfDelegationCollectorIfNowDecomposed(IRPModelElement owner) {
+     * port "move"). Idempotent/safe to call unconditionally on every nested-port creation (including
+     * one that just reused an EXISTING nested port by name) — a no-op (returns owner unchanged) once
+     * owner is already outside any delegation collector, and self-healing for any legacy port left
+     * over from before this fix existed. */
+    private IRPModelElement migrateOutOfDelegationCollectorIfNeeded(IRPModelElement owner) {
         IRPModelElement collectorContract = owner.getOwner();
-        if (!(collectorContract instanceof IRPClass) || !hasStereotype(collectorContract, INTERFACE_BLOCK_STEREOTYPE)) return;
+        if (!(collectorContract instanceof IRPClass) || !hasStereotype(collectorContract, INTERFACE_BLOCK_STEREOTYPE)) return owner;
         String contractName = collectorContract.getName();
         boolean isDelegationCollector = contractName.startsWith("ib" + PORT_GROUP_INTERNAL + "_")
                 || contractName.startsWith("ib" + PORT_GROUP_EXTERNAL + "_");
-        if (!isDelegationCollector) return;
+        if (!isDelegationCollector) return owner;
         IRPModelElement realOwner = collectorContract.getOwner();
-        if (!(realOwner instanceof IRPClass)) return;
+        if (!(realOwner instanceof IRPClass)) return owner;
         String displayName = owner.getDisplayName();
         String ownName = displayName != null && !displayName.isEmpty() ? displayName : owner.getName();
         String direction = tagValue(owner, DIRECTION_TAG);
         String view = viewOf(owner);
         owner.deleteFromProject();
-        createPort(realOwner.getGUID(), ownName, direction, "", view, null);
+        Map<String, Object> recreated = createPort(realOwner.getGUID(), ownName, direction, "", view, null);
+        return findElement((String) recreated.get("guid"));
     }
 
     /** Whether a brand-new top-level port on ownerClass (NOT itself a tree root — see createPort's
@@ -2276,6 +2307,164 @@ public class RhapsodyModelStore implements ModelStore {
         collectInternalBroadcastPending(out, seenPairs);
         collectContextViewPending(out, seenPairs);
         return out;
+    }
+
+    /** New "Connectors" tab table — requested live: "im frontend brauchen wir... eine tabelle
+     * aller connector[en]... View Name, fromPort.Owner, fromPort.Name, toPort.Owner, toPort.Name.
+     * bitte den vollen End1Path und End2Path der ports verwenden." Existing connectors are read
+     * from each IRPLink's own End1Path/End2Path context tags (see setLinkContextTags — already
+     * stamped at connector-creation time); pending ones reuse getPendingConnectors' own candidates,
+     * since those have no link/tags yet. Both use the raw, unresolved path text (no attempt to
+     * prettify back to a DisplayName or strip Rhapsody's own "[n]" disambiguation suffix) — "den
+     * vollen [Pfad]" was explicit. */
+    @Override
+    public synchronized List<Map<String, Object>> getConnectorTable() {
+        List<Map<String, Object>> out = new ArrayList<>();
+        collectExistingConnectorRows(activeProject(), out);
+        for (Object pendingObj : getPendingConnectors()) {
+            if (!(pendingObj instanceof Map)) continue; // skip {"warning": "..."} entries
+            Map<?, ?> pending = (Map<?, ?>) pendingObj;
+            if (pending.get("fromPortGuid") == null || pending.get("toPortGuid") == null) continue;
+            out.add(pendingConnectorRow(pending));
+        }
+        return out;
+    }
+
+    private void collectExistingConnectorRows(IRPPackage pkg, List<Map<String, Object>> out) {
+        IRPCollection classes = pkg.getClasses();
+        for (int i = 1; i <= classes.getCount(); i++) {
+            collectExistingConnectorRowsInClass((IRPClass) classes.getItem(i), out);
+        }
+        IRPCollection nestedPkgs = pkg.getPackages();
+        for (int i = 1; i <= nestedPkgs.getCount(); i++) {
+            collectExistingConnectorRows((IRPPackage) nestedPkgs.getItem(i), out);
+        }
+    }
+
+    private void collectExistingConnectorRowsInClass(IRPClass cls, List<Map<String, Object>> out) {
+        if (hasStereotype(cls, INTERFACE_BLOCK_STEREOTYPE) || hasStereotype(cls, FUNCTION_STEREOTYPE)) return;
+        IRPCollection links = cls.getLinks();
+        if (links.getCount() > 0) {
+            String view = connectorViewLabel(cls);
+            for (int i = 1; i <= links.getCount(); i++) {
+                IRPLink link = (IRPLink) links.getItem(i);
+                if (!hasStereotype((IRPModelElement) link, "connector")) continue;
+                Map<String, Object> row = existingConnectorRow(link, view);
+                if (row != null) out.add(row);
+            }
+        }
+        IRPCollection nested = cls.getNestedClassifiers();
+        for (int i = 1; i <= nested.getCount(); i++) {
+            Object item = nested.getItem(i);
+            if (item instanceof IRPClass) collectExistingConnectorRowsInClass((IRPClass) item, out);
+        }
+    }
+
+    /** The "View Name" column — found live to NOT be the port-level view stereotype
+     * (viewOf(fromPort)): a Functional-tree element's own external interfaces are legitimately
+     * REUSED from Operational (see the "Interfaces are scoped per view" section — "Functional gets
+     * BOTH Operational and Functional"), so viewOf(fromPort) reported "Operational" for a connector
+     * that's actually owned by System_F, in the Functional tree — "System_F gibt es nur in der
+     * funktionalen View." Instead: walk up from the class that OWNS the link (cls) until either a
+     * Context View class is hit (its own NAME is the label, e.g. "Termal" — "die view heist
+     * Termal!") or one of the four real view packages (Operational/Functional/Logical/Physical,
+     * see viewPackage) is hit. cls itself may already BE the Context View class (Termal owns its
+     * own connector directly) or a tree root (System_F/System_L/...) — the walk starts there, not
+     * strictly at the parent, so either case resolves on the first matching step. */
+    private String connectorViewLabel(IRPClass cls) {
+        if (hasStereotype(cls, CONTEXT_VIEW_STEREOTYPE)) return contextViewDisplayName(cls);
+        IRPModelElement cur = (IRPModelElement) cls;
+        while (cur != null) {
+            if (cur instanceof IRPClass && cur != cls && hasStereotype(cur, CONTEXT_VIEW_STEREOTYPE)) return contextViewDisplayName((IRPClass) cur);
+            if (cur instanceof IRPPackage && PORT_VIEWS.contains(cur.getName())) return cur.getName();
+            cur = cur.getOwner();
+        }
+        return null;
+    }
+
+    /** A Context View's real Name is sanitized (see createContextView/sanitizePackageName) —
+     * DisplayName carries the user's original text ("Ground Control Context", not
+     * "Ground_Control_Context"), same convention as elementRef. Requested live: "beim Context
+     * bitte kontext_name ausgeben" — cls.getName() alone would silently show the sanitized form
+     * for any context name containing spaces/punctuation. */
+    private String contextViewDisplayName(IRPClass cls) {
+        String displayName = ((IRPModelElement) cls).getDisplayName();
+        return displayName != null && !displayName.isEmpty() ? displayName : cls.getName();
+    }
+
+    /** Reads Owner/Name straight off the model (link.getFromPort()/getToPort()/getFrom()/getTo())
+     * instead of the End1Path/End2Path context tags — found live those tags are unreliable: EMPTY
+     * for a Context View connector (setLinkContextTags assumes a "container port" shape that a
+     * Composition-part instance like "itsTarget" doesn't have, so the write silently fails), and for
+     * everything else, the raw path text includes intermediate container ports (e.g. "Power") that
+     * aren't a meaningful "Owner" at all — see resolveEndpointOwnerName's own javadoc. view is
+     * passed in (computed once per owning class by the caller, see connectorViewLabel) rather than
+     * derived per-link here. */
+    private Map<String, Object> existingConnectorRow(IRPLink link, String view) {
+        IRPPort fromPort = link.getFromPort();
+        IRPPort toPort = link.getToPort();
+        if (fromPort == null || toPort == null) return null;
+        Map<String, Object> row = new LinkedHashMap<>();
+        row.put("view", view);
+        row.put("fromOwner", resolveEndpointOwnerName((IRPModelElement) link.getFrom()));
+        row.put("fromName", fromPort.getName());
+        row.put("toOwner", resolveEndpointOwnerName((IRPModelElement) link.getTo()));
+        row.put("toName", toPort.getName());
+        return row;
+    }
+
+    /** Resolves one connector end's "Owner" column value by walking up from the link's own raw
+     * endpoint reference (part — link.getFrom()/getTo()) rather than trusting a tag string. Three
+     * cases, requested live ("HEU ist kein Owner -> Flexis ist der Owner, ausser es ist ein
+     * actor"):
+     *   - part is a genuine INSTANCE, not a port (Context View pattern — e.g. "itsTarget", an
+     *     Actor's own composition-part instance, or "itsFlexis", the system-of-interest's) — that
+     *     instance IS a real owning entity in its own right, used as-is.
+     *   - part is a PORT whose native owner is a ROOT-LEVEL class (e.g. "HEU", a top-level boundary
+     *     port owned directly by "Flexis" — never anyone's own "part", so no its-instance form
+     *     exists for it) — the owner is the ROOT CLASS's own bare name ("Flexis"), not the port's.
+     *   - part is a PORT whose native owner is a NESTED class (a genuine part inside its own
+     *     parent, e.g. "Power"/"external" owned by "ComSuite") — the owner is "its" + that class's
+     *     name, matching the instance-naming convention every other row already uses. */
+    private String resolveEndpointOwnerName(IRPModelElement part) {
+        if (part == null) return "";
+        if (!(part instanceof IRPPort)) {
+            return part.getName();
+        }
+        IRPModelElement nativeOwner = part.getOwner();
+        if (!(nativeOwner instanceof IRPClass)) return part.getName();
+        if (isRootLevelClass((IRPClass) nativeOwner)) {
+            return nativeOwner.getName();
+        }
+        return itsInstanceName(nativeOwner.getName());
+    }
+
+    /** Pending-connector equivalent of existingConnectorRow — no link exists yet, so Owner/Name are
+     * derived from the already-resolved GUIDs getPendingConnectors' own entries carry. fromOwnerGuid/
+     * toOwnerGuid always resolve to a CLASS here (never a port), so the same root-vs-nested rule as
+     * resolveEndpointOwnerName applies directly, without needing the instance-vs-port branch. view
+     * is resolved the same way existingConnectorRow's caller does (connectorViewLabel, walking up
+     * from the class the connector WOULD be owned by, linkOwnerGuid) rather than from fromPortEl's
+     * own view stereotype — same "System_F gibt es nur in der funktionalen View" bug otherwise. */
+    private Map<String, Object> pendingConnectorRow(Map<?, ?> pending) {
+        IRPModelElement linkOwnerEl = findElementOrNull((String) pending.get("linkOwnerGuid"));
+        IRPModelElement fromOwnerEl = findElementOrNull((String) pending.get("fromOwnerGuid"));
+        IRPModelElement toOwnerEl = findElementOrNull((String) pending.get("toOwnerGuid"));
+        IRPModelElement fromPortEl = findElementOrNull((String) pending.get("fromPortGuid"));
+        IRPModelElement toPortEl = findElementOrNull((String) pending.get("toPortGuid"));
+        Map<String, Object> row = new LinkedHashMap<>();
+        row.put("view", linkOwnerEl instanceof IRPClass ? connectorViewLabel((IRPClass) linkOwnerEl) : null);
+        row.put("fromOwner", pendingOwnerName(fromOwnerEl));
+        row.put("fromName", fromPortEl != null ? fromPortEl.getName() : "");
+        row.put("toOwner", pendingOwnerName(toOwnerEl));
+        row.put("toName", toPortEl != null ? toPortEl.getName() : "");
+        return row;
+    }
+
+    private String pendingOwnerName(IRPModelElement ownerEl) {
+        if (ownerEl == null) return "";
+        if (ownerEl instanceof IRPClass && isRootLevelClass((IRPClass) ownerEl)) return ownerEl.getName();
+        return itsInstanceName(ownerEl.getName());
     }
 
     /** For every Context View: a connector should exist between the system-of-interest's own
@@ -3022,17 +3211,30 @@ public class RhapsodyModelStore implements ModelStore {
             stampTagValue(el, DIRECTION_TAG, direction);
         }
         if (type != null && !type.isEmpty()) {
-            // Every view — Physical included — resolves "type" the exact same way: an interfaceBlock
-            // contract, shared/reused by name (see findOrCreateInterfaceBlock). Physical used to be a
-            // special case (a per-port stereotype instead of a shared contract, see this method's own
-            // former javadoc/git history) — removed per explicit request: "die logische und
-            // physicalische architectur muss genau so funktionieren wie die funktionale architectur."
-            // isPortWithinExternalTree (not the narrower isExternalPort) — el itself might be a
-            // NESTED port already living inside an external interfaceBlock's own ports (e.g.
-            // retyping HEU's own "Voice"), which isExternalPort alone would miss (it only
-            // recognizes a tree root's own DIRECT top-level ports).
-            IRPClass ib = findOrCreateInterfaceBlock(type, view, isPortWithinExternalTree(el), isTopLevelPort(el));
-            setContract(el, ib);
+            // Physical is a genuine special case again: "type" there is a PHYSICAL REALIZATION
+            // PROPERTY of this specific interface (mechanic/electric/radiofrequency, from config.ini's
+            // [Physical] interfaceTypes — see WebServer's /api/config/physicalInterfaceTypes), not a
+            // shared identity two different interfaces should be merged into — "der Punkt ist wir
+            // müssen physicalische properties zu jedem interface zuweisen. damit können wir
+            // unterscheiden welche Art von Physik angewendet wird. HEU.Link16 kann dann RF [sein]"
+            // (a DIFFERENT nested interface under the same HEU, e.g. Voice, might be a different
+            // type entirely — they must stay independently classified, not collapsed onto one shared
+            // "RF" contract the way Operational/Functional/Logical types are). Every OTHER view still
+            // resolves "type" as a shared interfaceBlock contract (see findOrCreateInterfaceBlock) —
+            // that unification stays exactly as it was for Operational/Functional/Logical.
+            // effectiveView falls back to el's own already-stamped view stereotype for a call that
+            // only changes type, not view (e.g. a plain retype through the popover).
+            String effectiveView = (view != null && PORT_VIEWS.contains(view)) ? view : viewOf(el);
+            if ("Physical".equals(effectiveView)) {
+                setPhysicalTypeStereotype(el, type);
+            } else {
+                // isPortWithinExternalTree (not the narrower isExternalPort) — el itself might be a
+                // NESTED port already living inside an external interfaceBlock's own ports (e.g.
+                // retyping HEU's own "Voice"), which isExternalPort alone would miss (it only
+                // recognizes a tree root's own DIRECT top-level ports).
+                IRPClass ib = findOrCreateInterfaceBlock(type, view, isPortWithinExternalTree(el), isTopLevelPort(el));
+                setContract(el, ib);
+            }
         }
         if (view != null && PORT_VIEWS.contains(view)) {
             setPortViewStereotype(el, view);
@@ -3055,6 +3257,25 @@ public class RhapsodyModelStore implements ModelStore {
             }
         }
         el.addStereotype(view, portMetaType);
+    }
+
+    /** A Physical port's "type" (mechanic/electric/radiofrequency/... — config.ini's [Physical]
+     * interfaceTypes) is a classification STEREOTYPE on the port itself, not a shared interfaceBlock
+     * name — see applyPortSpec's own javadoc for why. Removes whichever OTHER type stereotype might
+     * already be applied first (a retype shouldn't stack "electric" and "mechanic" on the same port
+     * simultaneously) — proxyPort/PORT_VIEWS/externalInterface are structural markers this method
+     * never touches, matching physicalTypeOf's own read-back exclusion list exactly. */
+    private void setPhysicalTypeStereotype(IRPModelElement el, String type) {
+        IRPCollection stereotypes = el.getStereotypes();
+        List<IRPStereotype> toRemove = new ArrayList<>();
+        for (int i = 1; i <= stereotypes.getCount(); i++) {
+            IRPStereotype st = (IRPStereotype) stereotypes.getItem(i);
+            String name = st.getName();
+            if (PROXY_PORT_STEREOTYPE.equals(name) || PORT_VIEWS.contains(name) || EXTERNAL_INTERFACE_STEREOTYPE.equals(name)) continue;
+            toRemove.add(st);
+        }
+        for (IRPStereotype st : toRemove) el.removeStereotype(st);
+        applyStereotypeSafely(el, type, portMetaType);
     }
 
     /** Keeps changedPort's interface (ib, its resolved contract) in sync in both directions:
@@ -3518,6 +3739,19 @@ public class RhapsodyModelStore implements ModelStore {
             if (found != null) return found;
         }
         throw new IllegalArgumentException("No element found with GUID '" + guid + "'");
+    }
+
+    /** Same as findElement, but null-safe both ways — null/empty guid or no match returns null
+     * instead of throwing. For callers where a missing end (e.g. a pending connector's owner, which
+     * getPendingConnectors' own entries don't guarantee non-null for every candidate shape) should
+     * degrade gracefully rather than blow up the whole table. */
+    private IRPModelElement findElementOrNull(String guid) {
+        if (guid == null || guid.isEmpty()) return null;
+        try {
+            return findElement(guid);
+        } catch (IllegalArgumentException ex) {
+            return null;
+        }
     }
 
     /** Stamps sourceGuid (an identity carried over from an XML import) onto el as a Tag, so a
@@ -4566,7 +4800,11 @@ public class RhapsodyModelStore implements ModelStore {
         p.put("view", view);
 
         IRPClassifier contract = getContract(portEl);
-        p.put("type", typeOf(contract));
+        // For a Physical port, "type" is a classification stereotype on portEl itself, not the
+        // contract's own name — see applyPortSpec/setPhysicalTypeStereotype's own javadoc. The
+        // contract is still resolved/read normally below for decomposition purposes (children) —
+        // only the reported "type" value differs.
+        p.put("type", "Physical".equals(view) ? physicalTypeOf(portEl) : typeOf(contract));
 
         List<Object> children = new ArrayList<>();
         if (contract instanceof IRPClass) {
@@ -4606,13 +4844,26 @@ public class RhapsodyModelStore implements ModelStore {
         return null;
     }
 
-    /** A port's "type" is always its resolved interfaceBlock contract's own name — every view reads
-     * back identically, Physical included (an earlier version gave Physical its own stereotype-based
-     * mechanism for nested ports; removed per "die logische und physicalische architectur muss genau
-     * so funktionieren wie die funktionale architectur", see applyPortSpec/findOrCreateInterfaceBlock's
-     * own matching change). */
+    /** A port's "type" is its resolved interfaceBlock contract's own name — for every view EXCEPT
+     * Physical, which reads via physicalTypeOf instead (see portNode's own call site and
+     * applyPortSpec's javadoc for why Physical is a classification stereotype, not a shared
+     * contract). */
     private String typeOf(IRPClassifier contract) {
         return contract == null ? null : ((IRPModelElement) contract).getName();
+    }
+
+    /** The physical realization type (mechanic/electric/radiofrequency/...) stamped on a Physical
+     * port by setPhysicalTypeStereotype — whichever stereotype isn't one of the structural markers
+     * every port might also carry (proxyPort/PORT_VIEWS/externalInterface). Mirrors that method's
+     * own exclusion list exactly, so whatever it stamps is always found back here. */
+    private String physicalTypeOf(IRPModelElement portEl) {
+        IRPCollection stereotypes = portEl.getStereotypes();
+        for (int i = 1; i <= stereotypes.getCount(); i++) {
+            String name = ((IRPStereotype) stereotypes.getItem(i)).getName();
+            if (PROXY_PORT_STEREOTYPE.equals(name) || PORT_VIEWS.contains(name) || EXTERNAL_INTERFACE_STEREOTYPE.equals(name)) continue;
+            return name;
+        }
+        return null;
     }
 
     /** The hierarchy level applied via addStereotype in createArchitectureElement, or "Block" for an

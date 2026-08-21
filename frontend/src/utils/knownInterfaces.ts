@@ -27,20 +27,32 @@ export function allPortNames(ports: PortSpec[]): string[] {
  * tree element — Flexis/System_F/System_L/System_P), regardless of which view it was originally
  * established in or how deep in a decomposition it sits — "Truck ist wie jedes ander toplevel
  * Interface ein container für alle arten von interface typen. Also muss ein kontainer interface
- * immer slectierbar sein." Logical/Physical are no exception (an earlier version kept a
+ * immer slectierbar sein." Logical is no exception to that unification (an earlier version kept a
  * Physical-vs-everything-else "kind-group" wall for nested names specifically — removed per "die
  * logische und physicalische architectur muss genau so funktionieren wie die funktionale
  * architectur", matching the backend's own findExternalInterfaceBlockAcrossAllViews unification).
  *
- * `allowTopLevelExternal` (default true) additionally gates a BARE top-level external name (e.g.
- * "HEU" itself, `parentName === null`) — set to false when creating a brand-new TOP-LEVEL interface
- * on a non-root child (a Subsystem/Equipment/FunctionalNode/...): "bei den childs z.B. subsysteme
- * darf keine externe toplevel interfaces beim interface anlegen auswählbar (kein HEU) sein nur die
- * nested interface (aber HEU.Voice und HEU.Data)" — a child element should never mint its own flat
- * top-level "HEU" (that identity belongs to the tree roots alone; every new child interface already
- * routes into that child's own internal/external collector — see classifyDelegationGroup), it should
- * only reuse one of HEU's own individually-reusable NESTED interfaces (`parentName !== null`).
- * Nested external suggestions stay offered either way; only the bare container name is affected. */
+ * Physical, however, got its own dedicated rule back — it's a physical REALIZATION property of a
+ * specific interface (mechanic/electric/radiofrequency), not a shared identity ("der Punkt ist wir
+ * müssen physicalische properties zu jedem interface zuweisen... HEU.Link16 kann dann RF [sein]",
+ * a different HEU sub-interface might be something else entirely): a request for Physical must
+ * never fall through via `external` to offer an already-established non-Physical nested interface
+ * like "HEU.Voice" — "hier dürfen nur Ports mit dem stereotyp 'physical' auswählbar sein." The bare
+ * top-level container name itself (e.g. "HEU", `parentName === null`) is exempt from this — it
+ * isn't claiming any realization of its own, just the container everything nests under, and stays
+ * selectable in every view per "man kann alle externen Toplevel Ports auswählen." Only Physical
+ * gets this extra restriction; a non-Physical request is unaffected even if a matching entry
+ * happens to already have a Physical realization established elsewhere.
+ *
+ * `allowTopLevelExternal` (default true) additionally gates that same BARE top-level external name
+ * — set to false when creating a brand-new TOP-LEVEL interface on a non-root child (a Subsystem/
+ * Equipment/FunctionalNode/...): "bei den childs z.B. subsysteme darf keine externe toplevel
+ * interfaces beim interface anlegen auswählbar (kein HEU) sein nur die nested interface (aber
+ * HEU.Voice und HEU.Data)" — a child element should never mint its own flat top-level "HEU" (that
+ * identity belongs to the tree roots alone; every new child interface already routes into that
+ * child's own internal/external collector — see classifyDelegationGroup), it should only reuse one
+ * of HEU's own individually-reusable NESTED interfaces (`parentName !== null`). Nested external
+ * suggestions stay offered either way; only the bare container name is affected. */
 export function forView(
   knownInterfaces: KnownInterface[],
   view: PortView | null | undefined,
@@ -53,6 +65,7 @@ export function forView(
     // in the same view its external ancestor's own top-level port was created in).
     if (!allowTopLevelExternal && k.external && k.parentName === null) return false;
     if (k.view === view) return true;
+    if (view === "Physical") return k.external && k.parentName === null;
     return k.external;
   });
 }

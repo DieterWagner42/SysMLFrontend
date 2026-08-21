@@ -15,6 +15,8 @@ export interface SystemOfInterestNodeData {
   onPortDelete: (portGuid: string) => void;
   onEditDocumentation: (guid: string, name: string) => void;
   knownInterfaces: KnownInterface[];
+  // The configurable [Physical] interfaceTypes list — see PortsSectionProps#physicalInterfaceTypes.
+  physicalInterfaceTypes: string[];
   // Capabilities LINKED to the system-of-interest, and every top-level Capability in the model —
   // same shape as ArchitectureNode's own CapabilitiesSection. Requested live: "im context muss
   // auch neue interfaces und capabilities angelegt werden können. das ist auch der sinn des
@@ -62,6 +64,7 @@ export function SystemOfInterestNode({ data }: NodeProps<SystemOfInterestNodeDat
         onPortDelete={data.onPortDelete}
         onEditDocumentation={data.onEditDocumentation}
         knownInterfaces={data.knownInterfaces}
+        physicalInterfaceTypes={data.physicalInterfaceTypes}
         defaultExpanded={false}
       />
       <CapabilitiesSection

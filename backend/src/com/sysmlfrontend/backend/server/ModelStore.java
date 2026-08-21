@@ -55,6 +55,13 @@ public interface ModelStore {
     default void createPendingConnector(String linkOwnerGuid, String fromPartGuid, String toPartGuid, String fromPortGuid, String toPortGuid,
             String fromOwnerGuid, String toOwnerGuid) { }
 
+    /** One row per connector — EXISTING (a real IRPLink, project-wide) and PENDING (not yet
+     * created, same candidates getPendingConnectors reports) both included, for the "Connectors"
+     * tab's table. Each row: {"view","fromOwner","fromName","toOwner","toName"}. Local mode has no
+     * connector concept at all (see getPendingConnectors' own javadoc), so this default is simply
+     * always empty there. */
+    default List<Map<String, Object>> getConnectorTable() { return java.util.Collections.emptyList(); }
+
     /** The GUID to use as the default parent for new elements (the project/model root). */
     String rootGuid();
 

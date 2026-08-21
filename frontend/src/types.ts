@@ -146,6 +146,17 @@ export interface PendingConnector {
   warning?: string;
 }
 
+/** One row of the Connectors tab's table — see ModelStore#getConnectorTable's own javadoc.
+ * fromOwner/toOwner/fromName/toName are the raw, unresolved End1Path/End2Path segments (or the
+ * pending-connector equivalent) — not prettified back to a DisplayName. */
+export interface ConnectorRow {
+  view: PortView | null;
+  fromOwner: string;
+  fromName: string;
+  toOwner: string;
+  toName: string;
+}
+
 /** One alternative path (A1, A1.1, ...) in a UseCase — a branch off a specific step (or set of
  * steps) in the Basic Path. stepRefs identifies which step(s) it branches from ("always" = any
  * step); whatHappens is the human description; subSteps are the A1.1, A1.2... detail steps; and

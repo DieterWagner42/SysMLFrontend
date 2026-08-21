@@ -571,7 +571,13 @@ public class WebServer {
     // creates one specific entry from that list, using the exact GUIDs it reported. Always empty/
     // no-op in local mode (see ModelStore's own default implementations). ────
     private void handleConnectors(HttpExchange exchange, String method, String[] p) throws IOException {
-        if (p.length == 1 && isGet(method)) {
+        if (p.length == 2 && "table".equals(p[1]) && isGet(method)) {
+            // GET /api/connectors/table — the "Connectors" tab's own table: one row per connector
+            // (existing AND pending), {"view","fromOwner","fromName","toOwner","toName"}. See
+            // ModelStore#getConnectorTable's own javadoc.
+            respond(exchange, 200, wrapList(activeStore.getConnectorTable()));
+            return;
+        } else if (p.length == 1 && isGet(method)) {
             respond(exchange, 200, wrapList(activeStore.getPendingConnectors()));
             return;
         } else if (p.length == 1 && isPost(method)) {

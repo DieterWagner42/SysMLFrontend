@@ -42,6 +42,9 @@ export interface ArchitectureNodeData {
   isRootOwner: boolean;
   // Reuse suggestions for the "+ Interface"/"+ Nested Port" forms — see App.tsx's knownInterfaces.
   knownInterfaces: KnownInterface[];
+  // The configurable [Physical] interfaceTypes list (mechanic/electric/radiofrequency/...) — see
+  // PortsSectionProps#physicalInterfaceTypes.
+  physicalInterfaceTypes: string[];
   isDropTarget: boolean;
   onContextMenu: (e: React.MouseEvent, guid: string, kind: ArchKind) => void;
   onAddPort: (ownerGuid: string, name: string, direction: PortDirection, type: string, view: PortView) => void;
@@ -100,6 +103,7 @@ export function ArchitectureNode({ data, selected }: NodeProps<ArchitectureNodeD
           lockedView={data.lockedView}
           isRootOwner={data.isRootOwner}
           knownInterfaces={data.knownInterfaces}
+          physicalInterfaceTypes={data.physicalInterfaceTypes}
         />
       )}
       {isFunctionalNode ? (
