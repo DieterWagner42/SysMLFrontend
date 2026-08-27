@@ -27,9 +27,14 @@ final class FileDialogHelper {
 
     private FileDialogHelper() {}
 
-    /** mode: "open" or "save". filterType: "xml", "rpyx", or null (no filter). Returns the chosen
-     * absolute path, or null if the user cancelled. */
-    static synchronized String show(String mode, String filterType, String title, String suggestedName) {
+    /** mode: "open" or "save". filterType: "xml", "rpyx", "folder", or null (no filter).
+     * initialDirectory (nullable): where the dialog starts browsing — see WebServer#handleDialog,
+     * which passes the local model's own current XML folder (LocalXmlModelStore#stateFolder) so
+     * "Load Model"/"Save XML"/"Load XML" open where the user already told this app their model
+     * lives, instead of wherever Swing/the OS would otherwise default to. Overridden by
+     * suggestedName's own parent directory when that's a full path, same as before. Returns the
+     * chosen absolute path, or null if the user cancelled. */
+    static synchronized String show(String mode, String filterType, String title, String suggestedName, String initialDirectory) {
         String[] result = new String[1];
         Runnable task = () -> {
             try {
@@ -40,7 +45,12 @@ final class FileDialogHelper {
 
             JFileChooser chooser = new JFileChooser();
             chooser.setDialogTitle(title != null ? title : ("save".equals(mode) ? "Save As" : "Open File"));
-            if ("xml".equals(filterType)) {
+            if (initialDirectory != null && !initialDirectory.isEmpty()) {
+                chooser.setCurrentDirectory(new File(initialDirectory));
+            }
+            if ("folder".equals(filterType)) {
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            } else if ("xml".equals(filterType)) {
                 chooser.setFileFilter(new FileNameExtensionFilter("SysML XML (*.xml)", "xml"));
             } else if ("rpyx".equals(filterType)) {
                 chooser.setFileFilter(new FileNameExtensionFilter("Rhapsody Project (*.rpyx)", "rpyx"));

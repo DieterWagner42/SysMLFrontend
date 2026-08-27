@@ -191,6 +191,14 @@
   opacity: 0.6;
 }
 
+.connectors-table-row-selectable {
+  cursor: pointer;
+}
+
+.connectors-table-row-selectable:hover {
+  background: var(--accent-bg, rgba(100, 150, 255, 0.12));
+}
+
 .arch-view-tabs {
   display: flex;
   gap: 4px;

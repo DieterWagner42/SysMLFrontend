@@ -10,6 +10,9 @@ interface PortsSectionProps {
   onPortChange: (portGuid: string, direction: PortDirection, type: string, view: PortView) => void;
   onPortDelete: (portGuid: string) => void;
   onEditDocumentation: (guid: string, name: string) => void;
+  // Selects and highlights a specific port row live in the Rhapsody UI — see App.tsx's
+  // selectInRhapsody. A silent no-op in local mode.
+  onSelectInRhapsody: (guid: string | null | undefined) => void;
   // When set, the view the currently-selected architecture view implies (Operational/Functional/
   // Logical/Physical) — the "View" picker is hidden and every new port here is created with this
   // view directly, instead of asking the user to redundantly pick what's already implied by
@@ -45,7 +48,7 @@ const VIEWS: PortView[] = ["Operational", "Functional", "Logical", "Physical"];
  * ArchitectureNode (Block) and ActorNode since both are classifiers that can own typed ProxyPorts.
  * onAddPort is passed down unbound (not pre-closed over ownerGuid) so PortRow can reuse it to add
  * nested/decomposed ports under an existing port instead of a new top-level one. */
-export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPortDelete, onEditDocumentation, lockedView, isRootOwner = true, knownInterfaces, defaultExpanded = true, physicalInterfaceTypes }: PortsSectionProps) {
+export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPortDelete, onEditDocumentation, onSelectInRhapsody, lockedView, isRootOwner = true, knownInterfaces, defaultExpanded = true, physicalInterfaceTypes }: PortsSectionProps) {
   const [adding, setAdding] = useState(false);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
@@ -106,6 +109,7 @@ export function PortsSection({ ownerGuid, ports, onAddPort, onPortChange, onPort
           onChange={onPortChange}
           onDelete={onPortDelete}
           onEditDocumentation={onEditDocumentation}
+          onSelectInRhapsody={onSelectInRhapsody}
           lockedView={lockedView}
           knownInterfaces={knownInterfaces}
           physicalInterfaceTypes={physicalInterfaceTypes}

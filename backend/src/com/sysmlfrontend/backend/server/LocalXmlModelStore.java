@@ -39,7 +39,7 @@ public class LocalXmlModelStore implements ModelStore {
     private final List<UseCaseEntry> useCases = new ArrayList<>();
     private final List<ContextViewEntry> contextViews = new ArrayList<>();
     private final List<FunctionEntry> functions = new ArrayList<>();
-    private final String statePath;
+    private String statePath;
     private String rhapsodyPath;
 
     public LocalXmlModelStore(String statePath) {
@@ -60,6 +60,42 @@ public class LocalXmlModelStore implements ModelStore {
         }
     }
 
+    /** Re-points this store's auto-persist/auto-load file to {@code <folder>/local-model.xml} —
+     * used when the frontend, on startup, lets the user pick which folder THIS model's XML file
+     * should live in, instead of silently using the fixed config.ini default. Mirrors the
+     * constructor's own load logic: if that file already exists there, its content REPLACES the
+     * current in-memory tree (continuing that model, including whatever Rhapsody path it already
+     * remembers — see linkedRhapsodyPath); otherwise the current tree is kept as-is and
+     * immediately persisted to the new location, so future auto-saves go there too. Returns the
+     * remembered Rhapsody path after switching (whatever the loaded/kept tree now has, or null),
+     * so the caller (WebServer) can hand it straight back to the frontend to pre-fill the "Load
+     * Model" field — see the class-level javadoc's "on the fly" persistence model for why this
+     * doesn't need a separate save step of its own. */
+    public synchronized String useStateFolder(String folder) {
+        String newPath = new File(folder, "local-model.xml").getPath();
+        this.statePath = newPath;
+        File f = new File(newPath);
+        if (f.exists()) {
+            try {
+                String xml = new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8);
+                root.children.clear();
+                actors.clear();
+                capabilities.clear();
+                useCases.clear();
+                rhapsodyPath = null;
+                Map<String, Object> summary = ModelXml.importInto(this, rootGuid(), xml);
+                Object linkedPath = summary.get("rhapsodyPath");
+                if (linkedPath != null) this.rhapsodyPath = (String) linkedPath;
+                System.out.println("[backend] Loaded local state from " + newPath);
+            } catch (Exception e) {
+                System.err.println("[backend] Failed to load local state from " + newPath + ": " + e.getMessage());
+            }
+        } else {
+            persist();
+        }
+        return rhapsodyPath;
+    }
+
     @Override
     public String mode() {
         return "local";
@@ -73,6 +109,17 @@ public class LocalXmlModelStore implements ModelStore {
     @Override
     public synchronized String linkedRhapsodyPath() {
         return rhapsodyPath;
+    }
+
+    /** The folder this store's XML file currently lives in (config.ini's default until
+     * useStateFolder has been called) — used to default the "Load Model"/"Save XML"/"Load XML"
+     * native file dialogs to the same folder chosen at startup instead of wherever Swing/the OS
+     * would otherwise default to; requested live: "wenn ich nun ein Rhapsody model oder eine XML
+     * datei laden will soll die DLG gleich in diese Pfad springen." See WebServer#handleDialog. */
+    public synchronized String stateFolder() {
+        if (statePath == null) return null;
+        File parent = new File(statePath).getAbsoluteFile().getParentFile();
+        return parent != null ? parent.getPath() : null;
     }
 
     /** Records where this model was last exported to (see WebServer's /api/exportToRhapsody) so a

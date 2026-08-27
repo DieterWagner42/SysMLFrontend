@@ -337,10 +337,25 @@ public class RhapsodyModelStore implements ModelStore {
         return project.getName();
     }
 
-    /** Selects and highlights the element with the given GUID in the Rhapsody UI; returns its name. */
+    /** Selects and highlights the element with the given GUID in the Rhapsody UI; returns its name.
+     * guid may be a composite port GUID ("&lt;immediateParent's native GUID&gt;|&lt;port's own
+     * native GUID&gt;" — see portNode) — findElementByGUID silently resolves a pipe-joined string to
+     * just its FIRST segment (the parent), so only the part after the last "|" is ever the actual
+     * element to select; same pattern as deleteElement/createPort's own composite-GUID handling.
+     * For a Port, jumps to its own interfaceBlock CONTRACT instead of the port itself — requested
+     * live: "bei den interfaces auf den interfaceblock springen und nicht auf das port." The
+     * contract (not the port) is where an interface's own real structure/tags live (see the
+     * "Ports" section of this file's own class javadoc) — a port with no contract yet (shouldn't
+     * normally happen, every port gets one at creation) falls back to selecting the port itself. */
     @Override
     public synchronized String selectElement(String guid) {
-        IRPModelElement element = findElement(guid);
+        int sep = guid.indexOf('|');
+        String targetGuid = sep < 0 ? guid : guid.substring(sep + 1);
+        IRPModelElement element = findElement(targetGuid);
+        if (element instanceof IRPPort) {
+            IRPClassifier contract = ((IRPPort) element).getContract();
+            if (contract instanceof IRPModelElement) element = (IRPModelElement) contract;
+        }
         IRPCollection sel = application.createNewCollection();
         sel.addItem(element);
         application.selectModelElements(sel);
@@ -2405,6 +2420,7 @@ public class RhapsodyModelStore implements ModelStore {
         IRPPort toPort = link.getToPort();
         if (fromPort == null || toPort == null) return null;
         Map<String, Object> row = new LinkedHashMap<>();
+        row.put("guid", ((IRPModelElement) link).getGUID());
         row.put("view", view);
         row.put("fromOwner", resolveEndpointOwnerName((IRPModelElement) link.getFrom()));
         row.put("fromName", fromPort.getName());
@@ -2453,6 +2469,7 @@ public class RhapsodyModelStore implements ModelStore {
         IRPModelElement fromPortEl = findElementOrNull((String) pending.get("fromPortGuid"));
         IRPModelElement toPortEl = findElementOrNull((String) pending.get("toPortGuid"));
         Map<String, Object> row = new LinkedHashMap<>();
+        row.put("guid", null); // no IRPLink exists yet — nothing to select/highlight in Rhapsody
         row.put("view", linkOwnerEl instanceof IRPClass ? connectorViewLabel((IRPClass) linkOwnerEl) : null);
         row.put("fromOwner", pendingOwnerName(fromOwnerEl));
         row.put("fromName", fromPortEl != null ? fromPortEl.getName() : "");

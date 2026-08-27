@@ -9,6 +9,9 @@ interface PortRowProps {
   onChange: (portGuid: string, direction: PortDirection, type: string, view: PortView) => void;
   onDelete: (portGuid: string) => void;
   onEditDocumentation: (guid: string, name: string) => void;
+  // See PortsSectionProps#onSelectInRhapsody — same double-click-to-select, applied per row (any
+  // nesting depth, since this component recurses into its own decomposition).
+  onSelectInRhapsody: (guid: string | null | undefined) => void;
   depth?: number;
   // See PortsSectionProps — same context-aware "+ Nested Port" behavior as the top-level
   // "+ Interface" form, threaded down through recursive nesting. The retype popover's View/Direction
@@ -46,7 +49,7 @@ const PROTECTED_PORT_NAMES = new Set(["external", "internal"]);
  * of its own decomposition (port.children — see types.ts: these are ports owned by this port's
  * interfaceBlock, i.e. Operational → Functional → Logical → Physical refinement, not literal
  * sub-elements of the port). Reused recursively for arbitrary decomposition depth. */
-export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentation, depth = 0, lockedView, knownInterfaces, defaultExpanded = true, physicalInterfaceTypes }: PortRowProps) {
+export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentation, onSelectInRhapsody, depth = 0, lockedView, knownInterfaces, defaultExpanded = true, physicalInterfaceTypes }: PortRowProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState<{ top: number; right: number } | null>(null);
   const [type, setType] = useState(port.type ?? "");
@@ -128,7 +131,15 @@ export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentati
 
   return (
     <div className="port-row-wrapper" style={{ marginLeft: depth > 0 ? 12 : 0 }}>
-      <div className="port-row" ref={rowRef} onClick={(e) => e.stopPropagation()}>
+      <div
+        className="port-row"
+        ref={rowRef}
+        onClick={(e) => e.stopPropagation()}
+        onDoubleClick={(e) => {
+          e.stopPropagation();
+          onSelectInRhapsody(port.guid);
+        }}
+      >
         {hasChildren && (
           <button
             className="port-expand-toggle"
@@ -336,6 +347,7 @@ export function PortRow({ port, onAddPort, onChange, onDelete, onEditDocumentati
           onChange={onChange}
           onDelete={onDelete}
           onEditDocumentation={onEditDocumentation}
+          onSelectInRhapsody={onSelectInRhapsody}
           depth={depth + 1}
           lockedView={lockedView}
           knownInterfaces={knownInterfaces}

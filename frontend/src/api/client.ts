@@ -24,8 +24,19 @@ export const api = {
     body: JSON.stringify({ name }),
   }),
 
+  /** Points the local model's auto-persist/auto-load XML file at "<folder>/local-model.xml"
+   * instead of config.ini's fixed default — loads it if it already exists there. Called once on
+   * startup (while still in local mode) right after the user picks a folder via pickFile("open",
+   * "folder", ...). Returns whatever Rhapsody project that folder's model already remembers (or
+   * null) — see App.tsx's own startup effect, which pre-fills "Load Model" with it. */
+  setLocalStateFolder: (folder: string) => request<{ status: string; rhapsodyPath: string | null }>("/localStateFolder", {
+    method: "POST",
+    body: JSON.stringify({ folder }),
+  }),
+
   /** Connects to Rhapsody and switches straight to editing the given (already-existing) project —
-   * no data transfer, just "start online editing this Rhapsody project directly". */
+   * no data transfer, just "start online editing this Rhapsody project directly". Also remembers
+   * the path on the local model (same as exportToRhapsody) — see ModelStore#linkedRhapsodyPath. */
   loadModel: (path: string) => request<{ status: string; project: string }>("/loadModel", {
     method: "POST",
     body: JSON.stringify({ path }),
@@ -43,10 +54,11 @@ export const api = {
     body: JSON.stringify({ guid }),
   }),
 
-  /** Pops a native OS file picker (the backend runs locally, same machine as the browser) — used
-   * when a Load/Save path field was left empty. Returns the chosen absolute path, or null if the
-   * user cancelled. */
-  pickFile: (mode: "open" | "save", filter: "xml" | "rpyx", title?: string, suggestedName?: string) =>
+  /** Pops a native OS file/folder picker (the backend runs locally, same machine as the browser) —
+   * used when a Load/Save path field was left empty, and for the startup local-XML-folder prompt
+   * (filter "folder" — directory selection only, no extension filter). Returns the chosen absolute
+   * path, or null if the user cancelled. */
+  pickFile: (mode: "open" | "save", filter: "xml" | "rpyx" | "folder", title?: string, suggestedName?: string) =>
     request<{ path: string | null }>("/dialog", {
       method: "POST",
       body: JSON.stringify({ mode, filter, title, suggestedName }),

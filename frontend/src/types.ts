@@ -148,8 +148,11 @@ export interface PendingConnector {
 
 /** One row of the Connectors tab's table — see ModelStore#getConnectorTable's own javadoc.
  * fromOwner/toOwner/fromName/toName are the raw, unresolved End1Path/End2Path segments (or the
- * pending-connector equivalent) — not prettified back to a DisplayName. */
+ * pending-connector equivalent) — not prettified back to a DisplayName. guid is the underlying
+ * IRPLink's own GUID for an already-existing connector (double-click-to-select-in-Rhapsody), or
+ * null for a pending one — no Link exists yet to select. */
 export interface ConnectorRow {
+  guid: string | null;
   view: PortView | null;
   fromOwner: string;
   fromName: string;

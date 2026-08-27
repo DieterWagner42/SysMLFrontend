@@ -55,6 +55,9 @@ export interface ArchitectureNodeData {
   onAddFunction: (ownerGuid: string, name: string) => void;
   onFunctionDelete: (guid: string) => void;
   onEditDocumentation: (guid: string, name: string) => void;
+  // Selects and highlights this element (or a specific port row, via PortsSection) live in the
+  // Rhapsody UI — see App.tsx's selectInRhapsody. A silent no-op in local mode.
+  onSelectInRhapsody: (guid: string | null | undefined) => void;
   // Set once the user has manually dragged this node's NodeResizer handle — see applyStoredSize
   // in App.tsx for why the fill/scroll CSS only kicks in after that point.
   hasCustomSize?: boolean;
@@ -81,6 +84,7 @@ export function ArchitectureNode({ data, selected }: NodeProps<ArchitectureNodeD
         e.preventDefault();
         data.onContextMenu(e, data.guid, data.kind);
       }}
+      onDoubleClick={() => data.onSelectInRhapsody(data.guid)}
     >
       {/* isDropTarget (not React Flow's own `selected`) drives visibility: the architecture tree
        * rebuilds the whole node array on every click (to recompute isDropTarget for the new
@@ -104,6 +108,7 @@ export function ArchitectureNode({ data, selected }: NodeProps<ArchitectureNodeD
           isRootOwner={data.isRootOwner}
           knownInterfaces={data.knownInterfaces}
           physicalInterfaceTypes={data.physicalInterfaceTypes}
+          onSelectInRhapsody={data.onSelectInRhapsody}
         />
       )}
       {isFunctionalNode ? (

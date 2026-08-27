@@ -50,22 +50,41 @@ import com.sysmlfrontend.backend.AppConfig;
  *                                                        mode only, see ModelStore#isSaveHealthy)
  *   POST   /api/newModel         {"name": "..."}       resets the local store (fresh title), switches
  *                                                        active store to it — "New Model"
+ *   POST   /api/localStateFolder {"folder": "..."}      points the local model's auto-persist/
+ *                                                        auto-load XML file at "<folder>/local-
+ *                                                        model.xml" instead of config.ini's fixed
+ *                                                        default — loads it if it already exists
+ *                                                        there. Called by the frontend on startup
+ *                                                        (while still in local mode) after the user
+ *                                                        picks a folder via POST /api/dialog
+ *                                                        {"filter":"folder"}. Returns
+ *                                                        {"rhapsodyPath": "..."|null} — whatever
+ *                                                        Rhapsody project that folder's model
+ *                                                        already remembers (see loadModel/
+ *                                                        exportToRhapsody below), so the frontend
+ *                                                        can pre-fill "Load Model" with it.
  *   POST   /api/loadModel        {"path": "..."}       connects to Rhapsody (via RhapsodyConnector),
  *                                                        opens the given project, switches active
  *                                                        store to it — no data transfer, just "start
- *                                                        editing this Rhapsody project directly"
+ *                                                        editing this Rhapsody project directly".
+ *                                                        Also remembers path on the local model
+ *                                                        (same as exportToRhapsody below).
  *   POST   /api/exportToRhapsody {"path": "..."}       connects to Rhapsody, opens/attaches the given
  *                                                        project, pushes the CURRENT LOCAL model's
  *                                                        content into it, records the path on the
  *                                                        local model, then switches active store to
  *                                                        Rhapsody — "promote a local model into Rhapsody"
  *   POST   /api/selectElement    {"guid": "..."}        Rhapsody only — local mode throws
- *   POST   /api/dialog           {"mode":"open"|"save","filter":"xml"|"rpyx","title","suggestedName"}
+ *   POST   /api/dialog           {"mode":"open"|"save","filter":"xml"|"rpyx"|"folder","title","suggestedName"}
  *                                                        pops a native OS file picker (this backend
  *                                                        runs locally, same machine as the browser)
  *                                                        — {"path": "..."} or {"path": null} if
  *                                                        cancelled. Used by the frontend when a
  *                                                        Load/Save path field was left empty.
+ *                                                        Always starts browsing from the local
+ *                                                        model's own current XML folder (see
+ *                                                        LocalXmlModelStore#stateFolder) unless
+ *                                                        suggestedName is itself a full path.
  *   POST   /api/stop
  *   GET    /api/config/physicalInterfaceTypes           {"items": [...]} — the open, configurable
  *                                                        list of physical interface types offered
@@ -292,6 +311,9 @@ public class WebServer {
             case "newModel":
                 if (isPost(method)) { handleNewModel(exchange); return; }
                 break;
+            case "localStateFolder":
+                if (isPost(method)) { handleLocalStateFolder(exchange); return; }
+                break;
             case "loadModel":
                 if (isPost(method)) { handleLoadModel(exchange); return; }
                 break;
@@ -362,14 +384,43 @@ public class WebServer {
         respond(exchange, 200, activeStore.getArchitecture());
     }
 
+    /** Connects directly to an already-existing Rhapsody project (no local model involved). Also
+     * remembers the path on the local model (same mechanism as exportToRhapsody — see
+     * LocalXmlModelStore#setLinkedRhapsodyPath) so the NEXT time this same local XML folder is
+     * picked (see handleLocalStateFolder), the "Load Model" field is pre-filled with it — requested
+     * live: this direct-connect flow, not just the rarer "export a local model into Rhapsody" one,
+     * is the actual everyday workflow that needs remembering. */
     private void handleLoadModel(HttpExchange exchange) throws IOException {
         String path = Json.getString(readBody(exchange), "path");
         if (path == null || path.trim().isEmpty()) {
             throw new IllegalArgumentException("path must not be empty");
         }
         ModelStore rhapsodyStore = connectRhapsody(path);
+        if (localStore instanceof LocalXmlModelStore) {
+            ((LocalXmlModelStore) localStore).setLinkedRhapsodyPath(path);
+        }
         activeStore = rhapsodyStore;
         respond(exchange, 200, ok("project", rhapsodyStore.getArchitecture().get("name")));
+    }
+
+    /** Lets the frontend, on startup, point THIS local model's XML file at a user-chosen folder
+     * instead of the fixed config.ini default — see LocalXmlModelStore#useStateFolder. Returns
+     * whatever Rhapsody path that folder's model already remembers (or null), so the frontend can
+     * pre-fill "Load Model" with it. Local-store-only (mirrors exportToRhapsody's own instanceof
+     * check) — meaningless once already connected to Rhapsody, so the frontend only calls this
+     * while still in local mode. */
+    private void handleLocalStateFolder(HttpExchange exchange) throws IOException {
+        String folder = Json.getString(readBody(exchange), "folder");
+        if (folder == null || folder.trim().isEmpty()) {
+            throw new IllegalArgumentException("folder must not be empty");
+        }
+        String rhapsodyPath = localStore instanceof LocalXmlModelStore
+                ? ((LocalXmlModelStore) localStore).useStateFolder(folder)
+                : null;
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("status", "ok");
+        result.put("rhapsodyPath", rhapsodyPath);
+        respond(exchange, 200, result);
     }
 
     /** Promotes the current local model into a Rhapsody project: connect, open/attach the given
@@ -403,7 +454,13 @@ public class WebServer {
 
     private void handleDialog(HttpExchange exchange) throws IOException {
         Map<String, Object> body = readJsonObject(exchange);
-        String path = FileDialogHelper.show(str(body, "mode"), str(body, "filter"), str(body, "title"), str(body, "suggestedName"));
+        // Defaults every file dialog to the local model's own current XML folder (see
+        // LocalXmlModelStore#stateFolder/useStateFolder) — requested live: "wenn ich nun ein
+        // Rhapsody model oder eine XML datei laden will soll die DLG gleich in diese Pfad springen."
+        String initialDirectory = localStore instanceof LocalXmlModelStore
+                ? ((LocalXmlModelStore) localStore).stateFolder()
+                : null;
+        String path = FileDialogHelper.show(str(body, "mode"), str(body, "filter"), str(body, "title"), str(body, "suggestedName"), initialDirectory);
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("path", path);
         respond(exchange, 200, result);

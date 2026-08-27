@@ -14,6 +14,8 @@ export interface SystemOfInterestNodeData {
   onPortChange: (portGuid: string, direction: PortDirection, type: string, view: PortView) => void;
   onPortDelete: (portGuid: string) => void;
   onEditDocumentation: (guid: string, name: string) => void;
+  // See ArchitectureNodeData's own field of the same name.
+  onSelectInRhapsody: (guid: string | null | undefined) => void;
   knownInterfaces: KnownInterface[];
   // The configurable [Physical] interfaceTypes list — see PortsSectionProps#physicalInterfaceTypes.
   physicalInterfaceTypes: string[];
@@ -49,7 +51,10 @@ export interface SystemOfInterestNodeData {
  * können." */
 export function SystemOfInterestNode({ data }: NodeProps<SystemOfInterestNodeData>) {
   return (
-    <div className={`arch-node system-of-interest ${data.hasCustomSize ? "has-custom-size" : ""}`}>
+    <div
+      className={`arch-node system-of-interest ${data.hasCustomSize ? "has-custom-size" : ""}`}
+      onDoubleClick={() => data.onSelectInRhapsody(data.guid)}
+    >
       <NodeResizer minWidth={200} minHeight={90} isVisible={true} />
       <Handle type="target" position={Position.Top} style={{ visibility: "hidden" }} />
       <div className="node-header">
@@ -65,6 +70,7 @@ export function SystemOfInterestNode({ data }: NodeProps<SystemOfInterestNodeDat
         onEditDocumentation={data.onEditDocumentation}
         knownInterfaces={data.knownInterfaces}
         physicalInterfaceTypes={data.physicalInterfaceTypes}
+        onSelectInRhapsody={data.onSelectInRhapsody}
         defaultExpanded={false}
       />
       <CapabilitiesSection

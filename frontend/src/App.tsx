@@ -226,6 +226,7 @@ function layoutArchitectureTree(
     onAddFunction: (ownerGuid: string, name: string) => void;
     onFunctionDelete: (guid: string) => void;
     onEditDocumentation: (guid: string, name: string) => void;
+    onSelectInRhapsody: (guid: string | null | undefined) => void;
     selectedGuid: string | null;
     archView: ArchView;
     knownInterfaces: KnownInterface[];
@@ -332,6 +333,7 @@ function layoutArchitectureTree(
         onAddFunction: callbacks.onAddFunction,
         onFunctionDelete: callbacks.onFunctionDelete,
         onEditDocumentation: callbacks.onEditDocumentation,
+        onSelectInRhapsody: callbacks.onSelectInRhapsody,
       },
     });
     if (parentId) {
@@ -665,6 +667,18 @@ function App() {
     }
   }, []);
 
+  // Double-click-to-select-in-Rhapsody (any node/port/use case/connector row) — requested live:
+  // "ich will jetzt noch di möglichkeit haben mit z.b einen doppelklick auf ein element, das diese
+  // element dan in Rhapsody selctiert und dargestellt wird". Deliberately bypasses
+  // withErrorHandling and swallows every failure silently (no error banner) — in local mode
+  // (no Rhapsody connected) api.selectElement always throws, and popping a banner on every single
+  // double-click would be pure noise for something this incidental; see ModelStore#selectElement's
+  // own javadoc for the local-mode UnsupportedOperationException.
+  const selectInRhapsody = useCallback((guid: string | null | undefined) => {
+    if (!guid) return;
+    api.selectElement(guid).catch(() => {});
+  }, []);
+
   const refreshArchitecture = useCallback(() => withErrorHandling(async () => {
     setArchitecture(await api.getArchitecture());
   }), [withErrorHandling]);
@@ -743,6 +757,31 @@ function App() {
   useEffect(() => {
     refreshStatus();
   }, [refreshStatus]);
+
+  // "beim Start eines Modells soll erst nach dem Folder für die XML Datei gefragt werden" —
+  // requested live: rather than silently using config.ini's fixed [Local] statePath default, ask
+  // once per (fresh) frontend load, while still in local mode, which folder this model's XML file
+  // should live in — see WebServer#handleLocalStateFolder/LocalXmlModelStore#useStateFolder. Once
+  // Rhapsody mode is reached (either already on mount, or after this fires), there's no local XML
+  // file involved any more, so this never re-fires for the rest of the session — the ref guard
+  // stops it from firing again if `mode` happens to re-render before/after that transition, not
+  // just once mode flips to "rhapsody" (which it may never do this session at all).
+  const askedForLocalFolderRef = useRef(false);
+  useEffect(() => {
+    if (mode !== "local" || askedForLocalFolderRef.current) return;
+    askedForLocalFolderRef.current = true;
+    withErrorHandling(async () => {
+      const folder = await api.pickFile("open", "folder", "Choose a folder for this model's XML file");
+      if (!folder) return;
+      const result = await api.setLocalStateFolder(folder);
+      if (result.rhapsodyPath) setModelPath(result.rhapsodyPath);
+      await refreshArchitecture();
+      await refreshContext();
+      await refreshCapabilities();
+      refreshStatus();
+      setInfo(`Using model folder: ${folder}`);
+    });
+  }, [mode, refreshArchitecture, refreshContext, refreshCapabilities, refreshStatus, withErrorHandling]);
 
   const refreshPhysicalInterfaceTypes = useCallback(() => withErrorHandling(async () => {
     setPhysicalInterfaceTypes(await api.getPhysicalInterfaceTypes());
@@ -1045,6 +1084,7 @@ function App() {
       onAddFunction,
       onFunctionDelete,
       onEditDocumentation,
+      onSelectInRhapsody: selectInRhapsody,
       selectedGuid,
       archView,
       knownInterfaces,
@@ -1052,7 +1092,7 @@ function App() {
     });
     setNodes(n.map(applyStoredSize));
     setEdges(e);
-  }, [tab, architecture, selectedGuid, archView, knownInterfaces, physicalInterfaceTypes, capabilities, allLogicalNodes, allPhysicalNodes, onArchContextMenu, onAddPort, onPortChange, onPortDelete, onLinkCapability, onUnlinkCapability, onLinkLogicalNode, onUnlinkLogicalNode, onLinkPhysicalNode, onUnlinkPhysicalNode, onAddFunction, onFunctionDelete, onEditDocumentation, setNodes, setEdges]);
+  }, [tab, architecture, selectedGuid, archView, knownInterfaces, physicalInterfaceTypes, capabilities, allLogicalNodes, allPhysicalNodes, onArchContextMenu, onAddPort, onPortChange, onPortDelete, onLinkCapability, onUnlinkCapability, onLinkLogicalNode, onUnlinkLogicalNode, onLinkPhysicalNode, onUnlinkPhysicalNode, onAddFunction, onFunctionDelete, onEditDocumentation, selectInRhapsody, setNodes, setEdges]);
 
   // ── Context tab graph ───────────────────────────────────────────────
 
@@ -1114,6 +1154,7 @@ function App() {
             allCapabilities: capabilities,
             onLinkCapability,
             onUnlinkCapability,
+            onSelectInRhapsody: selectInRhapsody,
           },
         }]
       : [];
@@ -1172,11 +1213,12 @@ function App() {
         onEditDocumentation,
         knownInterfaces,
         physicalInterfaceTypes,
+        onSelectInRhapsody: selectInRhapsody,
       },
     }));
     setNodes([...systemNode.map(applyStoredSize), ...n.map(applyStoredSize)]);
     setEdges([]);
-  }, [tab, actors, contextViewTab, systemOfInterest, selectedGuid, knownInterfaces, physicalInterfaceTypes, capabilities, onAddPort, onPortChange, onPortDelete, onEditDocumentation, onLinkCapability, onUnlinkCapability, onUnlinkContextView, refreshContext, setNodes, setEdges, withErrorHandling]);
+  }, [tab, actors, contextViewTab, systemOfInterest, selectedGuid, knownInterfaces, physicalInterfaceTypes, capabilities, onAddPort, onPortChange, onPortDelete, onEditDocumentation, onLinkCapability, onUnlinkCapability, onUnlinkContextView, selectInRhapsody, refreshContext, setNodes, setEdges, withErrorHandling]);
 
   // ── Capabilities tab graph ──────────────────────────────────────────
 
@@ -1229,11 +1271,12 @@ function App() {
         onAddUseCase,
         onUseCaseDelete,
         onOpenUseCase,
+        onSelectInRhapsody: selectInRhapsody,
       },
     }));
     setNodes(n.map(applyStoredSize));
     setEdges([]);
-  }, [tab, capabilities, selectedGuid, onAddUseCase, onUseCaseDelete, onOpenUseCase, refreshCapabilities, refreshArchitecture, setNodes, setEdges, withErrorHandling]);
+  }, [tab, capabilities, selectedGuid, onAddUseCase, onUseCaseDelete, onOpenUseCase, selectInRhapsody, refreshCapabilities, refreshArchitecture, setNodes, setEdges, withErrorHandling]);
 
   // ── Drag & drop from palette ─────────────────────────────────────────
 
@@ -1530,7 +1573,7 @@ function App() {
 
       {tab === "connectors" ? (
         <div className="app-body">
-          <ConnectorsTable rows={connectorRows} />
+          <ConnectorsTable rows={connectorRows} onSelectInRhapsody={selectInRhapsody} />
         </div>
       ) : (
       <div className="app-body">

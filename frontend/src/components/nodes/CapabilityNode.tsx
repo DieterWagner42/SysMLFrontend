@@ -11,6 +11,8 @@ export interface CapabilityNodeData {
   onAddUseCase: (capabilityGuid: string, name: string) => void;
   onUseCaseDelete: (guid: string) => void;
   onOpenUseCase: (guid: string) => void;
+  // See ArchitectureNodeData's own field of the same name.
+  onSelectInRhapsody: (guid: string | null | undefined) => void;
   hasCustomSize?: boolean;
 }
 
@@ -24,6 +26,7 @@ export function CapabilityNode({ data, selected }: NodeProps<CapabilityNodeData>
         e.preventDefault();
         data.onContextMenu(e, data.guid);
       }}
+      onDoubleClick={() => data.onSelectInRhapsody(data.guid)}
     >
       <NodeResizer minWidth={200} minHeight={90} isVisible={data.isSelected} />
       <div className="node-header">
@@ -36,6 +39,7 @@ export function CapabilityNode({ data, selected }: NodeProps<CapabilityNodeData>
         onAdd={data.onAddUseCase}
         onDelete={data.onUseCaseDelete}
         onOpen={data.onOpenUseCase}
+        onSelectInRhapsody={data.onSelectInRhapsody}
       />
     </div>
   );

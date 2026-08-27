@@ -11,6 +11,8 @@ export interface ActorNodeData {
   onPortChange: (portGuid: string, direction: PortDirection, type: string, view: PortView) => void;
   onPortDelete: (portGuid: string) => void;
   onEditDocumentation: (guid: string, name: string) => void;
+  // See ArchitectureNodeData's own field of the same name.
+  onSelectInRhapsody: (guid: string | null | undefined) => void;
   // Reuse suggestions for the "+ Interface"/"+ Nested Port" forms — see App.tsx's knownInterfaces.
   knownInterfaces: KnownInterface[];
   // The configurable [Physical] interfaceTypes list — see PortsSectionProps#physicalInterfaceTypes.
@@ -36,6 +38,7 @@ export function ActorNode({ data, selected }: NodeProps<ActorNodeData>) {
         e.preventDefault();
         data.onContextMenu(e, data.guid);
       }}
+      onDoubleClick={() => data.onSelectInRhapsody(data.guid)}
     >
       <NodeResizer minWidth={200} minHeight={90} isVisible={data.isSelected} />
       <Handle type="target" position={Position.Top} style={{ visibility: "hidden" }} />
@@ -52,6 +55,7 @@ export function ActorNode({ data, selected }: NodeProps<ActorNodeData>) {
         onEditDocumentation={data.onEditDocumentation}
         knownInterfaces={data.knownInterfaces}
         physicalInterfaceTypes={data.physicalInterfaceTypes}
+        onSelectInRhapsody={data.onSelectInRhapsody}
         defaultExpanded={false}
       />
       <Handle type="source" position={Position.Bottom} style={{ visibility: "hidden" }} />

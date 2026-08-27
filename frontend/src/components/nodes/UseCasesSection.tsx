@@ -7,6 +7,7 @@ interface UseCasesSectionProps {
   onAdd: (capabilityGuid: string, name: string) => void;
   onDelete: (guid: string) => void;
   onOpen: (guid: string) => void;
+  onSelectInRhapsody: (guid: string | null | undefined) => void;
 }
 
 /** UseCase list for a Capability's own node — mirrors FunctionsSection (just a name, no
@@ -19,7 +20,7 @@ interface UseCasesSectionProps {
  * was redundant with the structured editor and could silently diverge from it, which is exactly
  * what an earlier round of this feature had to guard against (see updateUseCase's own history);
  * removing the manual entry point entirely is simpler than detecting/protecting a manual edit. */
-export function UseCasesSection({ capabilityGuid, useCases, onAdd, onDelete, onOpen }: UseCasesSectionProps) {
+export function UseCasesSection({ capabilityGuid, useCases, onAdd, onDelete, onOpen, onSelectInRhapsody }: UseCasesSectionProps) {
   const [adding, setAdding] = useState(false);
   const [name, setName] = useState("");
 
@@ -37,6 +38,10 @@ export function UseCasesSection({ capabilityGuid, useCases, onAdd, onDelete, onO
           key={u.guid}
           className="capability-row"
           onClick={() => onOpen(u.guid)}
+          onDoubleClick={(e) => {
+            e.stopPropagation();
+            onSelectInRhapsody(u.guid);
+          }}
           style={{ cursor: "pointer" }}
         >
           <span className="capability-name">{u.name}</span>
