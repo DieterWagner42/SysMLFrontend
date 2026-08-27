@@ -42,12 +42,21 @@ import com.sysmlfrontend.backend.AppConfig;
  * and this API needs path parameters (GUIDs) and verb-based dispatch
  * (GET/POST/PATCH/DELETE) on the same paths.
  *
+ * Everything else (the "/" context, only created when [Server] staticDir in config.ini points at
+ * an existing directory — see start()/serveStatic()) serves the frontend's own built static bundle
+ * ({@code frontend/dist}, via {@code npm run build}) directly from this process — lets a machine
+ * with no Node/npm at all run the whole app from just this one backend. Off by default; a normal
+ * dev machine leaves staticDir unset and keeps using the separate Vite dev server on :5173.
+ *
  * Routes:
  *   GET    /api/status                                {"status","url","mode":"rhapsody"|"local",
- *                                                        "saveHealthy":true|false} — saveHealthy
+ *                                                        "saveHealthy":true|false,
+ *                                                        "frontendServed":true|false} — saveHealthy
  *                                                        false means the last mutation applied live
  *                                                        but failed to persist to disk (Rhapsody
- *                                                        mode only, see ModelStore#isSaveHealthy)
+ *                                                        mode only, see ModelStore#isSaveHealthy).
+ *                                                        frontendServed reflects [Server] staticDir
+ *                                                        above.
  *   POST   /api/newModel         {"name": "..."}       resets the local store (fresh title), switches
  *                                                        active store to it — "New Model"
  *   POST   /api/localStateFolder {"folder": "..."}      points the local model's auto-persist/
@@ -191,6 +200,7 @@ public class WebServer {
     private ModelStore activeStore;
     private HttpServer httpServer;
     private String url;
+    private File staticDir;
 
     public WebServer(ModelStore localStore, RhapsodyConnector rhapsodyConnector, CompletableFuture<String> stopSignal,
             AppConfig config, File configFile) {
@@ -211,6 +221,26 @@ public class WebServer {
     public void start(int port) throws IOException {
         httpServer = HttpServer.create(new InetSocketAddress("0.0.0.0", port), 0);
         httpServer.createContext("/api/", this::dispatch);
+
+        // Optional: serve the frontend's own built static bundle (frontend/dist, via `npm run
+        // build`) directly from this same Java process — requested live: "ich kann auf dem
+        // Zielrechner nicht npm laufen lassen", so a target machine without Node/npm can run the
+        // whole app from just this one backend process instead of also needing `npm run dev`.
+        // Off by default (dev machines keep using the Vite dev server on :5173, unaffected) —
+        // only enabled when [Server] staticDir in config.ini points at an existing directory.
+        // HttpServer resolves the more specific "/api/" context first, so this catch-all "/"
+        // context never shadows the API routes above.
+        String staticDirSetting = config.get("Server", "staticDir", "");
+        if (!staticDirSetting.isEmpty()) {
+            File dir = new File(staticDirSetting);
+            if (dir.isDirectory()) {
+                staticDir = dir;
+                httpServer.createContext("/", this::serveStatic);
+            } else {
+                log("Warning: [Server] staticDir '" + staticDirSetting + "' does not exist — frontend not served, API only.");
+            }
+        }
+
         httpServer.setExecutor(Executors.newSingleThreadExecutor(r -> {
             Thread t = new Thread(r, "backend-HTTP");
             t.setDaemon(true);
@@ -220,9 +250,50 @@ public class WebServer {
 
         int boundPort = httpServer.getAddress().getPort();
         url = "http://localhost:" + boundPort + "/";
-        log("Web server listening at " + url + " (mode: " + activeStore.mode() + ")");
+        log("Web server listening at " + url + " (mode: " + activeStore.mode() + ")"
+                + (staticDir != null ? " — serving frontend from " + staticDir.getAbsolutePath() : ""));
 
         startConfigFileWatcher();
+    }
+
+    /** Serves frontend/dist's static files (see the [Server] staticDir setup in start()) — any
+     * request not matching the "/api/" prefix. Falls back to index.html for the root path and for
+     * any unresolved path (a plain single-page app has no client-side routes of its own today, but
+     * this also means a stray/mistyped path never 404s into a blank tab), and also as a guard
+     * against a path-traversal attempt escaping staticDir. GET only — this is a read-only static
+     * file server, nothing here ever needs POST/PUT/DELETE. */
+    private void serveStatic(HttpExchange exchange) throws IOException {
+        if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+            exchange.sendResponseHeaders(405, -1);
+            return;
+        }
+        String requestPath = exchange.getRequestURI().getPath();
+        String relative = requestPath.startsWith("/") ? requestPath.substring(1) : requestPath;
+        File root = staticDir.getCanonicalFile();
+        File candidate = new File(root, relative).getCanonicalFile();
+        if (!candidate.getPath().startsWith(root.getPath()) || !candidate.isFile()) {
+            candidate = new File(root, "index.html");
+        }
+        byte[] body = Files.readAllBytes(candidate.toPath());
+        exchange.getResponseHeaders().add("Content-Type", staticContentType(candidate.getName()));
+        exchange.sendResponseHeaders(200, body.length);
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(body);
+        }
+    }
+
+    private static String staticContentType(String fileName) {
+        String lower = fileName.toLowerCase();
+        if (lower.endsWith(".html")) return "text/html; charset=utf-8";
+        if (lower.endsWith(".js")) return "text/javascript; charset=utf-8";
+        if (lower.endsWith(".css")) return "text/css; charset=utf-8";
+        if (lower.endsWith(".json")) return "application/json; charset=utf-8";
+        if (lower.endsWith(".svg")) return "image/svg+xml";
+        if (lower.endsWith(".png")) return "image/png";
+        if (lower.endsWith(".ico")) return "image/x-icon";
+        if (lower.endsWith(".woff2")) return "font/woff2";
+        if (lower.endsWith(".woff")) return "font/woff";
+        return "application/octet-stream";
     }
 
     public void stop() {
@@ -374,6 +445,7 @@ public class WebServer {
         body.put("mode", activeStore.mode());
         body.put("rhapsodyAvailable", rhapsodyConnector.isAvailable());
         body.put("saveHealthy", activeStore.isSaveHealthy());
+        body.put("frontendServed", staticDir != null);
         respond(exchange, 200, body);
     }
 

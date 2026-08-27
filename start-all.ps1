@@ -1,8 +1,13 @@
-# Starts the whole app: backend (Java, http://localhost:4567) in its own console
-# window, then the frontend (Vite dev server, http://localhost:5173) in another,
-# then opens the browser. Each half keeps its own window so the backend's own
-# "type stop and press Enter" console and the frontend's dev-server log both
-# stay visible and independently closable.
+# Starts the whole app. Two modes, auto-detected from the backend's own [Server] staticDir
+# setting (see backend\config.ini) once it's up:
+#   - staticDir unset (normal dev machine): also starts the frontend's Vite dev server on :5173
+#     in its own console window, and opens that.
+#   - staticDir set to a built frontend/dist (see backend\CLAUDE.md / config.ini's own comment) —
+#     the backend serves the frontend itself at :4567, no Node/npm needed on this machine at all;
+#     the frontend section below is skipped entirely and :4567 is opened directly. Requested live:
+#     "ich kann auf dem Zielrechner nicht npm laufen lassen".
+# Either way the backend gets its own console window, so its "type stop and press Enter" prompt
+# stays visible and independently closable.
 #
 # Usage: powershell -File start-all.ps1 [path\to\config.ini]   (passed through to backend\start.bat)
 
@@ -60,7 +65,23 @@ if (Test-Up "http://localhost:4567/api/status") {
     }
 }
 
-# ── Frontend ─────────────────────────────────────────────────────────
+# ── Does the backend already serve the frontend itself? ────────────────
+
+$frontendServedByBackend = $false
+try {
+    $status = Invoke-WebRequest -Uri "http://localhost:4567/api/status" -UseBasicParsing -TimeoutSec 3 | ConvertFrom-Json
+    $frontendServedByBackend = [bool]$status.frontendServed
+} catch {
+    # Backend didn't come up (already warned above) - fall through to the normal dev-server path.
+}
+
+if ($frontendServedByBackend) {
+    Write-Host "Backend is serving the frontend directly (config.ini [Server] staticDir) - no separate frontend process needed."
+    Start-Process "http://localhost:4567/"
+    exit 0
+}
+
+# ── Frontend (Vite dev server - normal dev-machine workflow) ───────────
 
 $nodeModules = Join-Path $FrontendDir "node_modules"
 if (-not (Test-Path $nodeModules)) {
