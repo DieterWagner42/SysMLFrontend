@@ -96,17 +96,22 @@ not Rhapsody objects, so it works identically for both stores and isn't duplicat
 
 ```bash
 # Bootstrap-only tier (no rhapsody.jar needed — this alone runs the app in local mode):
-javac -d out src/com/sysmlfrontend/backend/BootstrapApp.java src/com/sysmlfrontend/backend/AppConfig.java src/com/sysmlfrontend/backend/ServerRunner.java src/com/sysmlfrontend/backend/server/Json.java src/com/sysmlfrontend/backend/server/ModelStore.java src/com/sysmlfrontend/backend/server/ModelXml.java src/com/sysmlfrontend/backend/server/HierarchyLevels.java src/com/sysmlfrontend/backend/server/LocalXmlModelStore.java src/com/sysmlfrontend/backend/server/WebServer.java src/com/sysmlfrontend/backend/server/RhapsodyConnector.java src/com/sysmlfrontend/backend/server/FileDialogHelper.java
+javac --release 25 -d out src/com/sysmlfrontend/backend/BootstrapApp.java src/com/sysmlfrontend/backend/AppConfig.java src/com/sysmlfrontend/backend/ServerRunner.java src/com/sysmlfrontend/backend/server/Json.java src/com/sysmlfrontend/backend/server/ModelStore.java src/com/sysmlfrontend/backend/server/ModelXml.java src/com/sysmlfrontend/backend/server/HierarchyLevels.java src/com/sysmlfrontend/backend/server/UseCaseDocFormatter.java src/com/sysmlfrontend/backend/server/LocalXmlModelStore.java src/com/sysmlfrontend/backend/server/WebServer.java src/com/sysmlfrontend/backend/server/RhapsodyConnector.java src/com/sysmlfrontend/backend/server/FileDialogHelper.java
 
 # Full tier (adds ModelServer + RhapsodyModelStore + the vendored ECAD services — see bug #5 above
 # for why RhapsodyModelStore depends on them — needs rhapsody.jar):
-javac -cp lib/rhapsody.jar -d out src/com/sysmlfrontend/backend/BootstrapApp.java src/com/sysmlfrontend/backend/AppConfig.java src/com/sysmlfrontend/backend/ServerRunner.java src/com/sysmlfrontend/backend/ModelServer.java src/com/sysmlfrontend/backend/server/Json.java src/com/sysmlfrontend/backend/server/ModelStore.java src/com/sysmlfrontend/backend/server/ModelXml.java src/com/sysmlfrontend/backend/server/HierarchyLevels.java src/com/sysmlfrontend/backend/server/LocalXmlModelStore.java src/com/sysmlfrontend/backend/server/RhapsodyModelStore.java src/com/sysmlfrontend/backend/server/WebServer.java src/com/sysmlfrontend/backend/server/RhapsodyConnector.java src/com/sysmlfrontend/backend/server/FileDialogHelper.java src/com/ibm/rhapsody/samples/plugin/model/ECADContext.java src/com/ibm/rhapsody/samples/plugin/services/ModelElementService.java src/com/ibm/rhapsody/samples/plugin/services/StereotypeService.java src/com/ibm/rhapsody/samples/plugin/services/DiagramService.java src/com/ibm/rhapsody/samples/plugin/util/ErrorHandler.java src/com/ibm/rhapsody/samples/plugin/util/FileValidator.java
+javac --release 25 -cp lib/rhapsody.jar -d out src/com/sysmlfrontend/backend/BootstrapApp.java src/com/sysmlfrontend/backend/AppConfig.java src/com/sysmlfrontend/backend/ServerRunner.java src/com/sysmlfrontend/backend/ModelServer.java src/com/sysmlfrontend/backend/server/Json.java src/com/sysmlfrontend/backend/server/ModelStore.java src/com/sysmlfrontend/backend/server/ModelXml.java src/com/sysmlfrontend/backend/server/HierarchyLevels.java src/com/sysmlfrontend/backend/server/UseCaseDocFormatter.java src/com/sysmlfrontend/backend/server/LocalXmlModelStore.java src/com/sysmlfrontend/backend/server/RhapsodyModelStore.java src/com/sysmlfrontend/backend/server/WebServer.java src/com/sysmlfrontend/backend/server/RhapsodyConnector.java src/com/sysmlfrontend/backend/server/FileDialogHelper.java src/com/ibm/rhapsody/samples/plugin/model/ECADContext.java src/com/ibm/rhapsody/samples/plugin/services/ModelElementService.java src/com/ibm/rhapsody/samples/plugin/services/StereotypeService.java src/com/ibm/rhapsody/samples/plugin/services/DiagramService.java src/com/ibm/rhapsody/samples/plugin/util/ErrorHandler.java src/com/ibm/rhapsody/samples/plugin/util/FileValidator.java
 ```
 
-Both tiers compile cleanly. `backend/lib/rhapsody.jar` is kept in sync with the real installed jar
-(`C:\Program Files\IBM\Rhapsody\10.0.3\Share\JavaAPI\rhapsody.jar`) for accurate compilation — at
-runtime `BootstrapApp`/`ModelServer` always load the jar from wherever `config.ini`'s `installDir`
-actually points, not this copy.
+Both tiers compile cleanly. `--release 25` targets class file version 69 (Java 25) rather than
+whatever this dev machine's own JDK happens to be (JDK 26.0.1, class file version 70) — found live:
+a target deployment machine with only OpenJDK 25.0.4 installed failed with
+`UnsupportedClassVersionError` against classes built without this flag. `--release` also compiles
+against Java 25's own API surface (not 26's), so this only needs revisiting if the code ever
+actually requires a newer-than-25 API. `backend/lib/rhapsody.jar` is kept in sync with the real
+installed jar (`C:\Program Files\IBM\Rhapsody\10.0.3\Share\JavaAPI\rhapsody.jar`) for accurate
+compilation — at runtime `BootstrapApp`/`ModelServer` always load the jar from wherever
+`config.ini`'s `installDir` actually points, not this copy.
 
 ### Running
 
