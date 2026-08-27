@@ -9,6 +9,12 @@
 # Either way the backend gets its own console window, so its "type stop and press Enter" prompt
 # stays visible and independently closable.
 #
+# npm is only ever touched in the second (staticDir-unset) mode, and even there this script checks
+# it actually exists first - found live: forgetting to set staticDir on a machine with no Node/npm
+# at all made this script try to launch npm.cmd anyway ("das gibt es auf dem Zielrechner nicht!"),
+# failing with a cryptic native error instead of a clear one. Now it fails fast with an actionable
+# message instead.
+#
 # Usage: powershell -File start-all.ps1 [path\to\config.ini]   (passed through to backend\start.bat)
 
 param(
@@ -20,7 +26,7 @@ $ErrorActionPreference = "Stop"
 $RootDir = $PSScriptRoot
 $BackendDir = Join-Path $RootDir "backend"
 $FrontendDir = Join-Path $RootDir "frontend"
-$NodeDir = "C:\Program Files\nodejs"
+$NodeDirFallback = "C:\Program Files\nodejs"
 
 function Test-Up([string]$Url) {
     try {
@@ -38,6 +44,17 @@ function Wait-Up([string]$Url, [string]$Label, [int]$MaxRetries = 30) {
     }
     Write-Warning "$Label did not respond within $MaxRetries s - check its console window for errors."
     return $false
+}
+
+# Resolves npm.cmd via PATH first (same order as backend\start.bat's own `where java` check), then
+# falls back to the hardcoded dev-machine install location. Returns $null if neither has it - the
+# caller must check for that instead of assuming npm is always there.
+function Find-Npm {
+    $onPath = Get-Command npm.cmd -ErrorAction SilentlyContinue
+    if ($onPath) { return $onPath.Source }
+    $fallback = Join-Path $NodeDirFallback "npm.cmd"
+    if (Test-Path $fallback) { return $fallback }
+    return $null
 }
 
 # ── Backend ──────────────────────────────────────────────────────────
@@ -81,14 +98,29 @@ if ($frontendServedByBackend) {
     exit 0
 }
 
-# ── Frontend (Vite dev server - normal dev-machine workflow) ───────────
+# ── Frontend (Vite dev server - normal dev-machine workflow, needs Node/npm) ────────────
+
+$npmPath = Find-Npm
+if (-not $npmPath) {
+    Write-Host "ERROR: npm not found (checked PATH and '$NodeDirFallback')," -ForegroundColor Red
+    Write-Host "and the backend isn't configured to serve the frontend itself either."
+    Write-Host ""
+    Write-Host "This machine has no usable Node/npm, so the frontend dev server can't be started"
+    Write-Host "this way. Instead: on a machine that DOES have Node, run 'npm run build' in"
+    Write-Host "frontend\ to produce frontend\dist, copy that folder here, then set"
+    Write-Host "[Server] staticDir in backend\config.ini to point at it (see its own comment there)"
+    Write-Host "and run this script again - the backend will then serve the frontend itself."
+    Read-Host "Press Enter to close"
+    exit 1
+}
+$NodeDir = Split-Path $npmPath -Parent
 
 $nodeModules = Join-Path $FrontendDir "node_modules"
 if (-not (Test-Path $nodeModules)) {
     Write-Host "Installing frontend dependencies (first run only)..."
     Push-Location $FrontendDir
     $env:PATH = "$NodeDir;$env:PATH"
-    & "$NodeDir\npm.cmd" install
+    & $npmPath install
     Pop-Location
 }
 
