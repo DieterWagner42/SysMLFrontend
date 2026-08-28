@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
@@ -19,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
@@ -201,6 +203,13 @@ public class WebServer {
     private HttpServer httpServer;
     private String url;
     private File staticDir;
+    // The canonicalized staticDir path, resolved ONCE at startup — getCanonicalFile() does real
+    // filesystem I/O (notably slow on Windows) and must not run per-request, see serveStatic.
+    private Path staticRoot;
+    // frontend/dist is a build output that never changes while this process is running, so its
+    // bytes are cached on first read instead of re-reading the file from disk on every request —
+    // see serveStatic.
+    private final Map<String, byte[]> staticCache = new ConcurrentHashMap<>();
 
     public WebServer(ModelStore localStore, RhapsodyConnector rhapsodyConnector, CompletableFuture<String> stopSignal,
             AppConfig config, File configFile) {
@@ -235,13 +244,21 @@ public class WebServer {
             File dir = new File(staticDirSetting);
             if (dir.isDirectory()) {
                 staticDir = dir;
+                staticRoot = dir.getCanonicalFile().toPath();
                 httpServer.createContext("/", this::serveStatic);
             } else {
                 log("Warning: [Server] staticDir '" + staticDirSetting + "' does not exist — frontend not served, API only.");
             }
         }
 
-        httpServer.setExecutor(Executors.newSingleThreadExecutor(r -> {
+        // A small fixed pool, not single-threaded — found live, serving the frontend's own static
+        // bundle made the whole app "very slow": a page load fires several concurrent requests
+        // (HTML, JS, CSS, favicon), and a single thread serialized all of them behind each other
+        // (and behind any slow Rhapsody COM call an API request happened to be mid-flight on). Every
+        // ModelStore mutation is already `synchronized` on its own store instance, so serving
+        // requests concurrently here doesn't need this thread to also be the only serialization
+        // point.
+        httpServer.setExecutor(Executors.newFixedThreadPool(8, r -> {
             Thread t = new Thread(r, "backend-HTTP");
             t.setDaemon(true);
             return t;
@@ -269,12 +286,21 @@ public class WebServer {
         }
         String requestPath = exchange.getRequestURI().getPath();
         String relative = requestPath.startsWith("/") ? requestPath.substring(1) : requestPath;
-        File root = staticDir.getCanonicalFile();
-        File candidate = new File(root, relative).getCanonicalFile();
-        if (!candidate.getPath().startsWith(root.getPath()) || !candidate.isFile()) {
-            candidate = new File(root, "index.html");
-        }
-        byte[] body = Files.readAllBytes(candidate.toPath());
+        // Purely lexical (no filesystem I/O) traversal guard — staticRoot itself was already
+        // canonicalized once at startup, see start(). getCanonicalFile() per-request here was the
+        // actual cause of "very slow": real filesystem round-trips (symlink/case resolution) on
+        // EVERY request, notably expensive on Windows.
+        Path candidatePath = staticRoot.resolve(relative).normalize();
+        File candidate = candidatePath.startsWith(staticRoot) && Files.isRegularFile(candidatePath)
+                ? candidatePath.toFile()
+                : new File(staticDir, "index.html");
+        byte[] body = staticCache.computeIfAbsent(candidate.getPath(), p -> {
+            try {
+                return Files.readAllBytes(candidate.toPath());
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        });
         exchange.getResponseHeaders().add("Content-Type", staticContentType(candidate.getName()));
         exchange.sendResponseHeaders(200, body.length);
         try (OutputStream os = exchange.getResponseBody()) {
